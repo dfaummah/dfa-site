@@ -1,0 +1,345 @@
+<link rel="icon" type="image/png" href="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .purple-main { color: #8B5CF6; }
+        .bg-purple-main { background-color: #8B5CF6; }
+        .bg-purple-dark { background-color: #6D28D9; }
+
+        /* ── FOOTER ── */
+        .dfa-footer { background: #0f0f0f; color: #e5e5e5; padding: 3rem 0 1.5rem; }
+        .dfa-footer .f-container { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+        .dfa-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .dfa-footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+        .dfa-footer-logo-dot { width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: #fff; flex-shrink: 0; }
+        .dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
+        .dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
+        .dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
+        .dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.55rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; min-width: 0; }
+        .dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.55rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
+        .dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+        .dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .dfa-footer-col ul li { margin-bottom: 0.6rem; }
+        .dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+        .dfa-footer-col ul li a:hover { color: #fff; }
+        .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+        .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
+        .dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
+        .dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
+        .dfa-footer-bottom-links a:hover { color: #9ca3af; }
+
+        /* ── MOBILE OVERRIDES ── */
+        @media (max-width: 767px) {
+            nav .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            nav .py-4 { padding-top: 0.85rem !important; padding-bottom: 0.85rem !important; }
+            .hero-section { height: 52vw !important; min-height: 220px; }
+            .hero-section h1 { font-size: 1.75rem !important; line-height: 1.2 !important; margin-bottom: 0.5rem !important; }
+            .hero-section p { font-size: 0.85rem !important; }
+            .hero-section .px-8 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+            .featured-section { padding: 1.5rem 1.25rem !important; }
+            .featured-card { padding: 1rem !important; border-radius: 1.25rem !important; flex-direction: column !important; gap: 1rem !important; }
+            .featured-card .thumb { height: 52vw !important; min-height: 180px; border-radius: 1rem !important; }
+            .featured-card h2 { font-size: 1.3rem !important; margin-bottom: 0.5rem !important; }
+            .featured-card p { font-size: 0.85rem !important; margin-bottom: 0.75rem !important; }
+            .all-videos-section { padding: 2rem 1.25rem !important; }
+            .filter-tabs { gap: 0.5rem !important; }
+            .filter-tabs button { padding: 0.4rem 1rem !important; font-size: 0.78rem !important; }
+            .video-grid { grid-template-columns: 1fr 1fr !important; gap: 1rem !important; }
+            .video-thumb { height: 42vw !important; min-height: 130px; }
+            .gallery-section { padding: 2rem 1.25rem !important; }
+            .gallery-grid { grid-template-columns: 1fr 1fr !important; }
+            .gallery-grid .big-item { height: 48vw; }
+            .gallery-grid .normal-item { height: 36vw; }
+            .gallery-grid .wide-item { grid-column: span 2 !important; height: 36vw; }
+            .gallery-section h2 { font-size: 1.6rem !important; }
+            .cta-section { padding: 1.25rem !important; }
+            .cta-box { padding: 2rem 1.25rem !important; border-radius: 1.5rem !important; }
+            .cta-box h2 { font-size: 1.4rem !important; margin-bottom: 0.75rem !important; }
+            .cta-box p { font-size: 0.85rem !important; margin-bottom: 1.25rem !important; }
+            .cta-box button { padding: 0.65rem 1.5rem !important; font-size: 0.9rem !important; }
+            .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+            .dfa-footer-brand { grid-column: 1 / -1 !important; }
+            .dfa-footer-bottom { flex-direction: column !important; align-items: flex-start !important; }
+        }
+
+        @media (max-width: 380px) {
+            .video-grid { grid-template-columns: 1fr !important; }
+            .gallery-grid { grid-template-columns: 1fr !important; }
+            .gallery-grid .wide-item { grid-column: span 1 !important; }
+            .gallery-grid .big-item { height: 56vw; }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <!-- NAVIGATION -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center justify-between px-8 py-4">
+            <div class="flex items-center gap-2">
+                <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-8 w-auto object-contain flex-shrink-0"/>
+            </div>
+            <div class="hidden md:flex gap-8 font-medium text-sm ml-auto mr-8">
+                <a href="index.html" class="nav-link hover:text-purple-600 transition" data-page="index.html">Home</a>
+                <a href="media.html" class="nav-link hover:text-purple-600 transition" data-page="media.html">Media</a>
+                <a href="event1.html" class="nav-link hover:text-purple-600 transition" data-page="event1.html">Events</a>
+                <a href="contact.html" class="nav-link hover:text-purple-600 transition" data-page="contact.html">Contact</a>
+            </div>
+            <div class="hidden md:block">
+                <a href="event1.html">
+                    <button class="bg-purple-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">Get Tickets →</button>
+                </a>
+            </div>
+            <button id="menu-btn" class="md:hidden text-gray-600 focus:outline-none p-1">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-5 py-5 space-y-4 shadow-lg">
+            <a href="index.html" class="nav-link block font-medium hover:text-purple-600" data-page="index.html">Home</a>
+            <a href="media.html" class="nav-link block font-medium hover:text-purple-600" data-page="media.html">Media</a>
+            <a href="event1.html" class="nav-link block font-medium hover:text-purple-600" data-page="event1.html">Events</a>
+            <a href="contact.html" class="nav-link block font-medium hover:text-purple-600" data-page="contact.html">Contact</a>
+            <a href="event1.html" class="block pt-1">
+                <button class="w-full bg-purple-500 text-white py-3 rounded-xl font-semibold">Get Tickets →</button>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile menu toggle
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+        // Active nav link
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.dataset.page === currentPage) {
+                link.classList.add('text-purple-600', 'font-semibold');
+            }
+        });
+    </script>
+
+    <!-- MEDIA HERO -->
+    <section class="hero-section relative h-[60vh] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="image/DAF TV-12.jpg" alt="Media Hero" class="w-full h-full object-cover brightness-50">
+        </div>
+        <div class="container mx-auto px-8 relative z-10 text-white">
+            <h1 class="text-5xl font-bold leading-tight mb-4">Watch Our<br>Conversations</h1>
+            <p class="max-w-md text-gray-200 text-sm md:text-base">Real stories, honest questions, and faith that hits different. This is DFA media.</p>
+        </div>
+    </section>
+
+    <!-- FEATURED VIDEO -->
+    <section class="featured-section py-10 md:py-20 container mx-auto px-8">
+        <div class="featured-card bg-white rounded-3xl overflow-hidden border border-gray-100 flex flex-col md:flex-row items-center gap-6 md:gap-8 p-6 shadow-sm">
+            <div class="thumb w-full md:w-1/2 relative group cursor-pointer rounded-2xl overflow-hidden h-56 md:h-80">
+                <img src="image/DAF TV-7.jpg" class="w-full h-full object-cover">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-purple-500 text-white rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-play text-xl md:text-2xl"></i>
+                    </div>
+                </div>
+                <span class="absolute bottom-3 left-3 bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Watch Series</span>
+            </div>
+            <div class="w-full md:w-1/2">
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">New Series</span>
+                <h2 class="text-2xl md:text-3xl font-bold mt-2 mb-3 md:mb-4 leading-snug">Does God Really Exist? — Street Answers</h2>
+                <p class="text-gray-500 text-sm md:text-base mb-4 md:mb-6">We take to the streets of Lagos to ask one of life's biggest questions. The answers might surprise you.</p>
+                <div class="flex gap-6 text-sm text-gray-400">
+                    <span><i class="fa-solid fa-eye mr-2"></i>12k views</span>
+                    <span><i class="fa-regular fa-clock mr-2"></i>15:20</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL VIDEOS SECTION -->
+    <section class="all-videos-section py-10 md:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="text-center mb-8 md:mb-12">
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">Browse Library</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">All Videos</h2>
+                <div class="filter-tabs flex gap-3 mt-6 overflow-x-auto pb-2 justify-start md:justify-center px-1" style="-webkit-overflow-scrolling:touch; scrollbar-width:none;">
+                    <button class="bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0">All</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Street Interviews</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Teachings</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Reflections</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Documentary</button>
+                </div>
+            </div>
+            <div class="video-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" id="video-grid"></div>
+        </div>
+    </section>
+
+    <!-- SINGLE SCRIPT — no duplicates -->
+    <script>
+        const videos = [
+            { title: "Does God Really Exist?", tag: "Street Interviews", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
+            { title: "Finding Purpose After Loss", tag: "Reflections", color: "bg-pink-500", image: "image/DAF TV-2.jpg" },
+            { title: "Islam and Mental Health", tag: "Teachings", color: "bg-blue-500", image: "image/DAF TV-7.jpg" },
+            { title: "The Encounter 2025 Highlights", tag: "Documentary", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
+            { title: "Finding Purpose Part 2", tag: "Reflections", color: "bg-pink-500", image: "image/DAF TV-5.jpg" },
+            { title: "The Encounter 2025 - Full", tag: "Documentary", color: "bg-purple-700", image: "image/DAF TV-2.jpg" },
+            { title: "Street Answers: Marriage", tag: "Street Interviews", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
+            { title: "Mental Health Q&A", tag: "Teachings", color: "bg-blue-500", image: "image/DAF TV-5.jpg" }
+        ];
+
+        const grid = document.getElementById('video-grid');
+
+        function renderVideos(filter) {
+            const filtered = filter === 'All' ? videos : videos.filter(v => v.tag === filter);
+            grid.innerHTML = '';
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-12">No videos found.</p>';
+                return;
+            }
+            filtered.forEach(v => {
+                grid.innerHTML += `
+                    <div class="group cursor-pointer">
+                        <div class="video-thumb relative overflow-hidden rounded-xl mb-3 h-36 md:h-48 bg-gray-200">
+                            <img src="${v.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center pl-0.5">
+                                    <i class="fa-solid fa-play text-purple-600 text-sm"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-2 left-2 ${v.color} text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${v.tag}</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm leading-snug">${v.title}</h4>
+                        <div class="flex gap-3 text-[10px] text-gray-400 mt-1.5">
+                            <span><i class="fa-solid fa-eye mr-1"></i>4.2k</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i>12:45</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Render all on load
+        renderVideos('All');
+
+        // Filter tab interaction
+        document.querySelectorAll('.filter-tabs button').forEach(tabBtn => {
+            tabBtn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-tabs button').forEach(b => {
+                    b.className = 'bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0';
+                });
+                this.className = 'bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0';
+                renderVideos(this.textContent.trim());
+            });
+        });
+    </script>
+
+    <!-- GALLERY: MOMENTS THAT MATTER -->
+    <section class="gallery-section py-16 md:py-24 container mx-auto px-4 md:px-8">
+        <div class="text-center mb-10 md:mb-16">
+            <span class="purple-main font-bold uppercase tracking-widest text-xs">Gallery</span>
+            <h2 class="text-3xl md:text-4xl font-bold mt-2">Moments That Matter</h2>
+            <p class="text-gray-500 mt-2 text-sm md:text-base">Behind the scenes, on the streets, and at the heart of the movement.</p>
+        </div>
+        <div class="gallery-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" style="grid-auto-rows: 200px;">
+            <div class="big-item col-span-2 row-span-2 rounded-2xl overflow-hidden" style="height:auto;">
+                <img src="image/DAF TV-11.jpg" class="w-full h-full object-cover" style="min-height:200px;" loading="lazy">
+            </div>
+            <div class="normal-item rounded-2xl overflow-hidden">
+                <img src="image/DAF TV-1.jpg" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="normal-item rounded-2xl overflow-hidden">
+                <img src="image/DAF TV-17.jpg" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="normal-item rounded-2xl overflow-hidden grayscale">
+                <img src="image/DAF TV-11.jpg" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="normal-item rounded-2xl overflow-hidden">
+                <img src="image/DAF TV-7.jpg" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="wide-item col-span-2 rounded-2xl overflow-hidden">
+                <img src="image/DAF TV-2.jpg" class="w-full h-full object-cover" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section container mx-auto px-4 md:px-8 py-8 md:py-16">
+        <div class="cta-box bg-purple-700 rounded-[3rem] p-10 md:p-16 text-center text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Want to experience it live?</h2>
+                <p class="mb-6 md:mb-8 opacity-80 text-sm md:text-base max-w-xs md:max-w-none mx-auto">Don't watch from the sidelines. Join our next event and be part of the conversation.</p>
+                <a href="event1.html">
+    <button class="bg-yellow-400 text-black px-7 py-3 rounded-xl font-bold hover:bg-yellow-500 transition text-sm md:text-base">
+        View upcoming events →
+    </button>
+</a>
+            </div>
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="dfa-footer">
+        <div class="f-container">
+            <div class="dfa-footer-grid">
+                <div class="dfa-footer-brand">
+                    <div class="dfa-footer-logo">
+                        <div class="dfa-footer-logo-dot">DFA</div>
+                        <span class="dfa-footer-brand-name">DFA</span>
+                    </div>
+                    <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant. Join a growing community of young Muslims navigating life with purpose.</p>
+                    <div class="dfa-footer-newsletter">
+                        <label>Join our newsletter</label>
+                        <div class="dfa-newsletter-row">
+                            <input type="email" placeholder="Your email">
+                            <button>Subscribe</button>
+                        </div>
+                        <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+                    </div>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Media</a></li>
+                        <li><a href="event1.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                        <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                        <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+                        <li><a href="#">Lagos, Nigeria</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfa-footer-bottom">
+                <p>© 2026 DFA. All rights reserved.</p>
+                <div class="dfa-footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

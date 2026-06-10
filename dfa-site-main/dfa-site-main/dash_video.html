@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA Admin | Videos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #1C1B2E;
+            color: #E2E0F0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        aside {
+            width: 220px; min-height: 100vh;
+            background-color: #15142A;
+            border-right: 1px solid #2A2845;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            overflow-y: auto; flex-shrink: 0;
+        }
+        .sidebar-logo {
+            padding: 20px 16px 14px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #2A2845;
+        }
+        .logo-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 11px;
+        }
+        .logo-text  { font-size: 15px; font-weight: 700; color: #fff; }
+        .logo-sub   { font-size: 10px; color: #6B6A8A; }
+        .sidebar-section { padding: 18px 14px 4px; }
+        .sidebar-section-label {
+            font-size: 9px; font-weight: 700; color: #4B4A6A;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            padding: 0 6px; margin-bottom: 6px;
+        }
+        .nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; border-radius: 8px;
+            font-size: 13px; font-weight: 500; color: #7B79A0;
+            text-decoration: none; transition: all 0.15s ease; margin-bottom: 1px;
+        }
+        .nav-link:hover  { background: #221F40; color: #C4B5FD; }
+        .nav-link.active { background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff; font-weight:600; box-shadow:0 4px 12px rgba(139,92,246,.35); }
+        .nav-link i      { width: 16px; font-size: 13px; text-align: center; }
+        .nav-link.logout { color: #EF4444; }
+        .nav-link.logout:hover { background: rgba(239,68,68,.1); color: #EF4444; }
+
+        /* ── Main ── */
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        .topbar {
+            background: #15142A; border-bottom: 1px solid #2A2845;
+            padding: 12px 28px;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .topbar-title { font-size: 16px; font-weight: 700; color: #fff; }
+        .search-bar {
+            flex: 1; max-width: 380px;
+            background: #211F38; border: 1px solid #2A2845; border-radius: 10px;
+            padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 14px; }
+        .icon-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #211F38; border: 1px solid #2A2845;
+            display: flex; align-items: center; justify-content: center;
+            color: #9390B8; cursor: pointer; font-size: 13px; transition: all .15s;
+            position: relative;
+        }
+        .icon-btn:hover { background: #2A2750; color: #C4B5FD; }
+        .avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg,#8B5CF6,#6D28D9);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px; font-weight: 700;
+        }
+        .user-name { font-size: 13px; font-weight: 600; color: #E2E0F0; line-height: 1.2; }
+        .user-role { font-size: 10px; color: #6B6A8A; }
+
+        /* ── Videos Panel ── */
+        .videos-panel {
+            flex: 1; overflow-y: auto; padding: 24px 28px;
+        }
+
+        .panel-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .panel-sub   { font-size: 12px; color: #6B6A8A; margin-bottom: 20px; }
+
+        /* Filter row */
+        .filters-row {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+        }
+        .filter-search {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 8px;
+            padding: 7px 12px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px; flex: 1; max-width: 260px;
+        }
+        .filter-search input {
+            background: transparent; border: none; outline: none;
+            color: #9390B8; font-size: 12px; font-family: inherit; width: 100%;
+        }
+        .filter-select-wrap { position: relative; }
+        .filter-select {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 8px;
+            padding: 7px 32px 7px 12px; font-size: 12px; color: #9390B8;
+            font-family: inherit; outline: none; cursor: pointer; appearance: none;
+            min-width: 130px;
+        }
+        .filter-select-wrap::after {
+            content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            font-size: 9px; color: #5C5A80; pointer-events: none;
+        }
+        .btn-add {
+            display: flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff;
+            border: none; border-radius: 8px; padding: 8px 14px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            white-space: nowrap; transition: opacity .15s; font-family: inherit;
+            margin-left: auto;
+        }
+        .btn-add:hover { opacity: .85; }
+
+        /* ── Video Grid ── */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .video-card {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 14px;
+            overflow: hidden; cursor: pointer;
+            transition: border-color .15s, transform .15s;
+        }
+        .video-card:hover { border-color: #8B5CF6; transform: translateY(-2px); }
+
+        /* Thumbnail */
+        .video-thumb {
+            position: relative; width: 100%; aspect-ratio: 16/9;
+            background: #1A1836; overflow: hidden;
+        }
+        .video-thumb img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block;
+        }
+        .thumb-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #2A2060, #1A1040);
+        }
+
+        /* Play overlay */
+        .play-overlay {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity .2s;
+            background: rgba(0,0,0,0.4);
+        }
+        .video-card:hover .play-overlay { opacity: 1; }
+        .play-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(139,92,246,0.9);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .play-btn i { font-size: 14px; color: #fff; margin-left: 2px; }
+
+        /* Duration badge */
+        .duration-badge {
+            position: absolute; bottom: 7px; right: 8px;
+            background: rgba(0,0,0,0.75); color: #fff;
+            font-size: 10px; font-weight: 600;
+            padding: 2px 6px; border-radius: 5px;
+        }
+
+        /* Status badge on thumbnail */
+        .status-pill {
+            position: absolute; top: 8px; left: 8px;
+            font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px;
+        }
+        .status-pill.published { background: rgba(52,211,153,.9); color: #064E3B; }
+        .status-pill.draft     { background: rgba(251,191,36,.9);  color: #78350F; }
+        .status-pill.scheduled { background: rgba(139,92,246,.9);  color: #fff; }
+
+        /* Card body */
+        .video-body { padding: 12px 14px 14px; }
+        .video-category {
+            font-size: 9px; font-weight: 700; color: #8B5CF6;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
+        }
+        .video-title {
+            font-size: 13px; font-weight: 600; color: #E2E0F0;
+            line-height: 1.4; margin-bottom: 8px;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .video-meta {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .video-views {
+            display: flex; align-items: center; gap: 4px;
+            font-size: 10px; color: #6B6A8A;
+        }
+        .video-views i { font-size: 9px; color: #4B4A6A; }
+        .card-menu-btn {
+            background: transparent; border: none; cursor: pointer;
+            color: #4B4A6A; font-size: 13px; padding: 3px 6px;
+            border-radius: 6px; transition: background .15s, color .15s;
+        }
+        .card-menu-btn:hover { background: #2A2750; color: #C4B5FD; }
+
+        /* ══ BACKDROP ══ */
+        .drawer-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55); backdrop-filter: blur(2px);
+            z-index: 99; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .drawer-backdrop.open { opacity: 1; pointer-events: all; }
+
+        /* ══ DRAWER ══ */
+        .add-video-drawer {
+            position: fixed; top: 0; right: 0;
+            height: 100vh; width: 340px;
+            background: #fff; color: #1C1B2E;
+            z-index: 100; overflow-y: auto;
+            padding: 22px 20px;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.4);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .add-video-drawer.open { transform: translateX(0); }
+
+        .drawer-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 30px; height: 30px;
+            background: #F3F4F6; border: none; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #6B7280; font-size: 13px;
+            transition: background .15s, color .15s;
+        }
+        .drawer-close:hover { background: #E5E7EB; color: #111; }
+        .drawer-title {
+            font-size: 15px; font-weight: 700; color: #111;
+            margin-bottom: 20px; padding-right: 36px;
+        }
+
+        .form-group { margin-bottom: 14px; }
+        .form-row   { display: flex; gap: 10px; margin-bottom: 14px; }
+        .form-row .form-group { flex: 1; margin-bottom: 0; }
+        .form-label {
+            display: block; font-size: 11px; font-weight: 600; color: #374151;
+            margin-bottom: 4px;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; background: #F9FAFB; border: 1px solid #E5E7EB;
+            border-radius: 8px; padding: 8px 10px;
+            font-size: 12px; color: #374151; font-family: inherit;
+            outline: none; transition: border-color .15s;
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: #9CA3AF; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #8B5CF6; }
+        .form-select { appearance: none; cursor: pointer; }
+        .form-textarea { resize: vertical; min-height: 80px; }
+
+        .form-divider { border: none; border-top: 1px solid #E5E7EB; margin: 16px 0; }
+
+        /* Thumbnail upload zone */
+        .upload-zone {
+            border: 1.5px dashed #E5E7EB; border-radius: 10px;
+            padding: 20px; text-align: center; cursor: pointer;
+            transition: border-color .15s, background .15s;
+            background: #F9FAFB;
+        }
+        .upload-zone:hover { border-color: #8B5CF6; background: #F5F3FF; }
+        .upload-zone i { font-size: 22px; color: #C4B5FD; margin-bottom: 6px; }
+        .upload-zone p { font-size: 11px; color: #9CA3AF; }
+        .upload-zone span { font-size: 11px; color: #8B5CF6; font-weight: 600; }
+
+        .toggle-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; border-radius: 10px;
+            background: #F9FAFB; border: 1px solid #E5E7EB;
+            cursor: pointer;
+        }
+        .toggle {
+            width: 36px; height: 20px; background: #8B5CF6; border-radius: 20px;
+            position: relative; cursor: pointer; flex-shrink: 0;
+        }
+        .toggle::after {
+            content: ''; position: absolute; top: 3px; left: 17px;
+            width: 14px; height: 14px; background: #fff; border-radius: 50%;
+            transition: left .2s;
+        }
+        .toggle.off { background: #D1D5DB; }
+        .toggle.off::after { left: 3px; }
+        .toggle-name { font-size: 12px; font-weight: 600; color: #111; }
+
+        .drawer-footer { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-cancel {
+            flex: 1; background: #F3F4F6; border: none; border-radius: 10px;
+            padding: 11px; font-size: 13px; font-weight: 600;
+            color: #374151; cursor: pointer; font-family: inherit;
+            transition: background .15s;
+        }
+        .btn-cancel:hover { background: #E5E7EB; }
+        .btn-save {
+            flex: 2; background: linear-gradient(135deg,#8B5CF6,#7C3AED);
+            color: #fff; border: none; border-radius: 10px;
+            padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer;
+            font-family: inherit; display: flex; align-items: center;
+            justify-content: center; gap: 6px; transition: opacity .15s;
+        }
+        .btn-save:hover { opacity: .88; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2A2845; border-radius: 4px; }
+        .add-video-drawer::-webkit-scrollbar-thumb { background: #D1D5DB; }
+    </style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<aside>
+    <div class="sidebar-logo">
+        <div class="logo-icon">DFA</div>
+        <div>
+            <div class="logo-text">DFATV</div>
+            <div class="logo-sub">Admin Management</div>
+        </div>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Overview</div>
+        <a href="DASHBOARDOVERVIEW.HTML" class="nav-link">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Operations</div>
+        <a href="DASH_EVENT.HTML" class="nav-link">
+            <i class="fa-solid fa-calendar-days"></i> Events
+        </a>
+        <a href="DASH_TICKET.HTML" class="nav-link">
+            <i class="fa-solid fa-ticket"></i> Tickets
+        </a>
+        <a href="DASH_ATTEND.HTML" class="nav-link">
+            <i class="fa-solid fa-users"></i> Attendees
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Finance</div>
+        <a href="DASH_PAYMENT.HTML" class="nav-link">
+            <i class="fa-solid fa-credit-card"></i> Payments
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Content</div>
+        <a href="DASH_MEDIA.HTML" class="nav-link"><i class="fa-solid fa-photo-film"></i> Media Library</a>
+        <a href="dash_video.html" class="nav-link active"><i class="fa-solid fa-play"></i> Video</a>
+        <a href="DASHGALLERY.HTML" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-newspaper"></i> Blog</a>
+        <a href="dash_webcontent.html" class="nav-link"><i class="fa-solid fa-globe"></i> Website Content</a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Engagement</div>
+        <a href="#" class="nav-link"><i class="fa-solid fa-message"></i> Messages</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-heart"></i> Community</a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Admin</div>
+        <a href="DASH_STAFF.HTML" class="nav-link"><i class="fa-solid fa-shield-halved"></i> Staff & Roles</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+
+    <div style="margin-top:auto;padding:16px 14px 20px;">
+        <a href="index.html" class="nav-link logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Log out
+        </a>
+    </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main>
+    <div class="topbar">
+        <div class="topbar-title">Videos</div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:12px;"></i>
+            Search users, taskers, staff...
+        </div>
+        <div class="topbar-actions">
+            <div class="icon-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="icon-btn">
+                <i class="fa-solid fa-bell"></i>
+                <span style="position:absolute;top:6px;right:6px;width:6px;height:6px;background:#8B5CF6;border-radius:50%;"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar">EE</div>
+                <div>
+                    <div class="user-name">Elliot Eniola</div>
+                    <div class="user-role">Admin</div>
+                </div>
+                <i class="fa-solid fa-right-from-bracket" style="font-size:13px;color:#6B6A8A;cursor:pointer;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="videos-panel">
+        <div class="panel-title">Videos</div>
+        <div class="panel-sub" id="videoCount">8 total videos</div>
+
+        <div class="filters-row">
+            <div class="filter-search">
+                <i class="fa-solid fa-magnifying-glass" style="font-size:11px;color:#6B6A8A;"></i>
+                <input type="text" id="searchInput" placeholder="Search..." oninput="filterVideos()">
+            </div>
+            <div class="filter-select-wrap">
+                <select class="filter-select" id="categoryFilter" onchange="filterVideos()">
+                    <option value="">All Categories</option>
+                    <option>Street Interview</option>
+                    <option>Teachings</option>
+                    <option>Events</option>
+                    <option>Testimonies</option>
+                    <option>Devotional</option>
+                </select>
+            </div>
+            <div class="filter-select-wrap">
+                <select class="filter-select" id="statusFilter" onchange="filterVideos()">
+                    <option value="">All Statuses</option>
+                    <option>Published</option>
+                    <option>Draft</option>
+                    <option>Scheduled</option>
+                </select>
+            </div>
+            <button class="btn-add" onclick="openDrawer()">
+                <i class="fa-solid fa-plus"></i> Add Video
+            </button>
+        </div>
+
+        <!-- Grid -->
+        <div class="video-grid" id="videoGrid"></div>
+
+        <div id="emptyState" style="display:none;padding:60px 0;text-align:center;">
+            <i class="fa-solid fa-film" style="font-size:36px;color:#2A2845;margin-bottom:12px;display:block;"></i>
+            <div style="font-size:14px;font-weight:600;color:#E2E0F0;margin-bottom:4px;">No videos found</div>
+            <div style="font-size:12px;color:#6B6A8A;">Try adjusting filters or add a new video</div>
+        </div>
+    </div>
+</main>
+
+<!-- ══ BACKDROP ══ -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<!-- ══ ADD VIDEO DRAWER ══ -->
+<div class="add-video-drawer" id="videoDrawer">
+    <button class="drawer-close" onclick="closeDrawer()">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="drawer-title">Add Video</div>
+
+    <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-input" id="f_title" placeholder="Video Title">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="f_category">
+            <option>Teachings</option>
+            <option>Street Interview</option>
+            <option>Events</option>
+            <option>Testimonies</option>
+            <option>Devotional</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">YouTube URL</label>
+        <input type="text" class="form-input" id="f_url" placeholder="https://youtube.com/watch?v=...">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="f_desc" placeholder="Short Description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Thumbnail</label>
+        <div class="upload-zone" onclick="document.getElementById('thumbFile').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Drag & drop or <span>browse</span></p>
+            <p style="margin-top:2px;font-size:10px;">PNG, JPG up to 2MB</p>
+            <input type="file" id="thumbFile" accept="image/*" style="display:none;" onchange="previewThumb(this)">
+        </div>
+        <div id="thumbPreview" style="display:none;margin-top:8px;border-radius:8px;overflow:hidden;">
+            <img id="thumbImg" style="width:100%;height:120px;object-fit:cover;">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-input" id="f_duration" placeholder="e.g. 8:24">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Tags</label>
+            <input type="text" class="form-input" id="f_tags" placeholder="faith, interview">
+        </div>
+    </div>
+
+    <hr class="form-divider">
+
+    <div class="toggle-item" onclick="toggleSwitch(this)">
+        <div class="toggle off"></div>
+        <div class="toggle-name">Publish</div>
+    </div>
+
+    <div class="drawer-footer">
+        <button class="btn-cancel" onclick="closeDrawer()">Cancel</button>
+        <button class="btn-save" onclick="saveVideo()">
+            <i class="fa-solid fa-floppy-disk"></i> Save
+        </button>
+    </div>
+</div>
+
+<script>
+    // Gradient thumb colours per category
+    const catColors = {
+        'Street Interview': ['#4C1D95','#1E1040'],
+        'Teachings':        ['#1E3A5F','#0F2040'],
+        'Events':           ['#1A3A2A','#0D2019'],
+        'Testimonies':      ['#3B2A1A','#251A0D'],
+        'Devotional':       ['#1A1A3A','#0D0D25'],
+    };
+    const catIcons = {
+        'Street Interview': 'fa-microphone',
+        'Teachings':        'fa-book-open',
+        'Events':           'fa-calendar-star',
+        'Testimonies':      'fa-heart',
+        'Devotional':       'fa-sun',
+    };
+
+    let videos = [
+        { id:1, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Draft",     thumb:null },
+        { id:2, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Draft",     thumb:null },
+        { id:3, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Published", thumb:null },
+        { id:4, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Draft",     thumb:null },
+        { id:5, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Draft",     thumb:null },
+        { id:6, title:"Does God Really Exist? — Street Answers", category:"Street Interview", url:"", duration:"8:24", views:"142k", status:"Draft",     thumb:null },
+        { id:7, title:"Faith That Moves Mountains — Teaching",    category:"Teachings",        url:"", duration:"22:10",views:"98k",  status:"Published", thumb:null },
+        { id:8, title:"Annual Conference Highlights 2025",        category:"Events",            url:"", duration:"15:44",views:"210k", status:"Published", thumb:null },
+    ];
+
+    function statusClass(s) {
+        return s === 'Published' ? 'published' : s === 'Scheduled' ? 'scheduled' : 'draft';
+    }
+
+    function renderGrid(data) {
+        const grid  = document.getElementById('videoGrid');
+        const empty = document.getElementById('emptyState');
+        document.getElementById('videoCount').textContent = `${data.length} total video${data.length !== 1 ? 's' : ''}`;
+
+        if (data.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+
+        grid.innerHTML = data.map(v => {
+            const colors = catColors[v.category] || ['#2A2060','#1A1040'];
+            const icon   = catIcons[v.category]  || 'fa-play';
+            const thumb  = v.thumb
+                ? `<img src="${v.thumb}" alt="${v.title}">`
+                : `<div class="thumb-placeholder" style="background:linear-gradient(135deg,${colors[0]},${colors[1]});">
+                       <i class="fa-solid ${icon}" style="font-size:32px;color:rgba(255,255,255,0.25);"></i>
+                   </div>`;
+
+            return `
+            <div class="video-card">
+                <div class="video-thumb">
+                    ${thumb}
+                    <div class="play-overlay">
+                        <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                    <span class="status-pill ${statusClass(v.status)}">${v.status}</span>
+                    <span class="duration-badge">${v.duration}</span>
+                </div>
+                <div class="video-body">
+                    <div class="video-category">${v.category}</div>
+                    <div class="video-title">${v.title}</div>
+                    <div class="video-meta">
+                        <div class="video-views">
+                            <i class="fa-solid fa-eye"></i>
+                            ${v.views} views
+                        </div>
+                        <button class="card-menu-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function filterVideos() {
+        const q      = document.getElementById('searchInput').value.toLowerCase();
+        const cat    = document.getElementById('categoryFilter').value;
+        const status = document.getElementById('statusFilter').value;
+        const filtered = videos.filter(v => {
+            const matchQ   = !q      || v.title.toLowerCase().includes(q);
+            const matchCat = !cat    || v.category === cat;
+            const matchSt  = !status || v.status   === status;
+            return matchQ && matchCat && matchSt;
+        });
+        renderGrid(filtered);
+    }
+
+    function openDrawer() {
+        document.getElementById('videoDrawer').classList.add('open');
+        document.getElementById('drawerBackdrop').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+        document.getElementById('videoDrawer').classList.remove('open');
+        document.getElementById('drawerBackdrop').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function toggleSwitch(item) {
+        item.querySelector('.toggle').classList.toggle('off');
+    }
+
+    function previewThumb(input) {
+        if (!input.files || !input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('thumbImg').src = e.target.result;
+            document.getElementById('thumbPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    function saveVideo() {
+        const title    = document.getElementById('f_title').value.trim();
+        const category = document.getElementById('f_category').value;
+        const url      = document.getElementById('f_url').value.trim();
+        const duration = document.getElementById('f_duration').value.trim() || '0:00';
+        const publish  = !document.querySelector('#videoDrawer .toggle').classList.contains('off');
+        const thumbEl  = document.getElementById('thumbImg');
+        const thumb    = thumbEl.src && document.getElementById('thumbPreview').style.display !== 'none' ? thumbEl.src : null;
+
+        if (!title) { alert('Please enter a video title.'); return; }
+
+        videos.unshift({
+            id: Date.now(), title, category, url, duration,
+            views: '0',
+            status: publish ? 'Published' : 'Draft',
+            thumb
+        });
+
+        // Reset
+        document.getElementById('f_title').value    = '';
+        document.getElementById('f_url').value      = '';
+        document.getElementById('f_desc').value     = '';
+        document.getElementById('f_duration').value = '';
+        document.getElementById('f_tags').value     = '';
+        document.getElementById('thumbPreview').style.display = 'none';
+        document.querySelector('#videoDrawer .toggle').classList.add('off');
+
+        filterVideos();
+        closeDrawer();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+    // Init
+    renderGrid(videos);
+</script>
+</body>
+</html>

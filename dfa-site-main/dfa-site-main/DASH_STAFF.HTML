@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA Admin | Staff & Roles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #1C1B2E;
+            color: #E2E0F0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        aside {
+            width: 220px; min-height: 100vh;
+            background-color: #15142A;
+            border-right: 1px solid #2A2845;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            overflow-y: auto; flex-shrink: 0;
+        }
+        .sidebar-logo {
+            padding: 20px 16px 14px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #2A2845;
+        }
+        .logo-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 11px;
+        }
+        .logo-text { font-size: 15px; font-weight: 700; color: #fff; }
+        .logo-sub  { font-size: 10px; color: #6B6A8A; }
+        .sidebar-section { padding: 18px 14px 4px; }
+        .sidebar-section-label {
+            font-size: 9px; font-weight: 700; color: #4B4A6A;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            padding: 0 6px; margin-bottom: 6px;
+        }
+        .nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; border-radius: 8px;
+            font-size: 13px; font-weight: 500; color: #7B79A0;
+            text-decoration: none; transition: all 0.15s ease; margin-bottom: 1px;
+        }
+        .nav-link:hover  { background: #221F40; color: #C4B5FD; }
+        .nav-link.active { background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff; font-weight:600; box-shadow:0 4px 12px rgba(139,92,246,.35); }
+        .nav-link i      { width: 16px; font-size: 13px; text-align: center; }
+        .nav-link.logout { color: #EF4444; }
+        .nav-link.logout:hover { background: rgba(239,68,68,.1); color: #EF4444; }
+
+        /* ── Main ── */
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        .topbar {
+            background: #15142A; border-bottom: 1px solid #2A2845;
+            padding: 12px 28px;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .topbar-title { font-size: 16px; font-weight: 700; color: #fff; }
+        .search-bar {
+            flex: 1; max-width: 380px;
+            background: #211F38; border: 1px solid #2A2845; border-radius: 10px;
+            padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 14px; }
+        .icon-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #211F38; border: 1px solid #2A2845;
+            display: flex; align-items: center; justify-content: center;
+            color: #9390B8; cursor: pointer; font-size: 13px; transition: all .15s;
+            position: relative;
+        }
+        .icon-btn:hover { background: #2A2750; color: #C4B5FD; }
+        .avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg,#8B5CF6,#6D28D9);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px; font-weight: 700;
+        }
+        .user-name { font-size: 13px; font-weight: 600; color: #E2E0F0; line-height: 1.2; }
+        .user-role { font-size: 10px; color: #6B6A8A; }
+
+        /* ── Staff Panel ── */
+        .staff-panel { flex: 1; overflow-y: auto; padding: 24px 28px; }
+
+        .page-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;
+        }
+        .page-title { font-size: 20px; font-weight: 700; color: #fff; }
+        .page-sub   { font-size: 12px; color: #6B6A8A; margin-bottom: 22px; }
+
+        .btn-add-staff {
+            display: flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff;
+            border: none; border-radius: 8px; padding: 9px 16px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            font-family: inherit; white-space: nowrap; transition: opacity .15s;
+        }
+        .btn-add-staff:hover { opacity: .85; }
+
+        /* Role summary cards */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px; margin-bottom: 28px;
+        }
+        .role-card {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 14px;
+            padding: 16px 18px; cursor: pointer;
+            transition: border-color .15s, transform .15s;
+        }
+        .role-card:hover { border-color: #8B5CF6; transform: translateY(-1px); }
+        .role-card.active { border-color: #8B5CF6; background: rgba(139,92,246,0.08); }
+        .role-name  { font-size: 11px; font-weight: 600; color: #7B79A0; margin-bottom: 10px; }
+        .role-count { font-size: 28px; font-weight: 700; color: #E2E0F0; line-height: 1; margin-bottom: 4px; }
+        .role-label { font-size: 10px; color: #4B4A6A; }
+
+        /* Staff table */
+        .table-wrap {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 14px;
+            overflow: hidden;
+        }
+        .table-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px; border-bottom: 1px solid #2A2845;
+        }
+        .table-header-title { font-size: 13px; font-weight: 600; color: #E2E0F0; }
+
+        .filter-search {
+            background: #1A1836; border: 1px solid #2A2845; border-radius: 8px;
+            padding: 6px 12px; display: flex; align-items: center; gap: 7px;
+            font-size: 12px; color: #5C5A80; min-width: 200px;
+        }
+        .filter-search input {
+            background: transparent; border: none; outline: none;
+            color: #9390B8; font-size: 12px; font-family: inherit; width: 100%;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: #1A1836; }
+        th {
+            padding: 10px 16px; text-align: left;
+            font-size: 10px; font-weight: 700; color: #4B4A6A;
+            text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 1px solid #2A2845;
+        }
+        td {
+            padding: 12px 16px; font-size: 12px; color: #C4C2E0;
+            border-bottom: 1px solid #23213C; vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tbody tr { transition: background .15s; cursor: pointer; }
+        tbody tr:hover { background: #261F45; }
+
+        .staff-name  { font-weight: 600; color: #E2E0F0; font-size: 13px; }
+        .staff-email { font-size: 10px; color: #6B6A8A; margin-top: 2px; }
+
+        .role-badge {
+            font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+            display: inline-block;
+        }
+        .role-badge.super     { background: rgba(139,92,246,.2);  color: #C4B5FD; }
+        .role-badge.ops       { background: rgba(96,165,250,.15); color: #60A5FA; }
+        .role-badge.support   { background: rgba(52,211,153,.15); color: #34D399; }
+        .role-badge.content   { background: rgba(251,191,36,.15); color: #FBBF24; }
+        .role-badge.finance   { background: rgba(248,113,113,.15);color: #F87171; }
+
+        .action-btn {
+            background: transparent; border: none; cursor: pointer;
+            color: #4B4A6A; font-size: 12px; padding: 5px 7px; border-radius: 6px;
+            transition: background .15s, color .15s;
+        }
+        .action-btn:hover          { background: #2A2750; color: #C4B5FD; }
+        .action-btn.del:hover      { background: rgba(239,68,68,.15); color: #EF4444; }
+        .action-btn.perm:hover     { background: rgba(139,92,246,.15); color: #C4B5FD; }
+
+        /* Empty state */
+        .empty-state {
+            padding: 60px 20px; text-align: center;
+        }
+        .empty-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: #1A1836; border: 1px solid #2A2845;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .empty-title { font-size: 14px; font-weight: 600; color: #E2E0F0; margin-bottom: 4px; }
+        .empty-sub   { font-size: 12px; color: #6B6A8A; }
+
+        /* ══ MODAL OVERLAY ══ */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.62); backdrop-filter: blur(3px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity .25s ease; padding: 20px;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .modal-box {
+            background: #fff; border-radius: 16px;
+            width: 100%; max-width: 460px; padding: 26px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+            transform: translateY(14px) scale(0.97);
+            transition: transform .3s cubic-bezier(0.4,0,0.2,1);
+            position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+
+        .modal-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 28px; height: 28px; border-radius: 8px;
+            background: #F3F4F6; border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #6B7280; font-size: 12px;
+            transition: background .15s;
+        }
+        .modal-close:hover { background: #E5E7EB; color: #111; }
+
+        .modal-title {
+            font-size: 15px; font-weight: 700; color: #111;
+            margin-bottom: 20px; padding-right: 36px;
+        }
+
+        /* Form */
+        .f-group  { margin-bottom: 14px; }
+        .f-row    { display: flex; gap: 10px; margin-bottom: 14px; }
+        .f-row .f-group { flex: 1; margin-bottom: 0; }
+        .f-label  {
+            display: block; font-size: 11px; font-weight: 600; color: #374151; margin-bottom: 4px;
+        }
+        .f-input, .f-select {
+            width: 100%; background: #F9FAFB; border: 1px solid #E5E7EB;
+            border-radius: 8px; padding: 9px 11px;
+            font-size: 12px; color: #374151; font-family: inherit;
+            outline: none; transition: border-color .15s;
+        }
+        .f-input::placeholder { color: #9CA3AF; }
+        .f-input:focus, .f-select:focus { border-color: #8B5CF6; }
+        .f-select { appearance: none; cursor: pointer; }
+
+        /* Permissions preview grid */
+        .perms-section {
+            margin-top: 16px;
+        }
+        .perms-label {
+            font-size: 10px; font-weight: 700; color: #6B7280;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+        }
+        .perms-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+        }
+        .perm-chip {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 11px; color: #374151; font-weight: 500;
+        }
+        .perm-chip i { font-size: 8px; color: #8B5CF6; }
+
+        .modal-footer { display: flex; gap: 10px; margin-top: 22px; }
+        .btn-cancel-m {
+            flex: 1; background: #F3F4F6; border: none; border-radius: 10px;
+            padding: 10px; font-size: 13px; font-weight: 600;
+            color: #374151; cursor: pointer; font-family: inherit; transition: background .15s;
+        }
+        .btn-cancel-m:hover { background: #E5E7EB; }
+        .btn-save-m {
+            flex: 2; background: linear-gradient(135deg,#8B5CF6,#7C3AED);
+            color: #fff; border: none; border-radius: 10px;
+            padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;
+            font-family: inherit; display: flex; align-items: center;
+            justify-content: center; gap: 6px; transition: opacity .15s;
+        }
+        .btn-save-m:hover { opacity: .88; }
+
+        /* ══ PERMISSIONS DRAWER ══ */
+        .perm-drawer {
+            position: fixed; top: 0; right: 0;
+            height: 100vh; width: 320px;
+            background: #15142A; border-left: 1px solid #2A2845;
+            z-index: 100; overflow-y: auto; padding: 22px 20px;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.4);
+            transform: translateX(100%);
+            transition: transform .35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .perm-drawer.open { transform: translateX(0); }
+
+        .drawer-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 28px; height: 28px; border-radius: 8px;
+            background: #211F38; border: 1px solid #2A2845; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #7B79A0; font-size: 12px; transition: background .15s;
+        }
+        .drawer-close:hover { background: #2A2750; color: #C4B5FD; }
+
+        .drawer-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; padding-right: 36px; }
+        .drawer-sub   { font-size: 11px; color: #6B6A8A; margin-bottom: 16px; }
+
+        .role-badge-sm {
+            display: inline-flex; align-items: center;
+            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+            background: rgba(52,211,153,.15); color: #34D399; margin-bottom: 14px;
+        }
+
+        .toggle-all-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #2A2845; margin-bottom: 10px;
+        }
+        .toggle-all-label { font-size: 11px; font-weight: 600; color: #9390B8; }
+
+        /* Permission toggle rows */
+        .perm-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #1E1C35;
+        }
+        .perm-row:last-child { border-bottom: none; }
+        .perm-name { font-size: 12px; font-weight: 500; color: #C4C2E0; }
+
+        /* Small toggle */
+        .tog {
+            width: 34px; height: 18px; border-radius: 20px; position: relative;
+            cursor: pointer; flex-shrink: 0; transition: background .2s;
+            background: #8B5CF6;
+        }
+        .tog::after {
+            content: ''; position: absolute; top: 2px; left: 17px;
+            width: 14px; height: 14px; background: #fff; border-radius: 50%;
+            transition: left .2s;
+        }
+        .tog.off { background: #2A2845; }
+        .tog.off::after { left: 2px; }
+
+        .drawer-footer-btns {
+            display: flex; gap: 8px; padding-top: 16px; margin-top: 8px;
+            border-top: 1px solid #2A2845; position: sticky; bottom: 0;
+            background: #15142A;
+        }
+        .btn-drawer-cancel {
+            flex: 1; background: #211F38; border: 1px solid #2A2845;
+            border-radius: 8px; padding: 9px; font-size: 12px; font-weight: 600;
+            color: #7B79A0; cursor: pointer; font-family: inherit; transition: background .15s;
+        }
+        .btn-drawer-cancel:hover { background: #2A2750; color: #C4B5FD; }
+        .btn-drawer-save {
+            flex: 2; background: linear-gradient(135deg,#8B5CF6,#7C3AED);
+            color: #fff; border: none; border-radius: 8px; padding: 9px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: opacity .15s;
+        }
+        .btn-drawer-save:hover { opacity: .88; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 24px; right: 28px;
+            background: #1A1836; border: 1px solid #8B5CF6; border-radius: 10px;
+            padding: 11px 16px; display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 600; color: #C4B5FD;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transform: translateY(80px); opacity: 0;
+            transition: transform .3s ease, opacity .3s ease; z-index: 200;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2A2845; border-radius: 4px; }
+        .modal-box::-webkit-scrollbar-thumb { background: #D1D5DB; }
+    </style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<aside>
+    <div class="sidebar-logo">
+        <div class="logo-icon">DFA</div>
+        <div>
+            <div class="logo-text">DFATV</div>
+            <div class="logo-sub">Admin Management</div>
+        </div>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Overview</div>
+        <a href="DASHBOARDOVERVIEW.HTML" class="nav-link"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Operations</div>
+        <a href="DASH_EVENT.HTML"    class="nav-link"><i class="fa-solid fa-calendar-days"></i> Events</a>
+        <a href="DASH_TICKET.HTML"   class="nav-link"><i class="fa-solid fa-ticket"></i> Tickets</a>
+        <a href="DASH_ATTEND.HTML" class="nav-link"><i class="fa-solid fa-users"></i> Attendees</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Finance</div>
+        <a href="DASH_PAYMENT.HTML" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payments</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Content</div>
+        <a href="DASH_MEDIA.HTML"                     class="nav-link"><i class="fa-solid fa-photo-film"></i> Media Library</a>
+        <a href="dash_video.html"      class="nav-link"><i class="fa-solid fa-play"></i> Video</a>
+        <a href="DASHGALLERY.HTML"    class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a>
+        <a href="#"                     class="nav-link"><i class="fa-solid fa-newspaper"></i> Blog</a>
+        <a href="dash_webcontent.html" class="nav-link"><i class="fa-solid fa-globe"></i> Website Content</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Engagement</div>
+        <a href="#" class="nav-link"><i class="fa-solid fa-message"></i> Messages</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-heart"></i> Community</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Admin</div>
+        <a href="DASH_STAFF.HTML" class="nav-link active"><i class="fa-solid fa-shield-halved"></i> Staff & Roles</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+    <div style="margin-top:auto;padding:16px 14px 20px;">
+        <a href="index.html" class="nav-link logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Log out
+        </a>
+    </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main>
+    <div class="topbar">
+        <div class="topbar-title">Staff & Roles</div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:12px;"></i>
+            Search staff...
+        </div>
+        <div class="topbar-actions">
+            <div class="icon-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="icon-btn">
+                <i class="fa-solid fa-bell"></i>
+                <span style="position:absolute;top:6px;right:6px;width:6px;height:6px;background:#8B5CF6;border-radius:50%;"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar">EE</div>
+                <div>
+                    <div class="user-name">Elliot Eniola</div>
+                    <div class="user-role">Admin</div>
+                </div>
+                <i class="fa-solid fa-right-from-bracket" style="font-size:13px;color:#6B6A8A;cursor:pointer;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="staff-panel">
+        <div class="page-header">
+            <div>
+                <div class="page-title">Staff & Roles</div>
+                <div class="page-sub" id="staffSub">0 staff members • Role-based access control</div>
+            </div>
+            <button class="btn-add-staff" onclick="openAddModal()">
+                <i class="fa-solid fa-plus"></i> Add Staff
+            </button>
+        </div>
+
+        <!-- Role Summary Cards -->
+        <div class="roles-grid" id="rolesGrid"></div>
+
+        <!-- Staff Table -->
+        <div class="table-wrap">
+            <div class="table-header">
+                <div class="table-header-title">All Staff</div>
+                <div class="filter-search">
+                    <i class="fa-solid fa-magnifying-glass" style="font-size:10px;color:#6B6A8A;"></i>
+                    <input type="text" placeholder="Search staff..." oninput="filterStaff(this.value)">
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Staff Member</th>
+                        <th>Role</th>
+                        <th>Added</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="staffTableBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-shield-halved" style="color:#4B4A6A;font-size:20px;"></i>
+                </div>
+                <div class="empty-title">No staff members yet</div>
+                <div class="empty-sub">Click "Add Staff" to invite your first team member</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ══ ADD STAFF MODAL ══ -->
+<div class="modal-overlay" id="addModal" onclick="overlayClick(event,'addModal')">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('addModal')"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-title">Add Staff Member</div>
+
+        <div class="f-group">
+            <label class="f-label">Email</label>
+            <input type="email" class="f-input" id="f_email" placeholder="example@gmail.com">
+        </div>
+        <div class="f-group">
+            <label class="f-label">Full Name</label>
+            <input type="text" class="f-input" id="f_name" placeholder="e.g Abdullah">
+        </div>
+        <div class="f-group">
+            <label class="f-label">Role</label>
+            <select class="f-select" id="f_role" onchange="updatePermsPreview()">
+                <option value="Super Admin">Super Admin</option>
+                <option value="Operations Manager">Operations Manager</option>
+                <option value="Customer Support">Customer Support</option>
+                <option value="Content Manager">Content Manager</option>
+                <option value="Finance Manager">Finance Manager</option>
+            </select>
+        </div>
+
+        <!-- Default permissions preview -->
+        <div class="perms-section">
+            <div class="perms-label">Default Permissions for <span id="roleLabel">Super Admin</span></div>
+            <div class="perms-grid" id="permsGrid"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-cancel-m" onclick="closeModal('addModal')">Cancel</button>
+            <button class="btn-save-m" onclick="addStaff()">
+                <i class="fa-solid fa-user-plus"></i> Add Staff
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ PERMISSIONS DRAWER ══ -->
+<div class="perm-drawer" id="permDrawer">
+    <button class="drawer-close" onclick="closePermDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="drawer-title" id="permDrawerTitle">Permission — Staff Member</div>
+    <div class="drawer-sub">Toggle individual module access</div>
+    <span class="role-badge-sm" id="permDrawerRole">Customer Support</span>
+
+    <div class="toggle-all-row">
+        <span class="toggle-all-label">Toggle All</span>
+        <div class="tog" id="toggleAllBtn" onclick="toggleAll()"></div>
+    </div>
+
+    <div id="permRowsContainer"></div>
+
+    <div class="drawer-footer-btns">
+        <button class="btn-drawer-cancel" onclick="closePermDrawer()">Cancel</button>
+        <button class="btn-drawer-save" onclick="savePerms()">
+            <i class="fa-solid fa-floppy-disk"></i> Save Permissions
+        </button>
+    </div>
+</div>
+
+<!-- Backdrop for drawer -->
+<div id="drawerBackdrop" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none;backdrop-filter:blur(2px);" onclick="closePermDrawer()"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check" style="color:#34D399;"></i>
+    <span id="toastMsg">Changes saved</span>
+</div>
+
+<script>
+    const ALL_MODULES = [
+        'Dashboard','Tickets','Attendees','Video','Blog',
+        'Contact Messages','Staff & Roles','Settings','Events',
+        'Help Payments','Media Library','Gallery','Website Content',
+        'Community','Reports'
+    ];
+
+    const ROLE_PERMS = {
+        'Super Admin':         ALL_MODULES,
+        'Operations Manager':  ['Dashboard','Events','Tickets','Attendees','Contact Messages','Reports'],
+        'Customer Support':    ['Dashboard','Tickets','Attendees','Contact Messages'],
+        'Content Manager':     ['Dashboard','Video','Blog','Gallery','Media Library','Website Content'],
+        'Finance Manager':     ['Dashboard','Help Payments','Reports'],
+    };
+
+    const ROLE_CLASS = {
+        'Super Admin':'super','Operations Manager':'ops',
+        'Customer Support':'support','Content Manager':'content','Finance Manager':'finance'
+    };
+
+    let staff = [];
+    let nextId = 1;
+    let currentPermStaffId = null;
+
+    /* ── Role Cards ── */
+    function renderRoleCards() {
+        const roles = ['Super Admin','Operations Manager','Customer Support','Content Manager','Finance Manager'];
+        const grid  = document.getElementById('rolesGrid');
+        grid.innerHTML = roles.map(r => {
+            const count = staff.filter(s => s.role === r).length;
+            return `<div class="role-card" onclick="filterByRole('${r}')">
+                <div class="role-name">${r}</div>
+                <div class="role-count">${count}</div>
+                <div class="role-label">Member${count !== 1 ? 's' : ''}</div>
+            </div>`;
+        }).join('');
+    }
+
+    /* ── Staff Table ── */
+    function renderTable(data) {
+        const tbody = document.getElementById('staffTableBody');
+        const empty = document.getElementById('emptyState');
+        const total = staff.length;
+        document.getElementById('staffSub').textContent =
+            `${total} staff member${total !== 1 ? 's' : ''} • Role-based access control`;
+
+        if (data.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        const colors = ['#8B5CF6','#6D28D9','#7C3AED','#5B21B6','#4C1D95'];
+        tbody.innerHTML = data.map((s, i) => {
+            const init  = s.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+            const col   = colors[i % colors.length];
+            const rc    = ROLE_CLASS[s.role] || 'super';
+            return `<tr>
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:32px;height:32px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;">${init}</div>
+                        <div>
+                            <div class="staff-name">${s.name}</div>
+                            <div class="staff-email">${s.email}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="role-badge ${rc}">${s.role}</span></td>
+                <td style="font-size:11px;color:#6B6A8A;">${s.date}</td>
+                <td>
+                    <span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#34D399;">
+                        <i class="fa-solid fa-circle" style="font-size:6px;"></i> Active
+                    </span>
+                </td>
+                <td style="white-space:nowrap;">
+                    <button class="action-btn perm" title="Edit Permissions" onclick="openPermDrawer(${s.id})">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </button>
+                    <button class="action-btn" title="Edit" onclick="editStaff(${s.id})">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="action-btn del" title="Remove" onclick="removeStaff(${s.id})">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    function filterStaff(q) {
+        const filtered = staff.filter(s =>
+            s.name.toLowerCase().includes(q.toLowerCase()) ||
+            s.email.toLowerCase().includes(q.toLowerCase()) ||
+            s.role.toLowerCase().includes(q.toLowerCase())
+        );
+        renderTable(filtered);
+    }
+
+    function filterByRole(role) {
+        renderTable(staff.filter(s => s.role === role));
+    }
+
+    function removeStaff(id) {
+        if (!confirm('Remove this staff member?')) return;
+        staff = staff.filter(s => s.id !== id);
+        renderRoleCards();
+        renderTable(staff);
+        showToast('Staff member removed');
+    }
+
+    function editStaff(id) {
+        const s = staff.find(x => x.id === id);
+        if (!s) return;
+        document.getElementById('f_email').value = s.email;
+        document.getElementById('f_name').value  = s.name;
+        document.getElementById('f_role').value  = s.role;
+        updatePermsPreview();
+        openAddModal();
+    }
+
+    /* ── Add Staff Modal ── */
+    function openAddModal() {
+        document.getElementById('addModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        updatePermsPreview();
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function overlayClick(e, id) {
+        if (e.target === document.getElementById(id)) closeModal(id);
+    }
+
+    function updatePermsPreview() {
+        const role  = document.getElementById('f_role').value;
+        const perms = ROLE_PERMS[role] || [];
+        document.getElementById('roleLabel').textContent = role;
+        document.getElementById('permsGrid').innerHTML = perms.map(p =>
+            `<div class="perm-chip"><i class="fa-solid fa-plus"></i> ${p}</div>`
+        ).join('');
+    }
+
+    function addStaff() {
+        const email = document.getElementById('f_email').value.trim();
+        const name  = document.getElementById('f_name').value.trim();
+        const role  = document.getElementById('f_role').value;
+        if (!email || !name) { alert('Please fill in Email and Full Name.'); return; }
+
+        const perms = [...ROLE_PERMS[role]];
+        staff.unshift({
+            id: nextId++, email, name, role, perms,
+            date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+        });
+
+        document.getElementById('f_email').value = '';
+        document.getElementById('f_name').value  = '';
+        document.getElementById('f_role').value  = 'Super Admin';
+
+        renderRoleCards();
+        renderTable(staff);
+        closeModal('addModal');
+        showToast('Staff member added');
+    }
+
+    /* ── Permissions Drawer ── */
+    function openPermDrawer(id) {
+        const s = staff.find(x => x.id === id);
+        if (!s) return;
+        currentPermStaffId = id;
+
+        document.getElementById('permDrawerTitle').textContent = `Permission — ${s.name}`;
+        document.getElementById('permDrawerRole').textContent  = s.role;
+
+        const rc = ROLE_CLASS[s.role] || 'super';
+        const badge = document.getElementById('permDrawerRole');
+        badge.className = 'role-badge-sm';
+
+        // Render toggles
+        document.getElementById('permRowsContainer').innerHTML = ALL_MODULES.map(mod => {
+            const on = s.perms.includes(mod);
+            return `<div class="perm-row">
+                <span class="perm-name">${mod}</span>
+                <div class="tog ${on ? '' : 'off'}" data-mod="${mod}" onclick="this.classList.toggle('off')"></div>
+            </div>`;
+        }).join('');
+
+        // Toggle All state
+        const allOn = ALL_MODULES.every(m => s.perms.includes(m));
+        const btn = document.getElementById('toggleAllBtn');
+        btn.className = `tog ${allOn ? '' : 'off'}`;
+
+        document.getElementById('permDrawer').classList.add('open');
+        document.getElementById('drawerBackdrop').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePermDrawer() {
+        document.getElementById('permDrawer').classList.remove('open');
+        document.getElementById('drawerBackdrop').style.display = 'none';
+        document.body.style.overflow = '';
+        currentPermStaffId = null;
+    }
+
+    function toggleAll() {
+        const btn  = document.getElementById('toggleAllBtn');
+        const on   = btn.classList.contains('off'); // currently off → turning on
+        btn.classList.toggle('off');
+        document.querySelectorAll('#permRowsContainer .tog').forEach(t => {
+            if (on) t.classList.remove('off');
+            else    t.classList.add('off');
+        });
+    }
+
+    function savePerms() {
+        if (currentPermStaffId === null) return;
+        const s = staff.find(x => x.id === currentPermStaffId);
+        if (!s) return;
+        const newPerms = [];
+        document.querySelectorAll('#permRowsContainer .tog').forEach(t => {
+            if (!t.classList.contains('off')) newPerms.push(t.dataset.mod);
+        });
+        s.perms = newPerms;
+        closePermDrawer();
+        showToast('Permissions updated');
+    }
+
+    /* ── Toast ── */
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closeModal('addModal'); closePermDrawer(); }
+    });
+
+    /* Init with empty state */
+    renderRoleCards();
+    renderTable(staff);
+    updatePermsPreview();
+</script>
+</body>
+</html>

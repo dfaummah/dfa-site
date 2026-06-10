@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Our Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .purple-main { color: #8B5CF6; }
+        .bg-purple-main { background-color: #8B5CF6; }
+
+        /* Filter tabs */
+        .filter-tab {
+            padding: 8px 28px; border-radius: 100px; font-size: 13px; font-weight: 600;
+            cursor: pointer; border: 1.5px solid #E5E7EB; background: #fff; color: #6B7280;
+            transition: all .2s; font-family: inherit;
+        }
+        .filter-tab:hover { border-color: #8B5CF6; color: #8B5CF6; }
+        .filter-tab.active { background: #8B5CF6; color: #fff; border-color: #8B5CF6; }
+
+        /* Event card */
+        .event-card {
+            background: #fff; border: 1px solid #F3F4F6;
+            border-radius: 2.5rem; padding: 24px;
+            display: flex; flex-direction: column; gap: 24px;
+            transition: box-shadow .2s, transform .2s;
+        }
+        .event-card:hover { box-shadow: 0 12px 40px rgba(139,92,246,0.1); transform: translateY(-2px); }
+
+        @media (min-width: 768px) {
+            .event-card { flex-direction: row; }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center; padding: 80px 20px;
+            color: #9CA3AF;
+        }
+        .empty-state i { font-size: 40px; margin-bottom: 16px; display: block; color: #D1D5DB; }
+        .empty-state p { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #6B7280; }
+        .empty-state span { font-size: 13px; }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            padding: 3px 12px; border-radius: 20px; text-transform: uppercase;
+            position: absolute; top: 16px; left: 16px;
+        }
+        .badge-upcoming { background: #8B5CF6; color: #fff; }
+        .badge-ongoing  { background: #10B981; color: #fff; }
+        .badge-past     { background: #6B7280; color: #fff; }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- NAVIGATION -->
+<nav class="bg-white sticky top-0 z-50 shadow-sm">
+    <div class="flex items-center justify-between px-8 py-4">
+        <!-- Logo — replace src with your image -->
+        <div class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png"
+                 alt="DFA Logo" class="h-9 w-auto object-contain"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <!-- Fallback if image not found -->
+            <div style="display:none;width:34px;height:34px;background:#8B5CF6;border-radius:8px;align-items:center;justify-content:center;">
+                <span style="color:#fff;font-weight:800;font-size:11px;">DFA</span>
+            </div>
+            <span class="font-bold text-xl tracking-tight">DFA</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex gap-8 font-medium text-sm ml-auto mr-8">
+            <a href="index.html" class="hover:text-purple-600 transition">Home</a>
+            <a href="media.html" class="hover:text-purple-600 transition">Media</a>
+            <a href="event1.html" class="text-purple-600 font-semibold">Events</a>
+            <a href="contact.html" class="hover:text-purple-600 transition">Contact</a>
+        </div>
+
+        <!-- Get Tickets Button -->
+        <div class="hidden md:block">
+            <button onclick="document.getElementById('events-section').scrollIntoView({behavior:'smooth'})"
+                class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">
+                Get Tickets →
+            </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden text-gray-600 focus:outline-none">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-8 py-6 space-y-4 shadow-lg">
+        <a href="index.html" class="block font-medium hover:text-purple-600">Home</a>
+        <a href="media.html" class="block font-medium hover:text-purple-600">Media</a>
+        <a href="event1.html" class="block font-medium text-purple-600">Events</a>
+        <a href="contact.html" class="block font-medium hover:text-purple-600">Contact</a>
+        <button onclick="document.getElementById('events-section').scrollIntoView({behavior:'smooth'})"
+            class="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold">
+            Get Tickets →
+        </button>
+    </div>
+</nav>
+
+<script>
+    document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+</script>
+
+<!-- HERO -->
+<section class="relative h-[50vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="image/DAF TV-2.jpg" alt="Events" class="w-full h-full object-cover brightness-50">
+    </div>
+    <div class="container mx-auto px-8 relative z-10 text-white">
+        <h1 class="text-5xl font-bold mb-4">Our Events</h1>
+        <p class="max-w-xl text-gray-200">Gatherings that move you. Conversations that stay with you. Community that holds you.</p>
+    </div>
+</section>
+
+<!-- FILTER TABS -->
+<div id="events-section" class="flex justify-center gap-3 py-10 px-4 flex-wrap">
+    <button class="filter-tab active" onclick="setTab(this, 'upcoming')">
+        <i class="fa-solid fa-calendar-days mr-1"></i> Upcoming
+    </button>
+    <button class="filter-tab" onclick="setTab(this, 'ongoing')">
+        <i class="fa-solid fa-circle-dot mr-1" style="color:#10B981;"></i> Ongoing
+    </button>
+    <button class="filter-tab" onclick="setTab(this, 'past')">
+        <i class="fa-solid fa-clock-rotate-left mr-1"></i> Past
+    </button>
+</div>
+
+<!-- EVENTS LIST -->
+<div class="max-w-5xl mx-auto px-6 pb-16">
+    <!-- Loading -->
+    <div id="loadingState" class="empty-state">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Loading events...</p>
+    </div>
+    <!-- Events container -->
+    <div id="events-container" class="space-y-6" style="display:none;"></div>
+    <!-- Empty state -->
+    <div id="emptyState" class="empty-state" style="display:none;">
+        <i class="fa-solid fa-calendar-xmark"></i>
+        <p id="emptyTitle">No events found</p>
+        <span id="emptySub">Check back soon!</span>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<style>
+.dfa-footer { background: #0f0f0f; color: #e5e5e5; font-family: 'Segoe UI', sans-serif; padding: 3rem 0 1.5rem; }
+.dfa-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.dfa-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.dfa-footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+.dfa-footer-logo-dot { width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #fff; }
+.dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+.dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
+.dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
+.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
+.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; }
+.dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+.dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
+.dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+.dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
+.dfa-footer-col ul li { margin-bottom: 0.6rem; }
+.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+.dfa-footer-col ul li a:hover { color: #fff; }
+.dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
+.dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
+.dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
+.dfa-footer-bottom-links a:hover { color: #9ca3af; }
+@media (max-width: 700px) {
+    .dfa-footer-grid { grid-template-columns: 1fr 1fr; }
+    .dfa-footer-brand { grid-column: 1 / -1; }
+    .dfa-footer-bottom { flex-direction: column; gap: 1rem; }
+}
+</style>
+
+<footer class="dfa-footer">
+    <div class="container">
+        <div class="dfa-footer-grid">
+            <div class="dfa-footer-brand">
+                <div class="dfa-footer-logo">
+                    <div class="dfa-footer-logo-dot">DFA</div>
+                    <span class="dfa-footer-brand-name">DFA</span>
+                </div>
+                <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant.</p>
+                <div class="dfa-footer-newsletter">
+                    <label>Join our newsletter</label>
+                    <div class="dfa-newsletter-row">
+                        <input type="email" placeholder="Your email">
+                        <button>Subscribe</button>
+                    </div>
+                    <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+                </div>
+            </div>
+            <div class="dfa-footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="media.html">Media</a></li>
+                    <li><a href="event1.html">Events</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="dfa-footer-col">
+                <h4>Social</h4>
+                <ul>
+                    <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                    <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                    <li><a href="https://www.tiktok.com/@dfa.tv">TikTok</a></li>
+                </ul>
+            </div>
+            <div class="dfa-footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+                    <li><a href="#">Lagos, Nigeria</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="dfa-footer-bottom">
+            <p>© 2026 DFA. All rights reserved.</p>
+            <div class="dfa-footer-bottom-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const API = 'https://dfa-backend-lilj.onrender.com/api/v1';
+    let allEvents  = [];
+    let activeTab  = 'upcoming';
+
+    // ── Classify event by date and status ─────────────────────────────────────
+    function classifyEvent(event) {
+        const now      = new Date();
+        const eventDay = new Date(event.date);
+
+        // Same day = ongoing
+        if (eventDay.toDateString() === now.toDateString()) return 'ongoing';
+        // Future = upcoming
+        if (eventDay > now) return 'upcoming';
+        // Past
+        return 'past';
+    }
+
+    // ── Set active tab ────────────────────────────────────────────────────────
+    function setTab(btn, tab) {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        activeTab = tab;
+        renderEvents();
+    }
+
+    // ── Render events ─────────────────────────────────────────────────────────
+    function renderEvents() {
+        const container = document.getElementById('events-container');
+        const empty     = document.getElementById('emptyState');
+        const emptyTitle = document.getElementById('emptyTitle');
+        const emptySub   = document.getElementById('emptySub');
+
+        const filtered = allEvents.filter(e => classifyEvent(e) === activeTab);
+
+        if (filtered.length === 0) {
+            container.style.display = 'none';
+            empty.style.display = 'block';
+
+            const messages = {
+                upcoming: { title: 'No upcoming events', sub: 'Check back soon — new events are coming!' },
+                ongoing:  { title: 'No ongoing events',  sub: 'No events happening right now.' },
+                past:     { title: 'No past events yet', sub: 'Events you have attended will appear here.' },
+            };
+            emptyTitle.textContent = messages[activeTab].title;
+            emptySub.textContent   = messages[activeTab].sub;
+            return;
+        }
+
+        empty.style.display     = 'none';
+        container.style.display = 'block';
+
+        container.innerHTML = filtered.map(event => {
+            const type = classifyEvent(event);
+            const badgeClass = type === 'upcoming' ? 'badge-upcoming' : type === 'ongoing' ? 'badge-ongoing' : 'badge-past';
+            const badgeText  = type === 'upcoming' ? 'Upcoming' : type === 'ongoing' ? 'Live Now' : 'Past';
+
+            const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
+                month: 'long', day: 'numeric', year: 'numeric'
+            });
+
+            const ticketInfo = event.ticketTiers?.length > 0
+                ? `From ₦${Math.min(...event.ticketTiers.map(t => t.price)).toLocaleString()}`
+                : 'Free Entry';
+
+            return `
+            <div class="event-card">
+
+                <!-- Image -->
+                <div class="w-full md:w-1/3 relative flex-shrink-0">
+                    <img src="${event.bannerImage || ''}"
+                         class="w-full h-56 object-cover rounded-3xl"
+                         onerror="this.src='';this.style.background='#F5F3FF';">
+                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                </div>
+
+                <!-- Info -->
+                <div class="flex flex-col justify-center flex-1 min-w-0">
+                    <span class="text-purple-600 font-bold uppercase tracking-widest text-[10px] mb-2">DFA Event</span>
+
+                    <h2 class="text-2xl font-bold mb-1">${event.title}</h2>
+                    ${event.subTitle ? `<p class="text-gray-400 text-sm mb-3">${event.subTitle}</p>` : ''}
+
+                    <div class="flex flex-wrap gap-5 text-sm text-gray-500 mb-4">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-regular fa-calendar text-purple-500"></i> ${formattedDate}
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-purple-500"></i> ${event.location}
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-tag text-purple-500"></i> ${ticketInfo}
+                        </span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">${event.description || ''}</p>
+
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <a href="event_details.html?id=${event._id}"
+                            style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;padding:10px 24px;border-radius:12px;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s;"
+                            onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                            ${type === 'past' ? 'View Details' : 'Get Tickets'} <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                        ${type !== 'past' && event.ticketTiers?.length > 0 ? `
+                        <span style="font-size:12px;color:#9CA3AF;">
+                            ${event.ticketTiers.reduce((sum,t) => sum + (t.capacity - (t.sold||0)), 0)} tickets left
+                        </span>` : ''}
+                    </div>
+                </div>
+
+            </div>`;
+        }).join('');
+    }
+
+    // ── Load events ───────────────────────────────────────────────────────────
+    async function loadEvents() {
+        try {
+            const res    = await fetch(`${API}/events`);
+            const result = await res.json();
+            allEvents    = result.data?.events || [];
+
+            document.getElementById('loadingState').style.display = 'none';
+            renderEvents();
+        } catch(err) {
+            document.getElementById('loadingState').innerHTML = `
+                <i class="fa-solid fa-circle-exclamation" style="color:#EF4444;"></i>
+                <p>Failed to load events</p>
+                <span>Please refresh the page</span>`;
+        }
+    }
+
+    loadEvents();
+</script>
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA Admin | Website Content</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #1C1B2E;
+            color: #E2E0F0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        aside {
+            width: 220px; min-height: 100vh;
+            background-color: #15142A;
+            border-right: 1px solid #2A2845;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh;
+            overflow-y: auto; flex-shrink: 0;
+        }
+        .sidebar-logo {
+            padding: 20px 16px 14px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #2A2845;
+        }
+        .logo-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 11px;
+        }
+        .logo-text { font-size: 15px; font-weight: 700; color: #fff; }
+        .logo-sub  { font-size: 10px; color: #6B6A8A; }
+        .sidebar-section { padding: 18px 14px 4px; }
+        .sidebar-section-label {
+            font-size: 9px; font-weight: 700; color: #4B4A6A;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            padding: 0 6px; margin-bottom: 6px;
+        }
+        .nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; border-radius: 8px;
+            font-size: 13px; font-weight: 500; color: #7B79A0;
+            text-decoration: none; transition: all 0.15s ease; margin-bottom: 1px;
+        }
+        .nav-link:hover  { background: #221F40; color: #C4B5FD; }
+        .nav-link.active { background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff; font-weight:600; box-shadow:0 4px 12px rgba(139,92,246,.35); }
+        .nav-link i      { width: 16px; font-size: 13px; text-align: center; }
+        .nav-link.logout { color: #EF4444; }
+        .nav-link.logout:hover { background: rgba(239,68,68,.1); color: #EF4444; }
+
+        /* ── Main ── */
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        .topbar {
+            background: #15142A; border-bottom: 1px solid #2A2845;
+            padding: 12px 28px;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .topbar-title { font-size: 16px; font-weight: 700; color: #fff; }
+        .search-bar {
+            flex: 1; max-width: 380px;
+            background: #211F38; border: 1px solid #2A2845; border-radius: 10px;
+            padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 14px; }
+        .icon-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #211F38; border: 1px solid #2A2845;
+            display: flex; align-items: center; justify-content: center;
+            color: #9390B8; cursor: pointer; font-size: 13px; transition: all .15s;
+            position: relative;
+        }
+        .icon-btn:hover { background: #2A2750; color: #C4B5FD; }
+        .avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg,#8B5CF6,#6D28D9);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px; font-weight: 700;
+        }
+        .user-name { font-size: 13px; font-weight: 600; color: #E2E0F0; line-height: 1.2; }
+        .user-role { font-size: 10px; color: #6B6A8A; }
+
+        /* ── Content Panel ── */
+        .content-panel { flex: 1; overflow-y: auto; padding: 28px 32px; }
+
+        .page-header {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .page-title { font-size: 22px; font-weight: 700; color: #fff; }
+        .page-sub   { font-size: 12px; color: #6B6A8A; margin-bottom: 24px; }
+
+        .btn-save {
+            display: flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff;
+            border: none; border-radius: 8px; padding: 9px 16px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            font-family: inherit; white-space: nowrap; transition: opacity .15s;
+        }
+        .btn-save:hover { opacity: .85; }
+
+        /* ── Page Tabs ── */
+        .page-tabs {
+            display: flex; gap: 2px; margin-bottom: 28px;
+            border-bottom: 1px solid #2A2845; padding-bottom: 0;
+        }
+        .page-tab {
+            padding: 8px 16px; font-size: 12px; font-weight: 500;
+            color: #7B79A0; cursor: pointer; border-bottom: 2px solid transparent;
+            margin-bottom: -1px; transition: color .15s, border-color .15s;
+            white-space: nowrap;
+        }
+        .page-tab:hover  { color: #C4B5FD; }
+        .page-tab.active { color: #8B5CF6; border-bottom-color: #8B5CF6; font-weight: 600; }
+
+        /* ── Section Cards ── */
+        .section-card {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 14px;
+            padding: 22px 22px; margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 13px; font-weight: 700; color: #E2E0F0;
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-title::before {
+            content: ''; width: 3px; height: 14px; border-radius: 2px;
+            background: linear-gradient(135deg,#8B5CF6,#7C3AED); flex-shrink: 0;
+        }
+
+        /* Form elements inside cards */
+        .field-group { margin-bottom: 14px; }
+        .field-row   { display: flex; gap: 12px; margin-bottom: 14px; }
+        .field-row .field-group { flex: 1; margin-bottom: 0; }
+
+        .field-label {
+            display: block; font-size: 10px; font-weight: 600; color: #6B6A8A;
+            text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px;
+        }
+        .field-input, .field-select, .field-textarea {
+            width: 100%; background: #1A1836; border: 1px solid #2A2845;
+            border-radius: 8px; padding: 9px 12px;
+            font-size: 12px; color: #E2E0F0; font-family: inherit;
+            outline: none; transition: border-color .15s;
+        }
+        .field-input::placeholder, .field-textarea::placeholder { color: #4B4A6A; }
+        .field-input:focus, .field-select:focus, .field-textarea:focus {
+            border-color: #8B5CF6; background: #1C1A38;
+        }
+        .field-select { appearance: none; cursor: pointer; }
+        .field-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+        .field-textarea.tall { min-height: 110px; }
+
+        /* Image upload field */
+        .img-upload-row {
+            display: flex; gap: 8px; align-items: center;
+        }
+        .img-upload-row .field-input { flex: 1; }
+        .btn-browse {
+            background: #2A2750; border: 1px solid #3A3660; border-radius: 8px;
+            padding: 9px 14px; font-size: 11px; font-weight: 600; color: #C4B5FD;
+            cursor: pointer; white-space: nowrap; font-family: inherit;
+            display: flex; align-items: center; gap: 5px; transition: background .15s;
+        }
+        .btn-browse:hover { background: #342F6A; }
+
+        /* Toggle */
+        .toggle-row {
+            display: flex; align-items: center; gap: 10px; margin-top: 6px;
+        }
+        .toggle {
+            width: 36px; height: 20px; background: #2A2845; border-radius: 20px;
+            position: relative; cursor: pointer; flex-shrink: 0;
+        }
+        .toggle::after {
+            content: ''; position: absolute; top: 3px; left: 3px;
+            width: 14px; height: 14px; background: #6B6A8A; border-radius: 50%;
+            transition: left .2s, background .2s;
+        }
+        .toggle.on { background: rgba(139,92,246,0.25); }
+        .toggle.on::after { left: 19px; background: #8B5CF6; }
+        .toggle-label { font-size: 11px; color: #7B79A0; }
+
+        /* CTA pair row */
+        .cta-pair {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+
+        /* Impact stats row */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+        }
+
+        /* Tag chips */
+        .tag-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(139,92,246,0.15); color: #C4B5FD;
+            border: 1px solid rgba(139,92,246,0.3); border-radius: 20px;
+            padding: 3px 10px; font-size: 11px; font-weight: 500; margin: 3px;
+            cursor: pointer; transition: background .15s;
+        }
+        .tag-chip:hover { background: rgba(139,92,246,0.25); }
+        .tag-chip i { font-size: 9px; }
+
+        /* Section footer buttons */
+        .card-footer {
+            display: flex; justify-content: flex-end; gap: 8px;
+            margin-top: 18px; padding-top: 16px; border-top: 1px solid #2A2845;
+        }
+        .btn-cancel-sm {
+            background: transparent; border: 1px solid #2A2845; border-radius: 8px;
+            padding: 7px 16px; font-size: 12px; font-weight: 500; color: #7B79A0;
+            cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s;
+        }
+        .btn-cancel-sm:hover { border-color: #8B5CF6; color: #C4B5FD; }
+        .btn-save-sm {
+            background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff;
+            border: none; border-radius: 8px; padding: 7px 18px;
+            font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: opacity .15s;
+        }
+        .btn-save-sm:hover { opacity: .85; }
+
+        /* Tab content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Divider */
+        .divider { border: none; border-top: 1px solid #2A2845; margin: 20px 0; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2A2845; border-radius: 4px; }
+
+        /* Saved toast */
+        .toast {
+            position: fixed; bottom: 24px; right: 28px;
+            background: #1A1836; border: 1px solid #8B5CF6; border-radius: 10px;
+            padding: 12px 18px; display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 600; color: #C4B5FD;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transform: translateY(80px); opacity: 0;
+            transition: transform .3s ease, opacity .3s ease;
+            z-index: 99;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<aside>
+    <div class="sidebar-logo">
+        <div class="logo-icon">DFA</div>
+        <div>
+            <div class="logo-text">DFATV</div>
+            <div class="logo-sub">Admin Management</div>
+        </div>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Overview</div>
+        <a href="DASHBOARDOVERVIEW.HTML" class="nav-link"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Operations</div>
+        <a href="DASH_EVENT.HTML"    class="nav-link"><i class="fa-solid fa-calendar-days"></i> Events</a>
+        <a href="DASH_TICKET.HTML"   class="nav-link"><i class="fa-solid fa-ticket"></i> Tickets</a>
+        <a href="DASH_ATTEND.HTML" class="nav-link"><i class="fa-solid fa-users"></i> Attendees</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Finance</div>
+        <a href="DASH_PAYMENT.HTML" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payments</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Content</div>
+        <a href="DASH_MEDIA.HTML"                      class="nav-link"><i class="fa-solid fa-photo-film"></i> Media Library</a>
+        <a href="dash_video.html"       class="nav-link"><i class="fa-solid fa-play"></i> Video</a>
+        <a href="DASHGALLERY.HTML"     class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a>
+        <a href="#"                      class="nav-link"><i class="fa-solid fa-newspaper"></i> Blog</a>
+        <a href="dash_webcontent.html"  class="nav-link active"><i class="fa-solid fa-globe"></i> Website Content</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Engagement</div>
+        <a href="#" class="nav-link"><i class="fa-solid fa-message"></i> Messages</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-heart"></i> Community</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Admin</div>
+        <a href="DASH_STAFF.HTML" class="nav-link"><i class="fa-solid fa-shield-halved"></i> Staff & Roles</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+    <div style="margin-top:auto;padding:16px 14px 20px;">
+        <a href="index.html" class="nav-link logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Log out
+        </a>
+    </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main>
+    <div class="topbar">
+        <div class="topbar-title">Website Content</div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:12px;"></i>
+            Search users, taskers, staff...
+        </div>
+        <div class="topbar-actions">
+            <div class="icon-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="icon-btn">
+                <i class="fa-solid fa-bell"></i>
+                <span style="position:absolute;top:6px;right:6px;width:6px;height:6px;background:#8B5CF6;border-radius:50%;"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar">EE</div>
+                <div>
+                    <div class="user-name">Elliot Eniola</div>
+                    <div class="user-role">Admin</div>
+                </div>
+                <i class="fa-solid fa-right-from-bracket" style="font-size:13px;color:#6B6A8A;cursor:pointer;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <div class="page-header">
+            <div>
+                <div class="page-title">Website Content</div>
+                <div class="page-sub">Edit and manage content displayed on the public website</div>
+            </div>
+            <button class="btn-save" onclick="saveAll()">
+                <i class="fa-solid fa-floppy-disk"></i> Save Changes
+            </button>
+        </div>
+
+        <!-- Page Tabs -->
+        <div class="page-tabs">
+            <div class="page-tab active" onclick="switchTab('hero',    this)">Hero</div>
+            <div class="page-tab"        onclick="switchTab('about',   this)">About us</div>
+            <div class="page-tab"        onclick="switchTab('whatwedo',this)">What We Do</div>
+            <div class="page-tab"        onclick="switchTab('content', this)">Content</div>
+            <div class="page-tab"        onclick="switchTab('footer',  this)">Footer</div>
+        </div>
+
+        <!-- ══ HERO TAB ══ -->
+        <div class="tab-content active" id="tab-hero">
+
+            <div class="section-card">
+                <div class="section-title">Hero Section</div>
+
+                <div class="field-group">
+                    <label class="field-label">Hero Headline</label>
+                    <input type="text" class="field-input" value="Faith, Culture, Real Conversations" placeholder="Main headline text">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Sub Headline / Script</label>
+                    <input type="text" class="field-input" value="Est. Muslims, Young Professionals" placeholder="Supporting tagline">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Hero Description</label>
+                    <textarea class="field-textarea" placeholder="Short description under the headline">DFA is a media and community platform for young Muslims navigating life and faith.</textarea>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Primary Button Label</label>
+                        <input type="text" class="field-input" value="Explore Our Videos" placeholder="e.g. Watch Now">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Primary Button URL</label>
+                        <input type="text" class="field-input" value="/videos" placeholder="/videos">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Secondary Button Label</label>
+                        <input type="text" class="field-input" value="Get Event Tickets" placeholder="e.g. Join Community">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Secondary Button URL</label>
+                        <input type="text" class="field-input" value="/tickets" placeholder="/events">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Hero Image or Video</label>
+                    <div class="img-upload-row">
+                        <input type="text" class="field-input" placeholder="Image URL or upload" id="heroImg">
+                        <button class="btn-browse" onclick="document.getElementById('heroImgFile').click()">
+                            <i class="fa-solid fa-upload"></i> Browse
+                        </button>
+                        <input type="file" id="heroImgFile" accept="image/*,video/*" style="display:none;"
+                               onchange="document.getElementById('heroImg').value = this.files[0]?.name || ''">
+                    </div>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    <span class="toggle-label">Visible on site</span>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-cancel-sm">Cancel</button>
+                    <button class="btn-save-sm" onclick="saveAll()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ ABOUT TAB ══ -->
+        <div class="tab-content" id="tab-about">
+
+            <div class="section-card">
+                <div class="section-title">About us</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Section Headline</label>
+                        <input type="text" class="field-input" value="About DFA" placeholder="Section heading">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Sub Heading</label>
+                        <input type="text" class="field-input" value="Our Identity" placeholder="Sub heading">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Tag Line</label>
+                    <input type="text" class="field-input" value="Faith-driven, Creators, Community Inc." placeholder="Short tagline">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Main Text</label>
+                    <textarea class="field-textarea tall" placeholder="Main About Us description">DFA is a faith-driven media and community platform for young Muslims. We create content that starts real conversations, builds meaningful community, and helps generation navigate faith in the modern world.</textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Mission Statement</label>
+                    <textarea class="field-textarea" placeholder="Mission statement text">We produce video interviews, teachings, and reflections that start real conversations.</textarea>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section-title" style="margin-bottom:14px;">Impact Statistics</div>
+                <div class="stats-grid">
+                    <div class="field-group" style="margin-bottom:0;">
+                        <label class="field-label">Total Views</label>
+                        <input type="text" class="field-input" value="1000">
+                    </div>
+                    <div class="field-group" style="margin-bottom:0;">
+                        <label class="field-label">Content Views</label>
+                        <input type="text" class="field-input" value="200 Views">
+                    </div>
+                    <div class="field-group" style="margin-bottom:0;">
+                        <label class="field-label">Community Size</label>
+                        <input type="text" class="field-input" value="2,015">
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-cancel-sm">Cancel</button>
+                    <button class="btn-save-sm" onclick="saveAll()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ WHAT WE DO TAB ══ -->
+        <div class="tab-content" id="tab-whatwedo">
+
+            <div class="section-card">
+                <div class="section-title">What We Do</div>
+
+                <div class="field-group">
+                    <label class="field-label">Section Heading</label>
+                    <input type="text" class="field-input" value="What We Do" placeholder="Section heading">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Section Subheading</label>
+                    <input type="text" class="field-input" value="Three pillars of everything we create" placeholder="Subheading">
+                </div>
+
+                <hr class="divider">
+                <div class="section-title" style="margin-bottom:14px;">Pillar 1</div>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Title</label>
+                        <input type="text" class="field-input" value="Media & Content">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Icon (FA class)</label>
+                        <input type="text" class="field-input" value="fa-play" placeholder="fa-play">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Description</label>
+                    <textarea class="field-textarea" placeholder="Describe this pillar">We produce video interviews, teachings, and reflections that start real conversations.</textarea>
+                </div>
+
+                <hr class="divider">
+                <div class="section-title" style="margin-bottom:14px;">Pillar 2</div>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Title</label>
+                        <input type="text" class="field-input" value="Events">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Icon (FA class)</label>
+                        <input type="text" class="field-input" value="fa-calendar-days" placeholder="fa-calendar-days">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Description</label>
+                    <textarea class="field-textarea" placeholder="Describe this pillar">We host gatherings, conferences, and experiences designed to connect and inspire young Muslims.</textarea>
+                </div>
+
+                <hr class="divider">
+                <div class="section-title" style="margin-bottom:14px;">Pillar 3</div>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Title</label>
+                        <input type="text" class="field-input" value="Community">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Icon (FA class)</label>
+                        <input type="text" class="field-input" value="fa-users" placeholder="fa-users">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Description</label>
+                    <textarea class="field-textarea" placeholder="Describe this pillar">We build spaces — online and offline — where faith, culture, and real life intersect.</textarea>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-cancel-sm">Cancel</button>
+                    <button class="btn-save-sm" onclick="saveAll()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ CONTENT TAB ══ -->
+        <div class="tab-content" id="tab-content">
+
+            <div class="section-card">
+                <div class="section-title">Featured Content Section</div>
+
+                <div class="field-group">
+                    <label class="field-label">Section Heading</label>
+                    <input type="text" class="field-input" value="Latest Videos" placeholder="Section heading">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Section Subheading</label>
+                    <input type="text" class="field-input" value="Fresh conversations and teachings" placeholder="Subheading">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Videos to Feature (comma-separated IDs or titles)</label>
+                    <input type="text" class="field-input" value="Does God Really Exist?, Faith That Moves Mountains, Ramadan Reflections" placeholder="Video titles or IDs">
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    <span class="toggle-label">Show latest videos section on homepage</span>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Featured Events Section</div>
+
+                <div class="field-group">
+                    <label class="field-label">Section Heading</label>
+                    <input type="text" class="field-input" value="Upcoming Events" placeholder="Section heading">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Max Events to Show</label>
+                    <select class="field-select">
+                        <option>3</option>
+                        <option selected>4</option>
+                        <option>6</option>
+                        <option>All</option>
+                    </select>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    <span class="toggle-label">Show events section on homepage</span>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-cancel-sm">Cancel</button>
+                    <button class="btn-save-sm" onclick="saveAll()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ FOOTER TAB ══ -->
+        <div class="tab-content" id="tab-footer">
+
+            <div class="section-card">
+                <div class="section-title">Footer Details</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Brand Name</label>
+                        <input type="text" class="field-input" value="DFATV">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Tagline</label>
+                        <input type="text" class="field-input" value="Faith. Culture. Real Conversations.">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Footer Description</label>
+                    <textarea class="field-textarea" placeholder="Short footer description">A media and community platform for young Muslims navigating faith, culture, and life.</textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Copyright Text</label>
+                    <input type="text" class="field-input" value="© 2026 DFATV. All rights reserved.">
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Social Links</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-instagram" style="color:#E1306C;"></i> Instagram</label>
+                        <input type="text" class="field-input" placeholder="https://instagram.com/dfatv">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-youtube" style="color:#FF0000;"></i> YouTube</label>
+                        <input type="text" class="field-input" placeholder="https://youtube.com/@dfatv">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-x-twitter" style="color:#1DA1F2;"></i> X / Twitter</label>
+                        <input type="text" class="field-input" placeholder="https://twitter.com/dfatv">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-tiktok"></i> TikTok</label>
+                        <input type="text" class="field-input" placeholder="https://tiktok.com/@dfatv">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> WhatsApp Community Link</label>
+                        <input type="text" class="field-input" placeholder="https://chat.whatsapp.com/...">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Facebook</label>
+                        <input type="text" class="field-input" placeholder="https://facebook.com/dfatv">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Footer Navigation Links</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Column 1 Heading</label>
+                        <input type="text" class="field-input" value="Explore">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Column 2 Heading</label>
+                        <input type="text" class="field-input" value="Community">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Column 1 Links (label|url, one per line)</label>
+                    <textarea class="field-textarea" placeholder="Videos|/videos&#10;Events|/events">Videos|/videos
+Events|/events
+Gallery|/gallery
+Blog|/blog</textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Column 2 Links (label|url, one per line)</label>
+                    <textarea class="field-textarea" placeholder="About Us|/about&#10;Contact|/contact">About Us|/about
+WhatsApp|/community
+Contact|/contact
+Tickets|/tickets</textarea>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-cancel-sm">Cancel</button>
+                    <button class="btn-save-sm" onclick="saveAll()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div><!-- end content-panel -->
+</main>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check" style="color:#34D399;"></i>
+    Changes saved successfully
+</div>
+
+<script>
+    function switchTab(id, el) {
+        // Deactivate all tabs and content
+        document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        // Activate selected
+        el.classList.add('active');
+        document.getElementById('tab-' + id).classList.add('active');
+    }
+
+    function saveAll() {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    // Cancel buttons reset to last saved values (simplified — just blur)
+    document.querySelectorAll('.btn-cancel-sm').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.section-card').querySelectorAll('input, textarea, select').forEach(el => el.blur());
+        });
+    });
+</script>
+</body>
+</html>

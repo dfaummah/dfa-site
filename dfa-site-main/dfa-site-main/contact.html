@@ -1,0 +1,499 @@
+<link rel="icon" type="image/png" href="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Contact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; margin: 0; background: #fff; color: #111; }
+
+        /* ── Brand tokens ── */
+        :root {
+            --purple: #8B5CF6;
+            --purple-dark: #6D28D9;
+            --yellow: #FBBF24;
+        }
+        .purple-main { color: var(--purple); }
+        .bg-purple-main { background: var(--purple); }
+        .bg-purple-dark { background: var(--purple-dark); }
+
+        /* ── NAV ── */
+        nav { background: #fff; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 2rem; }
+        .nav-logo { display: flex; align-items: center; gap: 8px; }
+        .nav-logo-dot { width: 32px; height: 32px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .nav-logo-dot span { color: #fff; font-weight: 700; font-size: 11px; }
+        .nav-logo-name { font-weight: 700; font-size: 1.2rem; letter-spacing: -.02em; }
+        .nav-links { display: none; gap: 2rem; font-size: .875rem; font-weight: 500; margin: 0 2rem 0 auto; }
+        .nav-links a { color: #374151; text-decoration: none; transition: color .2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--purple); }
+        .nav-ticket { display: none; }
+        .nav-ticket a button {
+            background: var(--purple); color: #fff; border: none; padding: 8px 22px;
+            border-radius: 9999px; font-size: .8rem; font-weight: 600; cursor: pointer;
+            transition: background .2s;
+        }
+        .nav-ticket a button:hover { background: var(--purple-dark); }
+        .hamburger { background: none; border: none; cursor: pointer; padding: 6px; color: #555; }
+        .mobile-nav { display: none; background: #fff; border-top: 1px solid #f3f4f6; padding: 1.25rem 2rem 1.5rem; box-shadow: 0 8px 16px rgba(0,0,0,.06); }
+        .mobile-nav.open { display: block; }
+        .mobile-nav a { display: block; font-weight: 500; color: #374151; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #f9fafb; transition: color .2s; }
+        .mobile-nav a:hover, .mobile-nav a.active { color: var(--purple); }
+        .mobile-nav .mob-btn { display: block; width: 100%; margin-top: 1rem; background: var(--purple); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 600; font-size: .95rem; cursor: pointer; }
+        @media(min-width:768px){
+            .nav-links { display: flex; }
+            .nav-ticket { display: block; }
+            .hamburger { display: none; }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: clamp(220px, 35vw, 320px);
+            display: flex; align-items: flex-end;
+            overflow: hidden;
+        }
+        .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.45); }
+        .hero-content { position: relative; z-index: 2; padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem) clamp(2rem, 6vw, 4rem); }
+        .hero-content h1 { color: #fff; font-size: clamp(1.8rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.15; margin: 0 0 .6rem; }
+        .hero-content p { color: rgba(255,255,255,.8); font-size: clamp(.85rem, 2.5vw, 1rem); margin: 0; max-width: 480px; }
+
+        /* ── SECTION WRAPPERS ── */
+        .section { padding: clamp(2.5rem, 6vw, 5rem) 0; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 2rem); }
+
+        /* ── CONTACT GRID ── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media(min-width:768px){
+            .contact-grid { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        }
+
+        /* ── FORM ── */
+        .form-title { font-size: clamp(1.3rem, 4vw, 1.6rem); font-weight: 700; margin: 0 0 1.5rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        @media(max-width:480px){ .form-row { grid-template-columns: 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1rem; }
+        .form-group label { font-size: .78rem; font-weight: 600; color: #555; letter-spacing: .02em; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 14px;
+            font-size: .9rem; font-family: inherit; color: #111; background: #fafafa;
+            outline: none; transition: border-color .2s, box-shadow .2s; width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--purple); box-shadow: 0 0 0 3px rgba(139,92,246,.12); background: #fff;
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .btn-send {
+            background: var(--purple); color: #fff; border: none; padding: 12px 28px;
+            border-radius: 10px; font-weight: 700; font-size: .9rem; cursor: pointer;
+            transition: background .2s, transform .15s; display: inline-block;
+            min-height: 44px;
+        }
+        .btn-send:hover { background: var(--purple-dark); transform: translateY(-1px); }
+        .btn-send:active { transform: scale(.98); }
+
+        /* ── INFO CARDS ── */
+        .info-cards { display: flex; flex-direction: column; gap: 1.25rem; }
+        .info-card {
+            background: #fafafa; border: 1px solid #f0f0f0; border-radius: 16px;
+            padding: 1.25rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .info-card-icon {
+            width: 40px; height: 40px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;
+        }
+        .icon-purple { background: #ede9fe; color: var(--purple); }
+        .icon-yellow { background: #fef3c7; color: #b45309; }
+        .icon-blue   { background: #dbeafe; color: #1d4ed8; }
+        .info-card-body {}
+        .info-card-title { font-weight: 700; font-size: .95rem; margin: 0 0 .3rem; }
+        .info-card-desc { font-size: .82rem; color: #6b7280; margin: 0 0 .6rem; line-height: 1.5; }
+        .social-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+        .pill {
+            border: 1px solid #e5e7eb; border-radius: 9999px; padding: 4px 12px;
+            font-size: .75rem; font-weight: 600; color: #374151; text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+        .pill:hover { border-color: var(--purple); color: var(--purple); background: #f5f3ff; }
+
+        /* ── FAQ ── */
+        .faq-section { background: #f9fafb; }
+        .faq-header { text-align: center; margin-bottom: 2.5rem; }
+        .badge {
+            display: inline-block; border: 1px solid; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .08em; font-size: .7rem;
+            padding: 5px 14px; border-radius: 9999px; margin-bottom: .75rem;
+        }
+        .badge-amber { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
+        .badge-purple { border-color: var(--purple); color: var(--purple); background: #f5f3ff; }
+        .faq-header h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 700; margin: 0 0 .5rem; }
+        .faq-header p { color: #9ca3af; font-size: .9rem; margin: 0; }
+        .faq-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
+        .faq-item { background: #fff; border: 1px solid #f0f0f0; border-radius: 14px; overflow: hidden; }
+        .faq-question {
+            width: 100%; background: none; border: none; padding: 1rem 1.25rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: inherit; font-size: .9rem; font-weight: 600; text-align: left;
+            cursor: pointer; gap: 1rem; min-height: 44px; color: #111;
+        }
+        .faq-question .faq-icon { color: #9ca3af; flex-shrink: 0; transition: transform .25s; font-size: .85rem; }
+        .faq-question.open .faq-icon { transform: rotate(180deg); color: var(--purple); }
+        .faq-answer {
+            display: none; padding: 0 1.25rem 1rem; font-size: .85rem;
+            color: #6b7280; line-height: 1.65;
+        }
+        .faq-answer.open { display: block; }
+
+        /* ── STILL HAVE A QUESTION ── */
+        .cta-strip { text-align: center; padding: clamp(3rem, 7vw, 5rem) 1.25rem; }
+        .cta-strip h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; margin: 0 0 .5rem; }
+        .cta-strip p { color: #9ca3af; font-size: .9rem; margin: 0 0 1.5rem; }
+        .btn-contact {
+            background: #111; color: #fff; border: none; padding: 12px 28px;
+            border-radius: 9999px; font-weight: 700; font-size: .9rem; cursor: pointer;
+            transition: background .2s, transform .15s; min-height: 44px;
+        }
+        .btn-contact:hover { background: #000; transform: translateY(-1px); }
+
+        /* ── FOOTER ── */
+        footer { background: #0a0a0a; color: #fff; padding: 3.5rem 0 0; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #1f1f1f;
+        }
+        @media(min-width:640px){
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+        }
+        .footer-brand p { font-size: .83rem; color: #6b7280; line-height: 1.65; margin: .75rem 0 1.25rem; max-width: 240px; }
+        .footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: .5rem; }
+        .footer-logo-dot { width: 28px; height: 28px; background: var(--purple); border-radius: 50%; }
+        .footer-logo span { font-weight: 700; font-size: 1.1rem; }
+        .footer-col h4 { font-weight: 700; font-size: .85rem; margin: 0 0 1rem; color: #e5e7eb; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .6rem; }
+        .footer-col ul li a { color: #6b7280; text-decoration: none; font-size: .82rem; transition: color .2s; }
+        .footer-col ul li a:hover { color: #fff; }
+        .newsletter-input { display: flex; gap: .5rem; margin-bottom: .5rem; }
+        .newsletter-input input {
+            flex: 1; background: #1a1a1a; border: 1px solid #333; color: #fff;
+            padding: 9px 14px; border-radius: 10px; font-size: .82rem; font-family: inherit;
+            outline: none; min-width: 0;
+        }
+        .newsletter-input input:focus { border-color: var(--purple); }
+        .newsletter-input input::placeholder { color: #555; }
+        .newsletter-input button {
+            background: var(--yellow); color: #111; border: none; padding: 9px 14px;
+            border-radius: 10px; font-weight: 700; font-size: .75rem; text-transform: uppercase;
+            cursor: pointer; white-space: nowrap; flex-shrink: 0;
+        }
+        .footer-note { font-size: .7rem; color: #4b5563; }
+        .footer-bottom {
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            gap: .75rem; padding: 1.25rem 0; font-size: .75rem; color: #4b5563;
+        }
+        .footer-bottom a { color: #4b5563; text-decoration: none; transition: color .2s; }
+        .footer-bottom a:hover { color: #fff; }
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-logo">
+            <img 
+                src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" 
+                alt="DFA Logo" 
+                style="height: 40px; width: auto; object-fit: contain;"
+            />
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="media.html">Media</a>
+            <a href="event1.html">Events</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+        <div class="nav-ticket">
+            <a href="event1.html"><button>Get Tickets →</button></a>
+        </div>
+        <button class="hamburger" id="menu-btn" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars" style="font-size:1.4rem;"></i>
+        </button>
+    </div>
+    <div class="mobile-nav" id="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="media.html">Media</a>
+        <a href="event.html">Events</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="event1.html"><button class="mob-btn">Get Tickets →</button></a>
+    </div>
+</nav>
+<script>
+    document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('open');
+    });
+</script>
+
+<!-- HERO -->
+<section class="hero">
+    <img src="image/DAF TV-12.jpg" alt="Get In Touch hero">
+    <div class="hero-content">
+        <h1>Get In Touch.</h1>
+        <p>Want to collaborate, partner, or just reach out? We'd love to hear from you.</p>
+    </div>
+</section>
+
+<!-- CONTACT FORM + INFO CARDS -->
+<section class="section">
+    <div class="container">
+        <div class="contact-grid">
+
+            <!-- LEFT: Form -->
+            <div>
+                <h2 class="form-title">Send Us a Message</h2>
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" placeholder="What should we call you?">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="Your@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Inquiry Type</label>
+                        <select>
+                            <option value="" disabled selected>What's this about?</option>
+                            <option>Collaboration</option>
+                            <option>Event Partnership</option>
+                            <option>Media / Press</option>
+                            <option>General Inquiry</option>
+                            <option>Support</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea placeholder="Tell us what's on your mind..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-send">Send Message</button>
+                </form>
+            </div>
+
+            <!-- RIGHT: Info cards -->
+            <div class="info-cards">
+
+                <!-- Quick Chat -->
+                <div class="info-card">
+                    <div class="info-card-icon icon-purple">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="info-card-title">Quick chat</p>
+                        <p class="info-card-desc">DM us on social media</p>
+                        <div class="social-pills">
+                            <a href="#" class="pill">Instagram</a>
+                            <a href="#" class="pill">Twitter/X</a>
+                            <a href="#" class="pill">TikTok</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaborate -->
+                <div class="info-card">
+                    <div class="info-card-icon icon-yellow">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="info-card-title">Collaborate</p>
+                        <p class="info-card-desc">Whether you're a creator, organization, or brand — if your values align with ours, let's build something together.</p>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="info-card">
+                    <div class="info-card-icon icon-blue">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="info-card-body">
+                        <p class="info-card-title">Contact Info</p>
+                        <p class="info-card-desc" style="margin:0;">
+                            hello@dfa.media<br>
+                            Lagos, Nigeria
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section">
+    <div class="container">
+        <div class="faq-header">
+            <div class="badge badge-amber">FAQ</div>
+            <h2>Frequently Asked Questions</h2>
+            <p>Got a question? We've got answers.</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question open" onclick="toggleFaq(this)">
+                    How do I get involved with DFA?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer open">
+                    Follow us on social, attend our events, or reach out through the contact form. We're always looking for passionate people to join the movement.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Can I collaborate with DFA on content?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    Absolutely! We love working with creators, scholars, and organizations whose values align with ours. Use the form above or DM us to start the conversation.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How can I bring DFA to my university?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    We'd love to visit campuses and speak to students. Reach out via the contact form with your university name, location, and a brief outline of what you have in mind.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Are DFA events open to everyone?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    Most of our events are open to everyone — regardless of background or belief. Some may require registration or tickets. Check the Events page for details.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How can I support DFA financially?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    You can support DFA by attending our events, sharing our content, or reaching out to discuss sponsorship and partnership opportunities. Every bit of support helps us grow this movement.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STILL HAVE A QUESTION -->
+<div class="cta-strip">
+    <h2>Still have a question?</h2>
+    <p>Contact us if you have any other questions.</p>
+    <button class="btn-contact" onclick="document.querySelector('.form-title').scrollIntoView({behavior:'smooth'})">Contact us</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-dot"></div>
+                    <span>DFA</span>
+                </div>
+                <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant. Join a growing community of young Muslims navigating life with purpose.</p>
+                <div class="form-group" style="max-width:260px; margin:0;">
+                    <label style="color:#9ca3af; font-size:.75rem;">Join our newsletter</label>
+                    <div class="newsletter-input">
+                        <input type="email" placeholder="Your email">
+                        <button>Subscribe</button>
+                    </div>
+                    <p class="footer-note">By joining, you agree to our terms.</p>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="media.html">Media</a></li>
+                    <li><a href="event.html">Events</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>YouTube</h4>
+                <ul>
+          <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+          <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+          <li><a href="https://www.facebook.com/dfatv/">facebook</a></li>
+          <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+        </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+                    <li><a href="#">Lagos, Nigeria</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DFA. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleFaq(btn) {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+        // close all
+        document.querySelectorAll('.faq-question.open').forEach(q => {
+            q.classList.remove('open');
+            q.nextElementSibling.classList.remove('open');
+        });
+        // open clicked if it was closed
+        if (!isOpen) {
+            btn.classList.add('open');
+            answer.classList.add('open');
+        }
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('.btn-send');
+        btn.textContent = 'Sent! ✓';
+        btn.style.background = '#059669';
+        setTimeout(() => {
+            btn.textContent = 'Send Message';
+            btn.style.background = '';
+            e.target.reset();
+        }, 3000);
+    }
+</script>
+</body>
+</html>

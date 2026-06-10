@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA Admin | Payments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #1C1B2E;
+            color: #E2E0F0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        aside {
+            width: 220px; min-height: 100vh;
+            background-color: #15142A; border-right: 1px solid #2A2845;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0;
+        }
+        .sidebar-logo {
+            padding: 20px 16px 14px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #2A2845;
+        }
+        .logo-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 11px;
+        }
+        .logo-text { font-size: 15px; font-weight: 700; color: #fff; }
+        .logo-sub  { font-size: 10px; color: #6B6A8A; }
+        .sidebar-section { padding: 18px 14px 4px; }
+        .sidebar-section-label {
+            font-size: 9px; font-weight: 700; color: #4B4A6A;
+            text-transform: uppercase; letter-spacing: 1.5px; padding: 0 6px; margin-bottom: 6px;
+        }
+        .nav-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; border-radius: 8px;
+            font-size: 13px; font-weight: 500; color: #7B79A0;
+            text-decoration: none; transition: all 0.15s ease; margin-bottom: 1px;
+        }
+        .nav-link:hover  { background: #221F40; color: #C4B5FD; }
+        .nav-link.active { background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff; font-weight:600; box-shadow:0 4px 12px rgba(139,92,246,.35); }
+        .nav-link i      { width: 16px; font-size: 13px; text-align: center; }
+        .nav-link.logout { color: #EF4444; }
+        .nav-link.logout:hover { background: rgba(239,68,68,.1); color: #EF4444; }
+
+        /* ── Main ── */
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        .topbar {
+            background: #15142A; border-bottom: 1px solid #2A2845;
+            padding: 12px 28px;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .topbar-title { font-size: 16px; font-weight: 700; color: #fff; }
+        .search-bar {
+            flex: 1; max-width: 380px;
+            background: #211F38; border: 1px solid #2A2845; border-radius: 10px;
+            padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 14px; }
+        .icon-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #211F38; border: 1px solid #2A2845;
+            display: flex; align-items: center; justify-content: center;
+            color: #9390B8; cursor: pointer; font-size: 13px;
+        }
+        .avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg,#8B5CF6,#6D28D9);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px; font-weight: 700;
+        }
+        .user-name { font-size: 13px; font-weight: 600; color: #E2E0F0; line-height: 1.2; }
+        .user-role { font-size: 10px; color: #6B6A8A; }
+
+        /* ── Content ── */
+        .content { flex: 1; overflow-y: auto; padding: 28px 32px; }
+
+        .page-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+        .page-sub   { font-size: 12px; color: #6B6A8A; margin-bottom: 20px; }
+
+        /* Filter tabs + search row */
+        .filters-row {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+        }
+        .filter-search {
+            background: #211F38; border: 1px solid #2A2845; border-radius: 8px;
+            padding: 7px 12px; display: flex; align-items: center; gap: 8px;
+            color: #5C5A80; font-size: 12px; flex: 1; max-width: 260px;
+        }
+        .filter-search input {
+            background: transparent; border: none; outline: none;
+            color: #9390B8; font-size: 12px; font-family: inherit; width: 100%;
+        }
+        .tabs { display: flex; gap: 4px; }
+        .tab {
+            padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500;
+            cursor: pointer; color: #7B79A0; border: 1px solid transparent; transition: all .15s;
+        }
+        .tab:hover  { background: #221F40; color: #C4B5FD; }
+        .tab.active { background: linear-gradient(135deg,#8B5CF6,#7C3AED); color:#fff; font-weight:600; }
+
+        /* Stats row */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px;
+        }
+        .stat-card {
+            background: #fff; border-radius: 14px; padding: 18px 20px;
+        }
+        .stat-label { font-size: 11px; color: #6B7280; font-weight: 500; margin-bottom: 6px; }
+        .stat-value { font-size: 22px; font-weight: 700; color: #111; }
+        .stat-value.purple { color: #8B5CF6; }
+        .stat-value.red    { color: #EF4444; }
+
+        /* Paystack card */
+        .paystack-card {
+            background: #fff; border-radius: 16px; padding: 22px 24px;
+        }
+        .paystack-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 4px; }
+        .paystack-sub   { font-size: 12px; color: #6B7280; margin-bottom: 18px; }
+        .paystack-fields { display: flex; gap: 10px; }
+        .paystack-input {
+            flex: 1; background: #F9FAFB; border: 1px solid #E5E7EB;
+            border-radius: 8px; padding: 9px 12px;
+            font-size: 12px; color: #9CA3AF; font-family: inherit; outline: none;
+        }
+        .paystack-input:focus { border-color: #8B5CF6; color: #374151; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2A2845; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<aside>
+    <div class="sidebar-logo">
+        <div class="logo-icon">DFA</div>
+        <div>
+            <div class="logo-text">DFATV</div>
+            <div class="logo-sub">Admin Management</div>
+        </div>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Overview</div>
+        <a href="DASHBOARDOVERVIEW.HTML" class="nav-link">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Operations</div>
+        <a href="DASH_EVENT.HTML" class="nav-link"><i class="fa-solid fa-calendar-days"></i> Events</a>
+        <a href="DASH_TICKET.HTML" class="nav-link"><i class="fa-solid fa-ticket"></i> Tickets</a>
+        <a href="DASH_ATTEND.HTML" class="nav-link"><i class="fa-solid fa-users"></i> Attendees</a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Finance</div>
+        <a href="DASH_PAYMENT.HTML" class="nav-link active">
+            <i class="fa-solid fa-credit-card"></i> Payments
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Content</div>
+        <a href="DASH_MEDIA.HTML" class="nav-link"><i class="fa-solid fa-photo-film"></i> Media Library</a>
+        <a href="dash_video.html" class="nav-link"><i class="fa-solid fa-play"></i> Video</a>
+        <a href="DASHGALLERY.HTML" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-newspaper"></i> Blog</a>
+        <a href="dash_webcontent.html" class="nav-link"><i class="fa-solid fa-globe"></i> Website Content</a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Engagement</div>
+        <a href="#" class="nav-link"><i class="fa-solid fa-message"></i> Messages</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-heart"></i> Community</a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-section-label">Admin</div>
+        <a href="DASH_STAFF.HTML" class="nav-link"><i class="fa-solid fa-shield-halved"></i> Staff & Roles</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+
+    <div style="margin-top:auto;padding:16px 14px 20px;">
+        <a href="index.html" class="nav-link logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Log out
+        </a>
+    </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-title">Payments</div>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:12px;"></i>
+            Search users, taskers, staff...
+        </div>
+        <div class="topbar-actions">
+            <div class="icon-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="icon-btn"><i class="fa-solid fa-bell"></i></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar">EE</div>
+                <div>
+                    <div class="user-name">Elliot Eniola</div>
+                    <div class="user-role">Admin</div>
+                </div>
+                <i class="fa-solid fa-right-from-bracket" style="font-size:13px;color:#6B6A8A;cursor:pointer;"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="page-title">Payments</div>
+        <div class="page-sub">No collected</div>
+
+        <!-- Search + Filter Tabs -->
+        <div class="filters-row">
+            <div class="filter-search">
+                <i class="fa-solid fa-magnifying-glass" style="font-size:11px;color:#6B6A8A;"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="tabs">
+                <div class="tab active">All</div>
+                <div class="tab">Paid</div>
+                <div class="tab">Pending</div>
+                <div class="tab">Failed</div>
+                <div class="tab">Refunded</div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">Total Paid</div>
+                <div class="stat-value purple">₦0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pending</div>
+                <div class="stat-value" style="color:#F59E0B;">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Failed</div>
+                <div class="stat-value red">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Refunded</div>
+                <div class="stat-value purple">₦0</div>
+            </div>
+        </div>
+
+        <!-- Paystack Integration -->
+        <div class="paystack-card">
+            <div class="paystack-title">Paystack Integration</div>
+            <div class="paystack-sub">
+                Configure your Paystack keys in Settings → Payment Settings to enable live payment processing.
+            </div>
+            <div class="paystack-fields">
+                <input type="text" class="paystack-input" placeholder="Public Key: pk_live_....">
+                <input type="text" class="paystack-input" placeholder="Webhook URL: /api/paystack/webhook">
+                <input type="text" class="paystack-input" placeholder="Secret Key: sk_live_....">
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

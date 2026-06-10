@@ -1,0 +1,486 @@
+<link rel="icon" type="image/png" href="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    *{ font-family:'Inter',sans-serif; }
+    body{ scroll-behavior:smooth; background:#fff; color:#111827; overflow-x:hidden; }
+    h1,h2,h3,h4,h5,h6{ letter-spacing:-1.5px; }
+    .purple-main{ color:#8B5CF6; }
+    .bg-purple-main{ background-color:#8B5CF6; }
+    .bg-purple-dark{ background-color:#6D28D9; }
+    .main-heading{ font-size:40px; font-weight:700; line-height:1.05; letter-spacing:-1.5px; }
+    .hero-heading{ font-size:72px; line-height:0.95; letter-spacing:-3px; font-weight:800; }
+    @media(max-width:768px){
+        .main-heading{ font-size:32px; }
+        .hero-heading{ font-size:48px; line-height:1; }
+    }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- NAVIGATION -->
+<nav class="bg-white sticky top-0 z-50 shadow-sm">
+    <div class="flex items-center justify-between px-6 md:px-8 py-4">
+        <div class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-8 w-auto object-contain"/>
+        </div>
+        <div class="hidden md:flex gap-8 font-medium text-sm ml-auto mr-8">
+            <a href="index.html" class="text-purple-main">Home</a>
+            <a href="media.html" class="hover:text-purple-600 transition">Media</a>
+            <a href="event1.html" class="hover:text-purple-600 transition">Events</a>
+            <a href="contact.html" class="hover:text-purple-600 transition">Contact</a>
+        </div>
+        <div class="hidden md:block">
+            <a href="event1.html">
+                <button class="bg-purple-main text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">Get Tickets →</button>
+            </a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-gray-600 focus:outline-none">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-6 space-y-4 shadow-lg">
+        <a href="index.html" class="block font-medium text-purple-main">Home</a>
+        <a href="media.html" class="block font-medium hover:text-purple-600">Media</a>
+        <a href="event1.html" class="block font-medium hover:text-purple-600">Events</a>
+        <a href="contact.html" class="block font-medium hover:text-purple-600">Contact</a>
+        <a href="event1.html" class="block">
+            <button class="w-full bg-purple-main text-white py-3 rounded-xl font-semibold">Get Tickets →</button>
+        </a>
+    </div>
+</nav>
+<script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+</script>
+
+<!-- HERO SECTION -->
+<section class="relative h-[85vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="image/DAF TV-12.jpg" alt="Hero" class="w-full h-full object-cover brightness-50">
+    </div>
+    <div class="container mx-auto px-6 md:px-8 relative z-10 text-white">
+        <div class="inline-flex items-center gap-2 mb-4 md:mb-6 px-4 py-2 rounded-full border border-white/30" style="background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+            <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+            <span class="text-xs md:text-sm font-medium">New Content every week</span>
+        </div>
+        <h1 id="hero-headline" class="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">
+            Faith.<br><span class="text-yellow-400">Culture.</span><br>Real Conversations.
+        </h1>
+        <p id="hero-description" class="max-w-lg text-gray-200 mb-6 md:mb-8 text-sm md:text-base">We bring Deen into everyday conversations — raw, real, and relevant.</p>
+        <div class="flex gap-3 md:gap-4 flex-wrap">
+            <a id="hero-primary-btn" href="media.html">
+                <button class="bg-yellow-400 text-black px-6 md:px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition flex items-center gap-2 text-sm md:text-base">
+                    ▶ <span id="hero-primary-label">Watch Content</span>
+                </button>
+            </a>
+            <a id="hero-secondary-btn" href="event1.html">
+                <button style="background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.4);color:white;padding:12px 24px;border-radius:9999px;font-weight:700;font-size:0.875rem;cursor:pointer;transition:all 0.3s;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <span id="hero-secondary-label">Explore Event →</span>
+                </button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- MOVEMENT STATS -->
+<section class="py-16 md:py-24 container mx-auto px-6 md:px-8">
+    <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div>
+            <span class="inline-block text-purple-600 bg-purple-100 font-semibold uppercase tracking-widest text-xs px-4 py-1.5 rounded-full">WHO ARE WE</span>
+            <h2 id="about-headline" class="text-3xl md:text-4xl font-bold mt-4 mb-5 md:mb-6 leading-tight">DFA is more than content,<br>it's a <span class="purple-main">movement.</span></h2>
+            <p id="about-maintext" class="text-gray-600 mb-8 md:mb-10 text-base md:text-lg">We engage people where they are, ask the real questions, and bring truth that transforms lives Through conversations, street interviews, teachings, and events, DFA addresses real-life issues from an Islamic perspective, helping young people navigate life, identity, purpose, and faith with honesty and depth</p>
+            <div class="grid grid-cols-3 gap-3 md:gap-4">
+                <div><p id="stat-views" class="text-2xl md:text-3xl font-bold purple-main">260k+</p><p class="text-xs md:text-sm text-gray-500">Views across platforms</p></div>
+                <div><p id="stat-content" class="text-2xl md:text-3xl font-bold purple-main">1K+</p><p class="text-xs md:text-sm text-gray-500">Videos published</p></div>
+                <div><p id="stat-community" class="text-2xl md:text-3xl font-bold purple-main">800+</p><p class="text-xs md:text-sm text-gray-500">Community members</p></div>
+            </div>
+        </div>
+        <div class="relative mt-4 md:mt-0">
+            <img src="image/DAF TV-2.jpg" class="rounded-3xl shadow-2xl w-full" alt="Community">
+            <div class="absolute left-[-24px] bottom-[-24px] hidden md:flex flex-col items-start p-3 gap-1 w-[215px] h-[82px] bg-[#FFD334] rounded-[16px] shadow-lg z-10">
+                <p class="text-[12px] uppercase tracking-[1px] text-black/70 font-bold leading-none">Since 2024</p>
+                <h4 class="text-[20px] font-medium text-gray-700 leading-[1] tracking-[-1px]">Building a movement</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="bg-gray-50 py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <div class="text-center mb-14">
+            <span class="inline-block text-amber-600 bg-amber-100 font-semibold uppercase tracking-widest text-xs px-4 py-1.5 rounded-full">What We Do</span>
+            <h2 id="whatwedo-heading" class="text-3xl md:text-5xl font-medium mt-4">Content That Connects</h2>
+            <p id="whatwedo-subheading" class="text-gray-500 mt-3 max-w-xl mx-auto">Everything we create is designed to spark reflection, conversation, and real change.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5">
+            <div class="content-card bg-white p-8 md:p-10 rounded-3xl border border-gray-100">
+                <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mb-5">
+                    <i id="pillar1-icon" class="fa-solid fa-video text-purple-600 text-lg"></i>
+                </div>
+                <h3 id="pillar1-title" class="text-lg font-medium mb-3">Media Content</h3>
+                <p id="pillar1-desc" class="text-gray-500 leading-relaxed text-sm">Powerful video content that meets people where they are. From deep conversations to quick reflections — made for the feed, felt in the heart.</p>
+            </div>
+            <div class="content-card bg-white p-8 md:p-10 rounded-3xl border border-gray-100">
+                <div class="w-12 h-12 bg-yellow-100 rounded-2xl flex items-center justify-center mb-5">
+                    <i id="pillar2-icon" class="fa-solid fa-microphone text-yellow-600 text-lg"></i>
+                </div>
+                <h3 id="pillar2-title" class="text-lg font-medium mb-3">Street Conversations</h3>
+                <p id="pillar2-desc" class="text-gray-500 leading-relaxed text-sm">We take the mic to the streets and ask the questions everyone's thinking. Raw, unfiltered, and always respectful. No scripts, just real talk.</p>
+            </div>
+            <div class="content-card bg-white p-8 md:p-10 rounded-3xl border border-gray-100">
+                <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mb-5">
+                    <i id="pillar3-icon" class="fa-solid fa-people-group text-green-600 text-lg"></i>
+                </div>
+                <h3 id="pillar3-title" class="text-lg font-medium mb-3">Events & Gatherings</h3>
+                <p id="pillar3-desc" class="text-gray-500 leading-relaxed text-sm">From intimate circles to large-scale conferences — our events create spaces where faith, culture, and community collide in the best way.</p>
+            </div>
+            <div class="content-card bg-white p-8 md:p-10 rounded-3xl border border-gray-100">
+                <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-5">
+                    <i class="fa-solid fa-comments text-blue-600 text-lg"></i>
+                </div>
+                <h3 class="text-lg font-medium mb-3">Faith-Based Discussions</h3>
+                <p class="text-gray-500 leading-relaxed text-sm">In-depth conversations about the things that matter — identity, purpose, relationships, mental health — all through the lens of Deen.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OUR LATEST CONNECTIONS -->
+<section class="py-16 md:py-24 container mx-auto px-6 md:px-8">
+    <div class="text-center mb-10 md:mb-12">
+        <span class="inline-block text-amber-600 bg-amber-100 font-semibold uppercase tracking-widest text-xs px-4 py-1.5 rounded-full">Watch & Reflect</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4">Our Latest Conversations</h2>
+        <p class="text-gray-500 mt-3 text-sm">Dive into real stories, street interviews, and teachings that stay with you.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div class="group cursor-pointer">
+            <div class="relative overflow-hidden rounded-2xl mb-3 md:mb-4">
+                <img src="image/DAF TV-7.jpg" class="w-full h-36 md:h-48 object-cover transform group-hover:scale-105 transition duration-500">
+                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-purple-600 text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full uppercase">Street</span>
+            </div>
+            <h4 class="font-medium text-xs md:text-sm tracking-wide group-hover:text-purple-600 transition leading-snug">Does God Really Exist? — Street Answers</h4>
+            <div class="flex items-center gap-3 mt-1.5 text-[10px] md:text-xs text-gray-400">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-eye"></i> 142k</span>
+                <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8:24</span>
+            </div>
+        </div>
+        <div class="group cursor-pointer">
+            <div class="relative overflow-hidden rounded-2xl mb-3 md:mb-4">
+                <img src="image/DAF TV-1.jpg" class="w-full h-36 md:h-48 object-cover transform group-hover:scale-105 transition duration-500">
+                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-purple-600 text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full uppercase">Reflect</span>
+            </div>
+            <h4 class="font-medium text-xs md:text-sm tracking-wide group-hover:text-purple-600 transition leading-snug">Finding Purpose After Losing Everything</h4>
+            <div class="flex items-center gap-3 mt-1.5 text-[10px] md:text-xs text-gray-400">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-eye"></i> 142k</span>
+                <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8:24</span>
+            </div>
+        </div>
+        <div class="group cursor-pointer">
+            <div class="relative overflow-hidden rounded-2xl mb-3 md:mb-4">
+                <img src="image/DAF TV-2.jpg" class="w-full h-36 md:h-48 object-cover transform group-hover:scale-105 transition duration-500">
+                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-blue-500 text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full uppercase">Teach</span>
+            </div>
+            <h4 class="font-medium text-xs md:text-sm tracking-wide group-hover:text-purple-600 transition leading-snug">What Islam Actually Says About Mental Health</h4>
+            <div class="flex items-center gap-3 mt-1.5 text-[10px] md:text-xs text-gray-400">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-eye"></i> 142k</span>
+                <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8:24</span>
+            </div>
+        </div>
+        <div class="group cursor-pointer">
+            <div class="relative overflow-hidden rounded-2xl mb-3 md:mb-4">
+                <img src="image/DAF TV-5.jpg" class="w-full h-36 md:h-48 object-cover transform group-hover:scale-105 transition duration-500">
+                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-pink-500 text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full uppercase">Event</span>
+            </div>
+            <h4 class="font-medium text-xs md:text-sm tracking-wide group-hover:text-purple-600 transition leading-snug">The Encounter 2025 — Full Highlights</h4>
+            <div class="flex items-center gap-3 mt-1.5 text-[10px] md:text-xs text-gray-400">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-eye"></i> 142k</span>
+                <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8:24</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-10 md:mt-12">
+        <a href="media.html" class="inline-block border border-purple-600 text-purple-600 font-semibold text-sm px-6 py-2.5 rounded-full hover:bg-purple-600 hover:text-white transition">View All contents →</a>
+    </div>
+</section>
+
+<!-- UPCOMING EVENTS -->
+<section class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-6 md:px-8">
+        <div class="text-center mb-10 md:mb-16">
+            <span class="inline-block text-amber-600 bg-amber-100 font-semibold uppercase tracking-widest text-xs px-4 py-1.5 rounded-full">Get Involved</span>
+            <h2 id="events-heading" class="text-3xl md:text-4xl font-bold mt-4">Upcoming Events</h2>
+        </div>
+        <div id="upcoming-events-container" class="max-w-4xl mx-auto space-y-5 md:space-y-6">
+            <div class="text-center py-10 text-gray-400">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>
+                Loading events...
+            </div>
+        </div>
+        <div class="text-center mt-10 md:mt-12">
+            <a href="event1.html" class="purple-main font-bold hover:underline">View all events →</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="py-12 md:py-20 max-w-7xl mx-auto px-6 md:px-10">
+    <div class="relative overflow-hidden bg-purple-700 rounded-[2.5rem] md:rounded-[3rem] p-10 md:p-20 text-center text-white">
+        <div class="absolute -right-16 -top-16 w-72 h-72 bg-purple-600 rounded-full opacity-50"></div>
+        <div class="absolute -left-10 -bottom-10 w-48 h-48 bg-purple-800 rounded-full opacity-40"></div>
+        <div class="relative z-10">
+            <span class="inline-block text-yellow-400 font-medium uppercase tracking-widest text-xs px-4 py-1.5 rounded-full border border-yellow-400/30 mb-5">Join The Movement</span>
+            <h2 class="text-2xl md:text-5xl font-semibold mb-3 leading-tight">More than a brand.<br>It's a movement.</h2>
+            <p class="text-white/70 mb-8 max-w-md mx-auto text-sm md:text-base">Be part of something bigger — follow us online and attend our events.</p>
+            <div class="flex justify-center gap-3 flex-wrap">
+                <a id="footer-instagram" href="https://www.instagram.com/dfa.tv/" target="_blank"
+                   class="flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full font-medium text-sm hover:bg-yellow-300 transition">
+                    <i class="fa-brands fa-instagram"></i> Follow Us
+                </a>
+                <a href="event1.html"
+                   class="flex items-center gap-2 px-6 py-3 rounded-full font-medium text-sm transition"
+                   style="background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.4);color:white;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+                   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <i class="fa-solid fa-ticket"></i> Attend an Event
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<style>
+.dfa-footer { background: #0f0f0f; color: #e5e5e5; font-family: 'Segoe UI', sans-serif; padding: 3rem 0 1.5rem; }
+.dfa-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.dfa-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.dfa-footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+.dfa-footer-logo-dot { width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #fff; }
+.dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+.dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
+.dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
+.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
+.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; }
+.dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+.dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
+.dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+.dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
+.dfa-footer-col ul li { margin-bottom: 0.6rem; }
+.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+.dfa-footer-col ul li a:hover { color: #fff; }
+.dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
+.dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
+.dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
+.dfa-footer-bottom-links a:hover { color: #9ca3af; }
+@media (max-width: 700px) {
+  .dfa-footer-grid { grid-template-columns: 1fr 1fr; }
+  .dfa-footer-brand { grid-column: 1 / -1; }
+  .dfa-footer-bottom { flex-direction: column; gap: 1rem; }
+}
+</style>
+
+<footer class="dfa-footer">
+  <div class="container">
+    <div class="dfa-footer-grid">
+      <div class="dfa-footer-brand">
+        <div class="dfa-footer-logo">
+          <div class="dfa-footer-logo-dot">DFA</div>
+          <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
+        </div>
+        <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant. Join a growing community of young Muslims navigating life with purpose.</p>
+        <div class="dfa-footer-newsletter">
+          <label>Join our newsletter</label>
+          <div class="dfa-newsletter-row">
+            <input type="email" placeholder="Your email">
+            <button>Subscribe</button>
+          </div>
+          <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+        </div>
+      </div>
+      <div class="dfa-footer-col">
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="media.html">Media</a></li>
+          <li><a href="event1.html">Events</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="dfa-footer-col">
+        <h4 id="footer-col1-heading">YouTube</h4>
+        <ul id="footer-col1-links">
+          <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+          <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+          <li><a href="https://www.facebook.com/dfatv/">facebook</a></li>
+          <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+        </ul>
+      </div>
+      <div class="dfa-footer-col">
+        <h4 id="footer-col2-heading">Contact</h4>
+        <ul id="footer-col2-links">
+          <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+          <li><a href="#">Lagos, Nigeria</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dfa-footer-bottom">
+      <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+      <div class="dfa-footer-bottom-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const API = 'https://dfa-backend-lilj.onrender.com/api/v1';
+
+function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el && val) el.textContent = val;
+}
+function setHref(id, val) {
+    const el = document.getElementById(id);
+    if (el && val) el.href = val;
+}
+
+async function loadWebContent() {
+    try {
+        const res    = await fetch(`${API}/content/web-content`);
+        const result = await res.json();
+        const c      = result.data.content;
+
+        // Hero
+        if (c.hero) {
+            if (c.hero.headline) {
+                const parts = c.hero.headline.split(',');
+                if (parts.length >= 3) {
+                    document.getElementById('hero-headline').innerHTML =
+                        `${parts[0]}.<br><span class="text-yellow-400">${parts[1].trim()}.</span><br>${parts[2].trim()}.`;
+                } else {
+                    setText('hero-headline', c.hero.headline);
+                }
+            }
+            setText('hero-description',     c.hero.description);
+            setText('hero-primary-label',   c.hero.primaryLabel);
+            setText('hero-secondary-label', c.hero.secondaryLabel);
+            if (c.hero.primaryUrl)   setHref('hero-primary-btn',   c.hero.primaryUrl);
+            if (c.hero.secondaryUrl) setHref('hero-secondary-btn', c.hero.secondaryUrl);
+        }
+
+        // About
+        if (c.about) {
+            setText('about-headline',  c.about.headline);
+            setText('about-maintext',  c.about.mainText);
+            setText('stat-views',      c.about.statViews);
+            setText('stat-content',    c.about.statContent);
+            setText('stat-community',  c.about.statCommunity);
+        }
+
+        // What We Do
+        if (c.whatWeDo) {
+            setText('whatwedo-heading',    c.whatWeDo.heading);
+            setText('whatwedo-subheading', c.whatWeDo.subHeading);
+            setText('pillar1-title', c.whatWeDo.pillar1Title);
+            setText('pillar1-desc',  c.whatWeDo.pillar1Desc);
+            setText('pillar2-title', c.whatWeDo.pillar2Title);
+            setText('pillar2-desc',  c.whatWeDo.pillar2Desc);
+            setText('pillar3-title', c.whatWeDo.pillar3Title);
+            setText('pillar3-desc',  c.whatWeDo.pillar3Desc);
+            if (c.whatWeDo.pillar1Icon) {
+                const el = document.getElementById('pillar1-icon');
+                if (el) el.className = `fa-solid ${c.whatWeDo.pillar1Icon} text-purple-600 text-lg`;
+            }
+            if (c.whatWeDo.pillar2Icon) {
+                const el = document.getElementById('pillar2-icon');
+                if (el) el.className = `fa-solid ${c.whatWeDo.pillar2Icon} text-yellow-600 text-lg`;
+            }
+            if (c.whatWeDo.pillar3Icon) {
+                const el = document.getElementById('pillar3-icon');
+                if (el) el.className = `fa-solid ${c.whatWeDo.pillar3Icon} text-green-600 text-lg`;
+            }
+        }
+
+        // Events heading
+        if (c.content) setText('events-heading', c.content.eventsHeading);
+
+        // Footer
+        if (c.footer) {
+            setText('footer-brand-name',   c.footer.brandName);
+            setText('footer-description',  c.footer.description);
+            setText('footer-copyright',    c.footer.copyright);
+            setText('footer-col1-heading', c.footer.col1Heading);
+            setText('footer-col2-heading', c.footer.col2Heading);
+            if (c.footer.instagram) setHref('footer-instagram', c.footer.instagram);
+            if (c.footer.col1Links) {
+                const col1 = document.getElementById('footer-col1-links');
+                if (col1) col1.innerHTML = c.footer.col1Links.split('\n')
+                    .filter(l => l.includes('|'))
+                    .map(l => { const [label, url] = l.split('|'); return `<li><a href="${url}">${label}</a></li>`; }).join('');
+            }
+            if (c.footer.col2Links) {
+                const col2 = document.getElementById('footer-col2-links');
+                if (col2) col2.innerHTML = c.footer.col2Links.split('\n')
+                    .filter(l => l.includes('|'))
+                    .map(l => { const [label, url] = l.split('|'); return `<li><a href="${url}">${label}</a></li>`; }).join('');
+            }
+        }
+    } catch(err) {
+        console.log('Could not load web content:', err);
+    }
+}
+
+async function loadUpcomingEvents() {
+    try {
+        const response = await fetch(`${API}/events`);
+        const result   = await response.json();
+        const events   = result.data.events;
+        const container = document.getElementById('upcoming-events-container');
+        container.innerHTML = '';
+        const upcoming = events.filter(e => new Date(e.date) >= new Date()).slice(0, 2);
+        if (upcoming.length === 0) {
+            container.innerHTML = `<div class="text-center py-10 text-gray-400"><i class="fa-solid fa-calendar-xmark text-3xl mb-3 block"></i><p>No upcoming events right now. Check back soon!</p></div>`;
+            return;
+        }
+        upcoming.forEach(event => {
+            const formattedDate = new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const firstTier = event.ticketTiers?.[0];
+            container.innerHTML += `
+            <div class="bg-white p-5 md:p-6 rounded-3xl flex flex-col md:flex-row gap-5 md:gap-8 items-start md:items-center border border-gray-100">
+                <img src="${event.bannerImage}" class="w-full md:w-64 h-44 md:h-40 object-cover rounded-2xl">
+                <div class="flex-1">
+                    <div class="flex gap-2 mb-2">
+                        <span class="bg-purple-100 purple-main text-[10px] font-bold px-2 py-1 rounded uppercase">${firstTier?.name || 'Ticket'}</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">${event.title}</h3>
+                    <p class="text-sm text-gray-500 mb-3 md:mb-4 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                        <span><i class="fa-regular fa-calendar mr-2"></i>${formattedDate}</span>
+                        <span><i class="fa-solid fa-location-dot mr-2"></i>${event.location}</span>
+                    </p>
+                    <a href="event_details.html?id=${event._id}" class="purple-main font-bold text-sm hover:underline">See Details →</a>
+                </div>
+            </div>`;
+        });
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+loadWebContent();
+loadUpcomingEvents();
+</script>
+</body>
+</html>
