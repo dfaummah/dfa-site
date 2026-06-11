@@ -170,8 +170,9 @@
     let currentEvent = null;
 
     // ── Go to checkout ────────────────────────────────────────────────────────
-    function selectTicket(tierId, tierName, tierPrice) {
-        const url = `checkout.html?eventId=${currentEvent._id}&eventTitle=${encodeURIComponent(currentEvent.title)}&tierId=${tierId}&tier=${encodeURIComponent(tierName)}&price=${tierPrice}`;
+    // ✅ FIXED: Pass ticketType (category) not just tier name
+    function selectTicket(tierId, tierName, ticketType, tierPrice) {
+        const url = `checkout.html?eventId=${currentEvent._id}&eventTitle=${encodeURIComponent(currentEvent.title)}&tierId=${tierId}&tier=${encodeURIComponent(tierName)}&ticketType=${encodeURIComponent(ticketType)}&price=${tierPrice}`;
         window.location.href = url;
     }
 
@@ -214,14 +215,14 @@
                     ticketHTML += `
                     <div class="ticket-card">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                            <span style="font-weight:700;font-size:15px;">${ticket.ticketName}</span>
+                            <span style="font-weight:700;font-size:15px;">${ticket.ticketName || ticket.name}</span>
                             <span style="color:#8B5CF6;font-weight:800;font-size:16px;">₦${Number(ticket.price).toLocaleString()}</span>
                         </div>
                         <div style="margin-bottom:12px;">${availHTML}</div>
                         <button
                             class="select-btn"
                             ${soldOut ? 'disabled' : ''}
-                            onclick="selectTicket('${ticket._id}', '${ticket.ticketName}', ${ticket.price})"
+                            onclick="selectTicket('${ticket._id}', '${ticket.ticketName || ticket.name}', '${ticket.ticketType}', ${ticket.price})"
                         >
                             ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> Select Ticket →'}
                         </button>
