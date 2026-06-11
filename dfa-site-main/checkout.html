@@ -45,13 +45,13 @@
 
     <main class="max-w-2xl mx-auto py-12 px-6">
         <!-- Step indicator -->
-        <div class="flex items-center gap-2 mb-10">
+        <div class="flex items-center gap-2 mb-10 flex-wrap">
             <div class="step done"><div class="step-num"><i class="fa-solid fa-check" style="font-size:8px;"></i></div> Select Ticket</div>
-            <div class="step-line"></div>
+            <div class="step-line hidden sm:block"></div>
             <div class="step active"><div class="step-num">2</div> Your Details</div>
-            <div class="step-line"></div>
+            <div class="step-line hidden sm:block"></div>
             <div class="step idle"><div class="step-num">3</div> Payment</div>
-            <div class="step-line"></div>
+            <div class="step-line hidden sm:block"></div>
             <div class="step idle"><div class="step-num">4</div> Confirmation</div>
         </div>
 
@@ -110,6 +110,12 @@
                         <option value="3">3 tickets</option>
                         <option value="4">4 tickets</option>
                         <option value="5">5 tickets</option>
+                        <option value="10">10 tickets</option>
+                        <option value="15">15 tickets</option>
+                        <option value="20">20 tickets</option>
+                        <option value="25">25 tickets</option>
+                        <option value="30">30 tickets</option>
+                        <option value="50">50 tickets</option>
                     </select>
                 </div>
 
@@ -133,7 +139,7 @@
 
                 <!-- Button -->
                 <button onclick="proceedToPayment()"
-                    style="width:100%;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;"
+                    style="width:100%;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;margin-top:16px;"
                     id="continueBtn">
                     Continue to Payment <i class="fa-solid fa-arrow-right"></i>
                 </button>
@@ -151,12 +157,25 @@
     const tierName   = decodeURIComponent(params.get('tier') || '');
     const tierPrice  = parseFloat(params.get('price') || '0');
 
+    // ✅ FIX: Validate that required params exist
+    if (!eventId || !tierName || !tierPrice) {
+        document.querySelector('main').innerHTML = `
+            <div style="text-align:center;padding:80px 20px;color:#EF4444;">
+                <i class="fa-solid fa-circle-exclamation" style="font-size:36px;margin-bottom:12px;display:block;"></i>
+                <p style="font-size:16px;font-weight:700;margin-bottom:8px;">Invalid Request</p>
+                <p style="font-size:14px;color:#9CA3AF;margin-bottom:20px;">Missing ticket information. Please select a ticket again.</p>
+                <a href="event.html" style="display:inline-block;background:#8B5CF6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">← Back to Events</a>
+            </div>
+        `;
+    }
+
     // Populate summary
     document.getElementById('summaryEvent').textContent  = eventTitle || 'Event';
-    document.getElementById('summaryTicket').textContent = tierName   || 'Standard';
+    document.getElementById('summaryTicket').textContent = tierName   || 'Standard Ticket';
     document.getElementById('summaryPrice').textContent  = '₦' + tierPrice.toLocaleString();
     document.getElementById('totalAmount').textContent   = '₦' + tierPrice.toLocaleString();
 
+    // ✅ FIX: Update total on quantity change
     function updateTotal() {
         const qty   = parseInt(document.getElementById('f_qty').value);
         const total = tierPrice * qty;
@@ -165,40 +184,52 @@
         document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
     }
 
+    // ✅ FIX: Improved validation
     function validate() {
         let ok = true;
         const name  = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
 
-        if (!name) {
+        // Validate name (at least 3 characters)
+        if (!name || name.length < 3) {
             document.getElementById('f_name').classList.add('error');
+            document.getElementById('err_name').textContent = 'Please enter your full name (at least 3 characters)';
             document.getElementById('err_name').style.display = 'block';
             ok = false;
         } else {
             document.getElementById('f_name').classList.remove('error');
             document.getElementById('err_name').style.display = 'none';
         }
-        const emailOk = /^\S+@\S+\.\S+$/.test(email);
+
+        // Validate email format
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         if (!emailOk) {
             document.getElementById('f_email').classList.add('error');
+            document.getElementById('err_email').textContent = 'Please enter a valid email address';
             document.getElementById('err_email').style.display = 'block';
             ok = false;
         } else {
             document.getElementById('f_email').classList.remove('error');
             document.getElementById('err_email').style.display = 'none';
         }
-        if (!phone) {
+
+        // Validate phone (at least 10 digits)
+        const phoneDigits = phone.replace(/\D/g, '');
+        if (!phone || phoneDigits.length < 10) {
             document.getElementById('f_phone').classList.add('error');
+            document.getElementById('err_phone').textContent = 'Please enter a valid WhatsApp number';
             document.getElementById('err_phone').style.display = 'block';
             ok = false;
         } else {
             document.getElementById('f_phone').classList.remove('error');
             document.getElementById('err_phone').style.display = 'none';
         }
+
         return ok;
     }
 
+    // ✅ FIXED: Main checkout handler - sends correct ticketType
     async function proceedToPayment() {
         if (!validate()) return;
 
@@ -214,24 +245,32 @@
         document.getElementById('orderError').style.display = 'none';
 
         try {
-            // ── Create order in backend ───────────────────────────────────────
+            // ✅ CRITICAL FIX: Send ticketType (tier name) exactly as received from event_details
+            const payload = {
+                eventId,
+                buyerDetails: {
+                    name,
+                    email,
+                    whatsapp: phone
+                },
+                ticketType: tierName,  // ✅ This is the ticket tier name (e.g., "VIP Access", "Standard")
+                quantity: qty,
+                attendees: []
+            };
+
+            console.log('📤 Sending checkout request:', payload);
+
             const res = await fetch(`${API}/orders/checkout`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    eventId,
-                    buyerDetails: {
-                        name,
-                        email,
-                        whatsapp: phone
-                    },
-                    ticketType: tierName,
-                    quantity:   qty,
-                    attendees:  []
-                })
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
             });
 
             const result = await res.json();
+
+            console.log('📥 Response:', result);
 
             if (!res.ok) {
                 throw new Error(result.message || 'Failed to create order');
@@ -240,11 +279,19 @@
             const reference  = result.data.paymentReference;
             const totalAmount = result.data.totalAmount;
 
+            console.log('✅ Order created:', reference);
+
             // ── Save order info for payment page ──────────────────────────────
             sessionStorage.setItem('dfa_order', JSON.stringify({
-                eventId, eventTitle, tierName, tierPrice,
-                qty, total: totalAmount,
-                name, email, phone
+                eventId, 
+                eventTitle, 
+                tierName, 
+                tierPrice,
+                qty, 
+                total: totalAmount,
+                name, 
+                email, 
+                phone
             }));
             sessionStorage.setItem('dfa_reference', reference);
 
@@ -252,12 +299,20 @@
             window.location.href = 'payment_gateway.html';
 
         } catch(err) {
+            console.error('❌ Checkout error:', err);
             document.getElementById('orderErrorMsg').textContent = err.message || 'Failed to create order. Please try again.';
             document.getElementById('orderError').style.display = 'block';
             btn.disabled = false;
             btn.innerHTML = 'Continue to Payment <i class="fa-solid fa-arrow-right"></i>';
         }
     }
+
+    // ✅ FIX: Add Enter key support for form submission
+    document.getElementById('f_phone').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            proceedToPayment();
+        }
+    });
 </script>
 </body>
 </html>
