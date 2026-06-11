@@ -10,9 +10,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
         .purple-main { color: #8B5CF6; }
-        .bg-purple-main { background-color: #8B5CF6; }
-
-        /* Step indicator */
         .step { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
         .step.done .step-num   { background: #8B5CF6; color: #fff; }
@@ -22,32 +19,16 @@
         .step.active { color: #8B5CF6; }
         .step.idle  { color: #9CA3AF; }
         .step-line  { width: 32px; height: 1px; background: #E5E7EB; }
-
-        /* Input */
-        .f-input {
-            width: 100%; border: 1.5px solid #E5E7EB; background: #F9FAFB;
-            border-radius: 12px; padding: 12px 16px; font-size: 14px;
-            font-family: inherit; outline: none; transition: border-color .15s;
-            color: #111;
-        }
+        .f-input { width: 100%; border: 1.5px solid #E5E7EB; background: #F9FAFB; border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s; color: #111; }
         .f-input:focus { border-color: #8B5CF6; background: #fff; }
         .f-input::placeholder { color: #9CA3AF; }
         .f-label { display: block; font-size: 10px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-
-        /* Ticket summary card */
-        .ticket-summary {
-            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
-            border-radius: 16px; padding: 20px; color: #fff; margin-bottom: 24px;
-        }
-
-        /* Error */
+        .ticket-summary { background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 16px; padding: 20px; color: #fff; margin-bottom: 24px; }
         .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; display: none; }
         .f-input.error { border-color: #EF4444; }
     </style>
 </head>
 <body>
-
-    <!-- NAV -->
     <nav class="bg-white sticky top-0 z-50 shadow-sm">
         <div class="flex items-center justify-between px-8 py-4">
             <div class="flex items-center gap-2">
@@ -63,7 +44,6 @@
     </nav>
 
     <main class="max-w-2xl mx-auto py-12 px-6">
-
         <!-- Step indicator -->
         <div class="flex items-center gap-2 mb-10">
             <div class="step done"><div class="step-num"><i class="fa-solid fa-check" style="font-size:8px;"></i></div> Select Ticket</div>
@@ -76,7 +56,7 @@
         </div>
 
         <!-- Ticket summary -->
-        <div class="ticket-summary" id="ticketSummary">
+        <div class="ticket-summary">
             <div class="flex justify-between items-start">
                 <div>
                     <div style="font-size:10px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Selected Ticket</div>
@@ -108,7 +88,6 @@
                     <input type="text" class="f-input" id="f_name" placeholder="e.g. Amina Yusuf">
                     <div class="field-error" id="err_name">Please enter your full name</div>
                 </div>
-
                 <div>
                     <label class="f-label">Email Address *</label>
                     <input type="email" class="f-input" id="f_email" placeholder="amina@example.com">
@@ -118,13 +97,11 @@
                         Your QR code ticket will be sent here
                     </div>
                 </div>
-
                 <div>
                     <label class="f-label">WhatsApp Number *</label>
                     <input type="tel" class="f-input" id="f_phone" placeholder="+234 800 000 0000">
                     <div class="field-error" id="err_phone">Please enter your WhatsApp number</div>
                 </div>
-
                 <div>
                     <label class="f-label">Quantity</label>
                     <select class="f-input" id="f_qty" onchange="updateTotal()">
@@ -142,10 +119,16 @@
                     <span style="font-size:20px;font-weight:800;color:#8B5CF6;" id="totalAmount">₦0</span>
                 </div>
 
+                <!-- Error message -->
+                <div id="orderError" style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px 14px;font-size:12px;color:#9F1239;display:none;">
+                    <i class="fa-solid fa-circle-exclamation" style="margin-right:6px;"></i>
+                    <span id="orderErrorMsg">Something went wrong.</span>
+                </div>
+
                 <!-- Info -->
                 <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400E;">
                     <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
-                    Your information is secure. You'll be redirected to a secure payment page after this step.
+                    Your information is secure. You'll be redirected to our bank transfer payment page.
                 </div>
 
                 <!-- Button -->
@@ -188,7 +171,6 @@
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
 
-        // Name
         if (!name) {
             document.getElementById('f_name').classList.add('error');
             document.getElementById('err_name').style.display = 'block';
@@ -197,8 +179,6 @@
             document.getElementById('f_name').classList.remove('error');
             document.getElementById('err_name').style.display = 'none';
         }
-
-        // Email
         const emailOk = /^\S+@\S+\.\S+$/.test(email);
         if (!emailOk) {
             document.getElementById('f_email').classList.add('error');
@@ -208,8 +188,6 @@
             document.getElementById('f_email').classList.remove('error');
             document.getElementById('err_email').style.display = 'none';
         }
-
-        // Phone
         if (!phone) {
             document.getElementById('f_phone').classList.add('error');
             document.getElementById('err_phone').style.display = 'block';
@@ -218,27 +196,67 @@
             document.getElementById('f_phone').classList.remove('error');
             document.getElementById('err_phone').style.display = 'none';
         }
-
         return ok;
     }
 
-    function proceedToPayment() {
+    async function proceedToPayment() {
         if (!validate()) return;
 
         const name  = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
-        const qty   = document.getElementById('f_qty').value;
-        const total = tierPrice * parseInt(qty);
+        const qty   = parseInt(document.getElementById('f_qty').value);
+        const total = tierPrice * qty;
 
-        // Save to sessionStorage so payment page can read it
-        sessionStorage.setItem('dfa_order', JSON.stringify({
-            eventId, eventTitle, tierName, tierPrice, qty, total,
-            name, email, phone
-        }));
+        const btn = document.getElementById('continueBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating order...';
+        document.getElementById('orderError').style.display = 'none';
 
-        // Go to payment page
-        window.location.href = 'payment_gateway.html';
+        try {
+            // ── Create order in backend ───────────────────────────────────────
+            const res = await fetch(`${API}/orders/checkout`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    eventId,
+                    buyerDetails: {
+                        name,
+                        email,
+                        whatsapp: phone
+                    },
+                    ticketType: tierName,
+                    quantity:   qty,
+                    attendees:  []
+                })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                throw new Error(result.message || 'Failed to create order');
+            }
+
+            const reference  = result.data.paymentReference;
+            const totalAmount = result.data.totalAmount;
+
+            // ── Save order info for payment page ──────────────────────────────
+            sessionStorage.setItem('dfa_order', JSON.stringify({
+                eventId, eventTitle, tierName, tierPrice,
+                qty, total: totalAmount,
+                name, email, phone
+            }));
+            sessionStorage.setItem('dfa_reference', reference);
+
+            // ── Go to payment page ────────────────────────────────────────────
+            window.location.href = 'payment_gateway.html';
+
+        } catch(err) {
+            document.getElementById('orderErrorMsg').textContent = err.message || 'Failed to create order. Please try again.';
+            document.getElementById('orderError').style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = 'Continue to Payment <i class="fa-solid fa-arrow-right"></i>';
+        }
     }
 </script>
 </body>
