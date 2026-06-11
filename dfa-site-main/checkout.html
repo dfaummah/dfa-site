@@ -151,14 +151,18 @@
     const API = 'https://dfaummah-server.onrender.com/api/v1';
 
     // Read ticket data from URL params
-    const params     = new URLSearchParams(window.location.search);
-    const eventId    = params.get('eventId');
-    const eventTitle = decodeURIComponent(params.get('eventTitle') || '');
-    const tierName   = decodeURIComponent(params.get('tier') || '');
-    const tierPrice  = parseFloat(params.get('price') || '0');
+    const params       = new URLSearchParams(window.location.search);
+    const eventId      = params.get('eventId');
+    const eventTitle   = decodeURIComponent(params.get('eventTitle') || '');
+    const tierId       = params.get('tierId');
+    const tierName     = decodeURIComponent(params.get('tier') || '');
+    const ticketType   = decodeURIComponent(params.get('ticketType') || '');  // ✅ ADD: Get ticketType from URL
+    const tierPrice    = parseFloat(params.get('price') || '0');
+
+    console.log('📋 Checkout Params:', { eventId, tierName, ticketType, tierPrice });
 
     // ✅ FIX: Validate that required params exist
-    if (!eventId || !tierName || !tierPrice) {
+    if (!eventId || !tierName || !ticketType || !tierPrice) {
         document.querySelector('main').innerHTML = `
             <div style="text-align:center;padding:80px 20px;color:#EF4444;">
                 <i class="fa-solid fa-circle-exclamation" style="font-size:36px;margin-bottom:12px;display:block;"></i>
@@ -229,7 +233,7 @@
         return ok;
     }
 
-    // ✅ FIXED: Main checkout handler - sends correct ticketType
+    // ✅ FIXED: Main checkout handler - sends ticketType (category)
     async function proceedToPayment() {
         if (!validate()) return;
 
@@ -245,7 +249,7 @@
         document.getElementById('orderError').style.display = 'none';
 
         try {
-            // ✅ CRITICAL FIX: Send ticketType (tier name) exactly as received from event_details
+            // ✅ CRITICAL FIX: Send ticketType (category like "VIP", "Standard") not tierName
             const payload = {
                 eventId,
                 buyerDetails: {
@@ -253,7 +257,7 @@
                     email,
                     whatsapp: phone
                 },
-                ticketType: tierName,  // ✅ This is the ticket tier name (e.g., "VIP Access", "Standard")
+                ticketType: ticketType,  // ✅ Send the CATEGORY (e.g., "VIP", "Standard", "Group Pass")
                 quantity: qty,
                 attendees: []
             };
@@ -286,6 +290,7 @@
                 eventId, 
                 eventTitle, 
                 tierName, 
+                ticketType,
                 tierPrice,
                 qty, 
                 total: totalAmount,
