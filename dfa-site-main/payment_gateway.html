@@ -108,7 +108,7 @@
                     <div style="font-size:10px;opacity:.6;margin-bottom:3px;">Account Name</div>
                     <div style="font-size:16px;font-weight:700;">DFA Media Ltd</div>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                     <div>
                         <div style="font-size:10px;opacity:.6;margin-bottom:3px;">Account Number</div>
                         <div style="font-size:30px;font-weight:900;letter-spacing:4px;" id="account-number">4254716824</div>
@@ -117,6 +117,17 @@
                         <i class="fa-solid fa-copy"></i> Copy
                     </button>
                 </div>
+
+                <!-- ✅ ORDER ID SECTION -->
+                <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:16px;margin-top:16px;">
+                    <div style="font-size:10px;opacity:.6;margin-bottom:6px;">Order ID (Narration)</div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px 12px;">
+                        <div style="font-size:18px;font-weight:900;letter-spacing:2px;font-family:monospace;flex:1;" id="order-id-display">ORD-...</div>
+                        <button class="copy-btn" id="copyOrderIdBtn" onclick="copyOrderId()" style="margin-left:8px;">
+                            <i class="fa-solid fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Reference warning -->
@@ -124,15 +135,12 @@
                 <div style="display:flex;align-items:flex-start;gap:10px;">
                     <i class="fa-solid fa-triangle-exclamation" style="color:#F97316;margin-top:2px;flex-shrink:0;font-size:14px;"></i>
                     <div>
-                        <div style="font-size:13px;font-weight:700;color:#C2410C;margin-bottom:4px;">Include this in your transfer narration</div>
-                        <div style="font-size:11px;color:#9A3412;line-height:1.5;margin-bottom:8px;">
-                            Add your Order ID as the <strong>narration/description</strong> when making the transfer — this is how we match your payment.
-                        </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;background:#FEF3C7;border-radius:8px;padding:8px 12px;">
-                            <span style="font-size:13px;font-weight:800;font-family:monospace;color:#92400E;" id="ref-display">ORD-...</span>
-                            <button onclick="copyRef()" style="background:rgba(217,119,6,0.15);border:1px solid rgba(217,119,6,0.3);color:#92400E;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;" id="copyRefBtn">
-                                <i class="fa-solid fa-copy"></i> Copy
-                            </button>
+                        <div style="font-size:13px;font-weight:700;color:#C2410C;margin-bottom:4px;">✅ How to Complete Payment</div>
+                        <div style="font-size:11px;color:#9A3412;line-height:1.6;">
+                            <strong>Step 1:</strong> Use the account details above<br>
+                            <strong>Step 2:</strong> Send exactly <strong id="instruction-amount">₦0</strong><br>
+                            <strong>Step 3:</strong> Enter your <strong>Order ID</strong> in the transfer narration/reference<br>
+                            <strong>Step 4:</strong> Click "I've Made the Payment" below
                         </div>
                     </div>
                 </div>
@@ -274,8 +282,9 @@
     document.getElementById('summary-buyer').textContent  = order.name || '';
     document.getElementById('summary-amount').textContent = '₦' + Number(order.total || 0).toLocaleString();
     document.getElementById('summary-ref').textContent    = 'REF: ' + reference;
-    document.getElementById('ref-display').textContent    = reference;
+    document.getElementById('order-id-display').textContent = reference;  // ✅ Display Order ID
     document.getElementById('exact-amount').textContent   = '₦' + Number(order.total || 0).toLocaleString();
+    document.getElementById('instruction-amount').textContent = '₦' + Number(order.total || 0).toLocaleString();
     document.getElementById('success-email').textContent  = order.email || '';
 
     // ── Copy helpers ──────────────────────────────────────────────────────────
@@ -287,11 +296,14 @@
         btn.innerHTML = '✓ Copied!';
         setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
     }
-    function copyRef() {
+
+    // ✅ NEW: Copy Order ID function
+    function copyOrderId() {
         navigator.clipboard.writeText(reference).catch(() => {});
-        const btn = document.getElementById('copyRefBtn');
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
+        const btn = document.getElementById('copyOrderIdBtn');
+        btn.classList.add('copied');
+        btn.innerHTML = '✓ Copied!';
+        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
     }
 
     // ── Show screen ───────────────────────────────────────────────────────────
