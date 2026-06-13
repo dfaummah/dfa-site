@@ -55,6 +55,13 @@
     .ticket-card:not(.featured) .ticket-btn { background:#F5F3FF;color:#8B5CF6; }
     .ticket-card.featured .ticket-btn { background:#FBBF24;color:#000; }
     .ticket-btn:hover { opacity:.85; }
+
+    /* ── Video Category Colors ── */
+    .cat-all { background-color: #8B5CF6; }
+    .cat-street { background-color: #3B82F6; }
+    .cat-teachings { background-color: #10B981; }
+    .cat-reflections { background-color: #EC4899; }
+    .cat-moments { background-color: #F59E0B; }
     </style>
 </head>
 <body class="bg-white text-gray-900">
@@ -462,50 +469,10 @@
             <h2 class="text-3xl md:text-4xl font-bold mt-2">Our Latest Conversations</h2>
             <p class="text-gray-500 mt-3 text-sm">Dive into real stories, street interviews, and teachings that stay with you.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden rounded-2xl mb-3">
-                    <img src="image/DAF TV-7.jpg" class="w-full h-36 md:h-48 object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-2 left-2 bg-purple-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Street</span>
-                </div>
-                <h4 class="font-medium text-xs md:text-sm group-hover:text-purple-600 transition leading-snug">Does God Really Exist? — Street Answers</h4>
-                <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-1"></i>142k</span>
-                    <span><i class="fa-regular fa-clock mr-1"></i>8:24</span>
-                </div>
-            </div>
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden rounded-2xl mb-3">
-                    <img src="image/DAF TV-1.jpg" class="w-full h-36 md:h-48 object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-2 left-2 bg-purple-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Reflect</span>
-                </div>
-                <h4 class="font-medium text-xs md:text-sm group-hover:text-purple-600 transition leading-snug">Finding Purpose After Losing Everything</h4>
-                <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-1"></i>98k</span>
-                    <span><i class="fa-regular fa-clock mr-1"></i>12:07</span>
-                </div>
-            </div>
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden rounded-2xl mb-3">
-                    <img src="image/DAF TV-2.jpg" class="w-full h-36 md:h-48 object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-2 left-2 bg-blue-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Teach</span>
-                </div>
-                <h4 class="font-medium text-xs md:text-sm group-hover:text-purple-600 transition leading-snug">What Islam Actually Says About Mental Health</h4>
-                <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-1"></i>75k</span>
-                    <span><i class="fa-regular fa-clock mr-1"></i>15:32</span>
-                </div>
-            </div>
-            <div class="group cursor-pointer">
-                <div class="relative overflow-hidden rounded-2xl mb-3">
-                    <img src="image/DAF TV-5.jpg" class="w-full h-36 md:h-48 object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute top-2 left-2 bg-pink-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Event</span>
-                </div>
-                <h4 class="font-medium text-xs md:text-sm group-hover:text-purple-600 transition leading-snug">The Encounter 2025 — Full Highlights</h4>
-                <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-1"></i>210k</span>
-                    <span><i class="fa-regular fa-clock mr-1"></i>22:15</span>
-                </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="latest-videos-grid">
+            <div class="col-span-4 text-center py-10 text-gray-400">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>
+                Loading videos...
             </div>
         </div>
         <div class="text-center mt-10">
@@ -652,8 +619,71 @@
 <script>
 const API = 'https://dfaummah-server.onrender.com/api/v1';
 
+const catColors = {
+    'All':            'cat-all',
+    'Street Interview': 'cat-street',
+    'Teachings':      'cat-teachings',
+    'Reflections':    'cat-reflections',
+    'Every Moments':  'cat-moments',
+};
+
 function setText(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
 function setHref(id, val) { const el = document.getElementById(id); if (el && val) el.href = val; }
+
+function getYoutubeId(url) {
+    if (!url) return null;
+    const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    return match ? match[1] : null;
+}
+
+function getYoutubeThumb(url) {
+    const id = getYoutubeId(url);
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+}
+
+function getYoutubeWatchUrl(url) {
+    const id = getYoutubeId(url);
+    return id ? `https://www.youtube.com/watch?v=${id}` : (url || '#');
+}
+
+async function loadLatestVideos() {
+    try {
+        const res = await fetch(`${API}/content/videos?publishedOnly=true`);
+        const result = await res.json();
+        const videos = result.data?.videos || [];
+        const grid = document.getElementById('latest-videos-grid');
+
+        if (videos.length === 0) {
+            grid.innerHTML = '<div class="col-span-4 text-center py-10 text-gray-400"><i class="fa-solid fa-film text-2xl mb-3 block"></i>No videos available</div>';
+            return;
+        }
+
+        grid.innerHTML = videos.slice(0, 4).map(v => {
+            const thumb = getYoutubeThumb(v.youtubeUrl) || 'image/DAF TV-7.jpg';
+            const watchUrl = getYoutubeWatchUrl(v.youtubeUrl);
+            const colorClass = catColors[v.category] || 'cat-all';
+            
+            return `
+            <a href="${watchUrl}" target="_blank" class="group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-3">
+                    <img src="${thumb}" class="w-full h-36 md:h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center pl-0.5">
+                            <i class="fa-solid fa-play text-purple-600 text-sm"></i>
+                        </div>
+                    </div>
+                    <span class="absolute top-2 left-2 ${colorClass} text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${v.category || 'General'}</span>
+                </div>
+                <h4 class="font-medium text-xs md:text-sm group-hover:text-purple-600 transition leading-snug">${v.title}</h4>
+                <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
+                    <span><i class="fa-brands fa-youtube mr-1"></i>Watch</span>
+                </div>
+            </a>`;
+        }).join('');
+    } catch (err) {
+        console.log('Failed to load videos:', err);
+    }
+}
 
 async function loadWebContent() {
     try {
@@ -755,6 +785,7 @@ async function loadUpcomingEvents() {
 }
 
 loadWebContent();
+loadLatestVideos();
 loadUpcomingEvents();
 </script>
 </body>
