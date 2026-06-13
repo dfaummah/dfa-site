@@ -115,12 +115,10 @@
     </nav>
 
     <script>
-        // Mobile menu toggle
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
         btn.addEventListener('click', () => menu.classList.toggle('hidden'));
 
-        // Active nav link
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         document.querySelectorAll('.nav-link').forEach(link => {
             if (link.dataset.page === currentPage) {
@@ -141,24 +139,24 @@
     </section>
 
     <!-- FEATURED VIDEO -->
-    <section class="featured-section py-10 md:py-20 container mx-auto px-8">
+    <section class="featured-section py-10 md:py-20 container mx-auto px-8" id="featured-section">
         <div class="featured-card bg-white rounded-3xl overflow-hidden border border-gray-100 flex flex-col md:flex-row items-center gap-6 md:gap-8 p-6 shadow-sm">
-            <div class="thumb w-full md:w-1/2 relative group cursor-pointer rounded-2xl overflow-hidden h-56 md:h-80">
-                <img src="image/DAF TV-7.jpg" class="w-full h-full object-cover">
+            <div class="thumb w-full md:w-1/2 relative group cursor-pointer rounded-2xl overflow-hidden h-56 md:h-80" id="featured-thumb-wrap">
+                <img id="featured-thumb" src="image/DAF TV-7.jpg" class="w-full h-full object-cover">
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="w-14 h-14 md:w-16 md:h-16 bg-purple-500 text-white rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition">
                         <i class="fa-solid fa-play text-xl md:text-2xl"></i>
                     </div>
                 </div>
-                <span class="absolute bottom-3 left-3 bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Watch Series</span>
+                <span class="absolute bottom-3 left-3 bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase" id="featured-category">Watch Series</span>
             </div>
             <div class="w-full md:w-1/2">
                 <span class="purple-main font-bold uppercase tracking-widest text-xs">New Series</span>
-                <h2 class="text-2xl md:text-3xl font-bold mt-2 mb-3 md:mb-4 leading-snug">Does God Really Exist? — Street Answers</h2>
-                <p class="text-gray-500 text-sm md:text-base mb-4 md:mb-6">We take to the streets of Lagos to ask one of life's biggest questions. The answers might surprise you.</p>
+                <h2 class="text-2xl md:text-3xl font-bold mt-2 mb-3 md:mb-4 leading-snug" id="featured-title">Does God Really Exist? — Street Answers</h2>
+                <p class="text-gray-500 text-sm md:text-base mb-4 md:mb-6" id="featured-desc">We take to the streets of Lagos to ask one of life's biggest questions. The answers might surprise you.</p>
                 <div class="flex gap-6 text-sm text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-2"></i>12k views</span>
-                    <span><i class="fa-regular fa-clock mr-2"></i>15:20</span>
+                    <span><i class="fa-solid fa-eye mr-2"></i>New</span>
+                    <span><i class="fa-brands fa-youtube mr-2"></i>Watch on YouTube</span>
                 </div>
             </div>
         </div>
@@ -172,74 +170,20 @@
                 <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">All Videos</h2>
                 <div class="filter-tabs flex gap-3 mt-6 overflow-x-auto pb-2 justify-start md:justify-center px-1" style="-webkit-overflow-scrolling:touch; scrollbar-width:none;">
                     <button class="bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0">All</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Street Interviews</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Street Interview</button>
                     <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Teachings</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Reflections</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Documentary</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Events</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Testimonies</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Devotional</button>
                 </div>
             </div>
-            <div class="video-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" id="video-grid"></div>
+            <div class="video-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" id="video-grid">
+                <p class="col-span-4 text-center text-gray-400 py-12">
+                    <i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading videos...
+                </p>
+            </div>
         </div>
     </section>
-
-    <!-- SINGLE SCRIPT — no duplicates -->
-    <script>
-        const videos = [
-            { title: "Does God Really Exist?", tag: "Street Interviews", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
-            { title: "Finding Purpose After Loss", tag: "Reflections", color: "bg-pink-500", image: "image/DAF TV-2.jpg" },
-            { title: "Islam and Mental Health", tag: "Teachings", color: "bg-blue-500", image: "image/DAF TV-7.jpg" },
-            { title: "The Encounter 2025 Highlights", tag: "Documentary", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
-            { title: "Finding Purpose Part 2", tag: "Reflections", color: "bg-pink-500", image: "image/DAF TV-5.jpg" },
-            { title: "The Encounter 2025 - Full", tag: "Documentary", color: "bg-purple-700", image: "image/DAF TV-2.jpg" },
-            { title: "Street Answers: Marriage", tag: "Street Interviews", color: "bg-purple-500", image: "image/DAF TV-12.jpg" },
-            { title: "Mental Health Q&A", tag: "Teachings", color: "bg-blue-500", image: "image/DAF TV-5.jpg" }
-        ];
-
-        const grid = document.getElementById('video-grid');
-
-        function renderVideos(filter) {
-            const filtered = filter === 'All' ? videos : videos.filter(v => v.tag === filter);
-            grid.innerHTML = '';
-            if (filtered.length === 0) {
-                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-12">No videos found.</p>';
-                return;
-            }
-            filtered.forEach(v => {
-                grid.innerHTML += `
-                    <div class="group cursor-pointer">
-                        <div class="video-thumb relative overflow-hidden rounded-xl mb-3 h-36 md:h-48 bg-gray-200">
-                            <img src="${v.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center pl-0.5">
-                                    <i class="fa-solid fa-play text-purple-600 text-sm"></i>
-                                </div>
-                            </div>
-                            <span class="absolute top-2 left-2 ${v.color} text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${v.tag}</span>
-                        </div>
-                        <h4 class="font-bold text-xs md:text-sm leading-snug">${v.title}</h4>
-                        <div class="flex gap-3 text-[10px] text-gray-400 mt-1.5">
-                            <span><i class="fa-solid fa-eye mr-1"></i>4.2k</span>
-                            <span><i class="fa-regular fa-clock mr-1"></i>12:45</span>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Render all on load
-        renderVideos('All');
-
-        // Filter tab interaction
-        document.querySelectorAll('.filter-tabs button').forEach(tabBtn => {
-            tabBtn.addEventListener('click', function () {
-                document.querySelectorAll('.filter-tabs button').forEach(b => {
-                    b.className = 'bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0';
-                });
-                this.className = 'bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0';
-                renderVideos(this.textContent.trim());
-            });
-        });
-    </script>
 
     <!-- GALLERY: MOMENTS THAT MATTER -->
     <section class="gallery-section py-16 md:py-24 container mx-auto px-4 md:px-8">
@@ -340,6 +284,106 @@
             </div>
         </div>
     </footer>
+
+    <!-- ══ VIDEOS FROM BACKEND ══ -->
+    <script>
+        const API = 'https://dfa-backend-lilj.onrender.com/api/v1';
+
+        const catColors = {
+            'Street Interview': 'bg-purple-500',
+            'Teachings':        'bg-blue-500',
+            'Events':           'bg-purple-700',
+            'Testimonies':      'bg-pink-500',
+            'Devotional':       'bg-amber-500',
+        };
+
+        let videos = [];
+
+        function getYoutubeId(url) {
+            if (!url) return null;
+            const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+            return match ? match[1] : null;
+        }
+        function getYoutubeThumb(url) {
+            const id = getYoutubeId(url);
+            return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+        }
+        function getYoutubeWatchUrl(url) {
+            const id = getYoutubeId(url);
+            return id ? `https://www.youtube.com/watch?v=${id}` : (url || '#');
+        }
+
+        const grid = document.getElementById('video-grid');
+
+        function renderFeatured() {
+            const wrap = document.getElementById('featured-section');
+            if (videos.length === 0) { wrap.style.display = 'none'; return; }
+            const v = videos[0];
+            const thumb = getYoutubeThumb(v.youtubeUrl) || 'image/DAF TV-7.jpg';
+            document.getElementById('featured-thumb').src   = thumb;
+            document.getElementById('featured-title').textContent = v.title;
+            document.getElementById('featured-category').textContent = v.category || 'Watch Series';
+            document.getElementById('featured-desc').textContent =
+                `Watch the latest from DFA — "${v.title}". Tap to view on YouTube.`;
+            document.getElementById('featured-thumb-wrap').onclick = () => window.open(getYoutubeWatchUrl(v.youtubeUrl), '_blank');
+        }
+
+        function renderVideos(filter) {
+            const list = filter === 'All' ? videos : videos.filter(v => v.category === filter);
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-12">No videos found.</p>';
+                return;
+            }
+            list.forEach(v => {
+                const thumb = getYoutubeThumb(v.youtubeUrl) || 'image/DAF TV-12.jpg';
+                const color = catColors[v.category] || 'bg-purple-500';
+                const watchUrl = getYoutubeWatchUrl(v.youtubeUrl);
+                grid.innerHTML += `
+                    <a href="${watchUrl}" target="_blank" class="group cursor-pointer">
+                        <div class="video-thumb relative overflow-hidden rounded-xl mb-3 h-36 md:h-48 bg-gray-200">
+                            <img src="${thumb}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center pl-0.5">
+                                    <i class="fa-solid fa-play text-purple-600 text-sm"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-2 left-2 ${color} text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${v.category || 'General'}</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm leading-snug">${v.title}</h4>
+                        <div class="flex gap-3 text-[10px] text-gray-400 mt-1.5">
+                            <span><i class="fa-brands fa-youtube mr-1"></i>Watch</span>
+                        </div>
+                    </a>
+                `;
+            });
+        }
+
+        async function loadVideos() {
+            try {
+                const res    = await fetch(`${API}/content/videos?publishedOnly=true`);
+                const result = await res.json();
+                videos = result.data?.videos || [];
+            } catch(err) {
+                console.log('Failed to load videos:', err);
+                videos = [];
+            }
+            renderFeatured();
+            renderVideos('All');
+        }
+
+        document.querySelectorAll('.filter-tabs button').forEach(tabBtn => {
+            tabBtn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-tabs button').forEach(b => {
+                    b.className = 'bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0';
+                });
+                this.className = 'bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0';
+                renderVideos(this.textContent.trim());
+            });
+        });
+
+        loadVideos();
+    </script>
 
 </body>
 </html>
