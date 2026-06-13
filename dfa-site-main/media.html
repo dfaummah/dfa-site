@@ -151,11 +151,11 @@
                 <span class="absolute bottom-3 left-3 bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase" id="featured-category">Watch Series</span>
             </div>
             <div class="w-full md:w-1/2">
-                <span class="purple-main font-bold uppercase tracking-widest text-xs">New Series</span>
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">Latest</span>
                 <h2 class="text-2xl md:text-3xl font-bold mt-2 mb-3 md:mb-4 leading-snug" id="featured-title">Does God Really Exist? — Street Answers</h2>
                 <p class="text-gray-500 text-sm md:text-base mb-4 md:mb-6" id="featured-desc">We take to the streets of Lagos to ask one of life's biggest questions. The answers might surprise you.</p>
                 <div class="flex gap-6 text-sm text-gray-400">
-                    <span><i class="fa-solid fa-eye mr-2"></i>New</span>
+                    <span><i class="fa-solid fa-eye mr-2"></i>Featured</span>
                     <span><i class="fa-brands fa-youtube mr-2"></i>Watch on YouTube</span>
                 </div>
             </div>
@@ -170,11 +170,10 @@
                 <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">All Videos</h2>
                 <div class="filter-tabs flex gap-3 mt-6 overflow-x-auto pb-2 justify-start md:justify-center px-1" style="-webkit-overflow-scrolling:touch; scrollbar-width:none;">
                     <button class="bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0">All</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Event Highlight</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Tutorial</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Testimonial</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Promo</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Other</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Street Interview</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Teachings</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Reflections</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Every Moments</button>
                 </div>
             </div>
             <div class="video-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" id="video-grid">
@@ -206,10 +205,10 @@
                 <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Want to experience it live?</h2>
                 <p class="mb-6 md:mb-8 opacity-80 text-sm md:text-base max-w-xs md:max-w-none mx-auto">Don't watch from the sidelines. Join our next event and be part of the conversation.</p>
                 <a href="event1.html">
-    <button class="bg-yellow-400 text-black px-7 py-3 rounded-xl font-bold hover:bg-yellow-500 transition text-sm md:text-base">
-        View upcoming events →
-    </button>
-</a>
+                    <button class="bg-yellow-400 text-black px-7 py-3 rounded-xl font-bold hover:bg-yellow-500 transition text-sm md:text-base">
+                        View upcoming events →
+                    </button>
+                </a>
             </div>
             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
         </div>
@@ -275,11 +274,11 @@
         const API = 'https://dfaummah-server.onrender.com/api/v1';
 
         const catColors = {
-            'Event Highlight': 'bg-purple-700',
-            'Tutorial':        'bg-blue-500',
-            'Testimonial':     'bg-pink-500',
-            'Promo':           'bg-purple-500',
-            'Other':           'bg-amber-500',
+            'All':            'bg-purple-700',
+            'Street Interview': 'bg-blue-500',
+            'Teachings':      'bg-green-500',
+            'Reflections':    'bg-pink-500',
+            'Every Moments':  'bg-amber-500',
         };
 
         let videos = [];
@@ -307,7 +306,7 @@
             const thumb = getYoutubeThumb(v.youtubeUrl) || 'image/DAF TV-7.jpg';
             document.getElementById('featured-thumb').src   = thumb;
             document.getElementById('featured-title').textContent = v.title;
-            document.getElementById('featured-category').textContent = v.category || 'Watch Series';
+            document.getElementById('featured-category').textContent = v.category || 'Featured';
             document.getElementById('featured-desc').textContent =
                 `Watch the latest from DFA — "${v.title}". Tap to view on YouTube.`;
             document.getElementById('featured-thumb-wrap').onclick = () => window.open(getYoutubeWatchUrl(v.youtubeUrl), '_blank');
@@ -382,7 +381,6 @@
                     return;
                 }
 
-                // Layout pattern: big item every 6, wide item every 6 (positions 0 and 5), normal otherwise
                 grid.innerHTML = items.map((item, i) => {
                     const pos = i % 6;
                     let cls = 'normal-item rounded-2xl overflow-hidden';
@@ -391,7 +389,7 @@
                     const minH = pos === 0 ? 'style="min-height:200px;"' : '';
                     return `
                     <div class="${cls}" ${minH}>
-                        <img src="${item.fileUrl}" alt="${item.title || ''}" class="w-full h-full object-cover" loading="lazy">
+                        <img src="${item.fileUrl}" alt="${item.title || ''}" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition duration-300" loading="lazy" onclick="openGalleryViewer('${item.fileUrl}')">
                     </div>`;
                 }).join('');
             } catch (err) {
@@ -400,8 +398,24 @@
             }
         }
 
+        function openGalleryViewer(src) {
+            const viewer = document.getElementById('galleryViewer');
+            const img = document.getElementById('galleryImage');
+            img.src = src;
+            viewer.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
         loadGallery();
     </script>
+
+    <!-- Gallery Viewer Modal -->
+    <div id="galleryViewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;cursor:pointer;" onclick="this.style.display='none';document.body.style.overflow='';">
+        <img id="galleryImage" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:12px;" onclick="event.stopPropagation()">
+        <button style="position:fixed;top:20px;right:20px;width:40px;height:40px;background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:8px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;" onclick="document.getElementById('galleryViewer').style.display='none';document.body.style.overflow='';">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
 
 </body>
 </html>
