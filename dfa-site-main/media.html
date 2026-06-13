@@ -192,25 +192,10 @@
             <h2 class="text-3xl md:text-4xl font-bold mt-2">Moments That Matter</h2>
             <p class="text-gray-500 mt-2 text-sm md:text-base">Behind the scenes, on the streets, and at the heart of the movement.</p>
         </div>
-        <div class="gallery-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" style="grid-auto-rows: 200px;">
-            <div class="big-item col-span-2 row-span-2 rounded-2xl overflow-hidden" style="height:auto;">
-                <img src="image/DAF TV-11.jpg" class="w-full h-full object-cover" style="min-height:200px;" loading="lazy">
-            </div>
-            <div class="normal-item rounded-2xl overflow-hidden">
-                <img src="image/DAF TV-1.jpg" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="normal-item rounded-2xl overflow-hidden">
-                <img src="image/DAF TV-17.jpg" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="normal-item rounded-2xl overflow-hidden grayscale">
-                <img src="image/DAF TV-11.jpg" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="normal-item rounded-2xl overflow-hidden">
-                <img src="image/DAF TV-7.jpg" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="wide-item col-span-2 rounded-2xl overflow-hidden">
-                <img src="image/DAF TV-2.jpg" class="w-full h-full object-cover" loading="lazy">
-            </div>
+        <div class="gallery-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" id="gallery-grid" style="grid-auto-rows: 200px;">
+            <p class="col-span-4 text-center text-gray-400 py-12">
+                <i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading gallery...
+            </p>
         </div>
     </section>
 
@@ -383,6 +368,39 @@
         });
 
         loadVideos();
+
+        // ── GALLERY FROM BACKEND ──────────────────────────────────────────
+        async function loadGallery() {
+            const grid = document.getElementById('gallery-grid');
+            try {
+                const res    = await fetch(`${API}/content/media?visibleOnly=true`);
+                const result = await res.json();
+                const items  = result.data?.media || [];
+
+                if (items.length === 0) {
+                    grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-12">No gallery images yet.</p>';
+                    return;
+                }
+
+                // Layout pattern: big item every 6, wide item every 6 (positions 0 and 5), normal otherwise
+                grid.innerHTML = items.map((item, i) => {
+                    const pos = i % 6;
+                    let cls = 'normal-item rounded-2xl overflow-hidden';
+                    if (pos === 0) cls = 'big-item col-span-2 row-span-2 rounded-2xl overflow-hidden';
+                    else if (pos === 5) cls = 'wide-item col-span-2 rounded-2xl overflow-hidden';
+                    const minH = pos === 0 ? 'style="min-height:200px;"' : '';
+                    return `
+                    <div class="${cls}" ${minH}>
+                        <img src="${item.fileUrl}" alt="${item.title || ''}" class="w-full h-full object-cover" loading="lazy">
+                    </div>`;
+                }).join('');
+            } catch (err) {
+                console.log('Failed to load gallery:', err);
+                grid.innerHTML = '<p class="col-span-4 text-center text-gray-400 py-12">Failed to load gallery.</p>';
+            }
+        }
+
+        loadGallery();
     </script>
 
 </body>
