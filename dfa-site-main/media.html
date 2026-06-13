@@ -170,11 +170,11 @@
                 <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">All Videos</h2>
                 <div class="filter-tabs flex gap-3 mt-6 overflow-x-auto pb-2 justify-start md:justify-center px-1" style="-webkit-overflow-scrolling:touch; scrollbar-width:none;">
                     <button class="bg-purple-500 text-white px-5 py-2 rounded-full text-sm font-medium flex-shrink-0">All</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Street Interview</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Teachings</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Events</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Testimonies</button>
-                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Devotional</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Event Highlight</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Tutorial</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Testimonial</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Promo</button>
+                    <button class="bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-medium hover:border-purple-500 transition flex-shrink-0">Other</button>
                 </div>
             </div>
             <div class="video-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" id="video-grid">
@@ -290,11 +290,11 @@
         const API = 'https://dfaummah-server.onrender.com/api/v1';
 
         const catColors = {
-            'Street Interview': 'bg-purple-500',
-            'Teachings':        'bg-blue-500',
-            'Events':           'bg-purple-700',
-            'Testimonies':      'bg-pink-500',
-            'Devotional':       'bg-amber-500',
+            'Event Highlight': 'bg-purple-700',
+            'Tutorial':        'bg-blue-500',
+            'Testimonial':     'bg-pink-500',
+            'Promo':           'bg-purple-500',
+            'Other':           'bg-amber-500',
         };
 
         let videos = [];
