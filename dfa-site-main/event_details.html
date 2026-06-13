@@ -46,17 +46,41 @@
         .avail-ok   { background: rgba(52,211,153,.1);  color: #059669; }
         .avail-low  { background: rgba(251,191,36,.1);  color: #D97706; }
         .avail-sold { background: rgba(239,68,68,.1);   color: #DC2626; }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .ticket-card {
+                padding-bottom: 16px;
+                margin-bottom: 16px;
+            }
+            .select-btn {
+                padding: 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .select-btn {
+                padding: 14px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .avail-badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+        }
     </style>
 </head>
 <body class="bg-white text-gray-900">
 
     <!-- NAVIGATION -->
-    <nav class="flex items-center justify-between px-8 py-4 bg-white sticky top-0 z-50 shadow-sm">
+    <nav class="flex items-center justify-between px-4 md:px-8 py-3 md:py-4 bg-white sticky top-0 z-50 shadow-sm">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                 <span class="text-white font-bold text-xs">DFA</span>
             </div>
-            <span class="font-bold text-xl tracking-tight">DFA</span>
+            <span class="font-bold text-lg md:text-xl tracking-tight">DFA</span>
         </div>
         <div class="hidden md:flex gap-8 font-medium text-sm">
             <a href="index.html" class="hover:text-purple-600 transition">Home</a>
@@ -64,9 +88,14 @@
             <a href="event1.html" class="text-purple-600">Events</a>
             <a href="contact.html" class="hover:text-purple-600 transition">Contact</a>
         </div>
-        <a href="event1.html">
+        <a href="event1.html" class="hidden md:block">
             <button class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">
                 All Events
+            </button>
+        </a>
+        <a href="event1.html" class="md:hidden">
+            <button class="bg-purple-600 text-white px-4 py-2 rounded-full text-xs font-semibold hover:bg-purple-700 transition">
+                Events
             </button>
         </a>
     </nav>
@@ -74,7 +103,7 @@
     <!-- Content injected here -->
     <div id="event-details-container">
         <!-- Loading state -->
-        <div style="text-align:center;padding:80px 20px;color:#9CA3AF;">
+        <div style="text-align:center;padding:60px 20px;color:#9CA3AF;">
             <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;margin-bottom:12px;display:block;"></i>
             Loading event...
         </div>
@@ -82,9 +111,9 @@
 
     <!-- FOOTER -->
     <style>
-        .dfa-footer { background: #0f0f0f; color: #e5e5e5; font-family: 'Segoe UI', sans-serif; padding: 3rem 0 1.5rem; }
-        .dfa-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-        .dfa-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .dfa-footer { background: #0f0f0f; color: #e5e5e5; font-family: 'Segoe UI', sans-serif; padding: 2rem 0 1rem; }
+        .dfa-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem md:0 2rem; }
+        .dfa-footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
         .dfa-footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
         .dfa-footer-logo-dot { width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #fff; }
         .dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
@@ -99,15 +128,17 @@
         .dfa-footer-col ul li { margin-bottom: 0.6rem; }
         .dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
         .dfa-footer-col ul li a:hover { color: #fff; }
-        .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
-        .dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
+        .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+        .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; text-align: center; }
+        .dfa-footer-bottom-links { display: flex; gap: 1.5rem; justify-content: center; }
         .dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
         .dfa-footer-bottom-links a:hover { color: #9ca3af; }
-        @media (max-width: 700px) {
-            .dfa-footer-grid { grid-template-columns: 1fr 1fr; }
-            .dfa-footer-brand { grid-column: 1 / -1; }
-            .dfa-footer-bottom { flex-direction: column; gap: 1rem; }
+        @media (min-width: 768px) {
+            .dfa-footer { padding: 3rem 0 1.5rem; }
+            .dfa-footer .container { padding: 0 2rem; }
+            .dfa-footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+            .dfa-footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+            .dfa-footer-bottom p { text-align: left; }
         }
     </style>
 
@@ -184,7 +215,7 @@
 
             if (!eventId) {
                 document.getElementById('event-details-container').innerHTML =
-                    '<div style="text-align:center;padding:80px;color:#9CA3AF;">No event selected. <a href="event.html" style="color:#8B5CF6;">Browse events →</a></div>';
+                    '<div style="text-align:center;padding:60px 20px;color:#9CA3AF;">No event selected. <a href="event1.html" style="color:#8B5CF6;">Browse events →</a></div>';
                 return;
             }
 
@@ -214,9 +245,9 @@
 
                     ticketHTML += `
                     <div class="ticket-card">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                            <span style="font-weight:700;font-size:15px;">${ticket.ticketName || ticket.name}</span>
-                            <span style="color:#8B5CF6;font-weight:800;font-size:16px;">₦${Number(ticket.price).toLocaleString()}</span>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap;">
+                            <span style="font-weight:700;font-size:clamp(13px,4vw,15px);">${ticket.ticketName || ticket.name}</span>
+                            <span style="color:#8B5CF6;font-weight:800;font-size:clamp(14px,4vw,16px);">₦${Number(ticket.price).toLocaleString()}</span>
                         </div>
                         <div style="margin-bottom:12px;">${availHTML}</div>
                         <button
@@ -224,7 +255,7 @@
                             ${soldOut ? 'disabled' : ''}
                             onclick="selectTicket('${ticket._id}', '${ticket.ticketName || ticket.name}', '${ticket.ticketType}', ${ticket.price})"
                         >
-                            ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> Select Ticket →'}
+                            ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> <span class="hidden sm:inline">Select Ticket →</span><span class="sm:hidden">Select →</span>'}
                         </button>
                     </div>`;
                 });
@@ -239,59 +270,59 @@
             document.getElementById('event-details-container').innerHTML = `
 
             <!-- Hero -->
-            <section style="position:relative;height:45vh;display:flex;align-items:flex-end;overflow:hidden;">
+            <section style="position:relative;height:clamp(280px,45vh,500px);display:flex;align-items:flex-end;overflow:hidden;">
                 <div style="position:absolute;inset:0;z-index:0;">
-                    <img src="${event.bannerImage || ''}" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4);">
+                    <img src="${event.bannerImage || ''}" alt="${event.title}" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4);">
                 </div>
-                <div style="max-width:1200px;margin:0 auto;padding:0 32px 48px;position:relative;z-index:1;color:#fff;width:100%;">
-                    <a href="event.html" style="font-size:11px;font-weight:700;text-transform:uppercase;opacity:.8;text-decoration:none;color:#fff;display:inline-block;margin-bottom:16px;">
+                <div style="max-width:1200px;margin:0 auto;padding:20px 16px 32px md:padding:0 32px 48px;position:relative;z-index:1;color:#fff;width:100%;">
+                    <a href="event1.html" style="font-size:10px md:font-size:11px;font-weight:700;text-transform:uppercase;opacity:.8;text-decoration:none;color:#fff;display:inline-block;margin-bottom:12px md:margin-bottom:16px;">
                         ← Back to events
                     </a>
-                    <span style="display:inline-block;background:#8B5CF6;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:12px;">
+                    <span style="display:inline-block;background:#8B5CF6;color:#fff;font-size:9px md:font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:12px;">
                         ${event.status || 'Upcoming'}
                     </span>
-                    <h1 style="font-size:clamp(28px,5vw,52px);font-weight:800;margin:0 0 8px;">${event.title}</h1>
-                    <p style="color:rgba(255,255,255,0.75);font-size:15px;margin:0;">${event.subTitle || ''}</p>
+                    <h1 style="font-size:clamp(24px,6vw,52px);font-weight:800;margin:0 0 8px;line-height:1.2;">${event.title}</h1>
+                    <p style="color:rgba(255,255,255,0.75);font-size:clamp(13px,3vw,15px);margin:0;line-height:1.4;">${event.subTitle || ''}</p>
                 </div>
             </section>
 
             <!-- Body -->
-            <div style="max-width:1200px;margin:0 auto;padding:60px 32px;display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:start;">
+            <div style="max-width:1200px;margin:0 auto;padding:30px 16px md:padding:60px 32px;display:grid;grid-template-columns:1fr;md:grid-template-columns:1fr 360px;gap:30px md:gap:48px;align-items:start;">
 
                 <!-- Left: About -->
                 <div>
-                    <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">About This Event</h2>
-                    <p style="color:#6B7280;line-height:1.8;margin-bottom:40px;font-size:15px;">${event.description || ''}</p>
+                    <h2 style="font-size:clamp(18px,5vw,22px);font-weight:700;margin-bottom:20px;">About This Event</h2>
+                    <p style="color:#6B7280;line-height:1.8;margin-bottom:30px md:margin-bottom:40px;font-size:clamp(14px,3vw,15px);">${event.description || ''}</p>
 
                     <!-- Info cards -->
-                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
-                            <i class="fa-regular fa-calendar" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
-                            <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Date</p>
-                            <p style="font-weight:700;font-size:14px;">${formattedDate}</p>
+                    <div style="display:grid;grid-template-columns:1fr;sm:grid-template-columns:repeat(2,1fr);md:grid-template-columns:repeat(3,1fr);gap:12px md:gap:14px;">
+                        <div style="background:#F5F3FF;border-radius:16px;padding:16px md:padding:20px;">
+                            <i class="fa-regular fa-calendar" style="color:#8B5CF6;font-size:16px md:font-size:18px;margin-bottom:8px md:margin-bottom:10px;display:block;"></i>
+                            <p style="font-size:9px md:font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Date</p>
+                            <p style="font-weight:700;font-size:clamp(12px,3vw,14px);">${formattedDate}</p>
                         </div>
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
-                            <i class="fa-regular fa-clock" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
-                            <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Time</p>
-                            <p style="font-weight:700;font-size:14px;">${event.time}</p>
+                        <div style="background:#F5F3FF;border-radius:16px;padding:16px md:padding:20px;">
+                            <i class="fa-regular fa-clock" style="color:#8B5CF6;font-size:16px md:font-size:18px;margin-bottom:8px md:margin-bottom:10px;display:block;"></i>
+                            <p style="font-size:9px md:font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Time</p>
+                            <p style="font-weight:700;font-size:clamp(12px,3vw,14px);">${event.time}</p>
                         </div>
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
-                            <i class="fa-solid fa-location-dot" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
-                            <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Location</p>
-                            <p style="font-weight:700;font-size:14px;">${event.location}</p>
+                        <div style="background:#F5F3FF;border-radius:16px;padding:16px md:padding:20px;">
+                            <i class="fa-solid fa-location-dot" style="color:#8B5CF6;font-size:16px md:font-size:18px;margin-bottom:8px md:margin-bottom:10px;display:block;"></i>
+                            <p style="font-size:9px md:font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Location</p>
+                            <p style="font-weight:700;font-size:clamp(12px,3vw,14px);">${event.location}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Ticket selector (sticky) -->
-                <div style="background:#fff;border:1px solid #F3F4F6;border-radius:24px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.06);position:sticky;top:90px;">
-                    <h3 style="font-size:17px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;">
+                <!-- Right: Ticket selector (sticky on desktop) -->
+                <div style="background:#fff;border:1px solid #F3F4F6;border-radius:24px;padding:20px md:padding:28px;box-shadow:0 4px 24px rgba(0,0,0,0.06);position:md:sticky;top:90px;width:100%;">
+                    <h3 style="font-size:clamp(15px,4vw,17px);font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;">
                         <i class="fa-solid fa-ticket" style="color:#8B5CF6;"></i> Get Your Ticket
                     </h3>
                     ${ticketHTML}
 
-                    <p style="font-size:11px;color:#9CA3AF;text-align:center;margin-top:16px;">
-                        <i class="fa-solid fa-lock" style="font-size:10px;"></i>
+                    <p style="font-size:10px md:font-size:11px;color:#9CA3AF;text-align:center;margin-top:16px;">
+                        <i class="fa-solid fa-lock" style="font-size:9px md:font-size:10px;"></i>
                         Secure checkout • QR ticket sent by email
                     </p>
                 </div>
@@ -300,7 +331,7 @@
         } catch(err) {
             console.error(err);
             document.getElementById('event-details-container').innerHTML =
-                '<div style="text-align:center;padding:80px;color:#EF4444;">Failed to load event. <a href="event1.html" style="color:#8B5CF6;">Go back →</a></div>';
+                '<div style="text-align:center;padding:60px 20px;color:#EF4444;">Failed to load event. <a href="event1.html" style="color:#8B5CF6;">Go back →</a></div>';
         }
     }
 
