@@ -7,7 +7,7 @@
     <title>DFA | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     *{ font-family:'Inter',sans-serif; }
     body{ scroll-behavior:smooth; background:#fff; color:#111827; overflow-x:hidden; }
@@ -30,13 +30,11 @@
 
     .stat-badge { background:rgba(255,255,255,.15);border-radius:12px;padding:16px 20px;text-align:center; }
 
-    /* ── Info grid (Media Content / Why Attend / Competitions / Prices) ── */
     .info-list { list-style:none;padding:0;margin:0; }
     .info-list li { display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#6B7280;margin-bottom:10px;line-height:1.5; }
     .info-list li i { color:#8B5CF6;font-size:10px;margin-top:4px;flex-shrink:0; }
     .info-col h4 { font-size:15px;font-weight:700;color:#111827;margin-bottom:14px; }
 
-    /* ── Ticket pricing cards ── */
     .ticket-card { background:#fff;border:1px solid #F3F4F6;border-radius:24px;padding:28px 24px;transition:transform .2s,box-shadow .2s; }
     .ticket-card:hover { transform:translateY(-4px);box-shadow:0 16px 40px rgba(139,92,246,.12); }
     .ticket-card.featured { background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;transform:scale(1.03); }
@@ -56,13 +54,20 @@
     .ticket-card.featured .ticket-btn { background:#FBBF24;color:#000; }
     .ticket-btn:hover { opacity:.85; }
 
-    /* ── Video Category Colors ── */
+    @media (max-width: 767px) {
+        .ticket-card { padding:20px 14px; border-radius:18px; }
+        .ticket-card.featured { transform:none; }
+        .ticket-price { font-size:22px; }
+        .ticket-feature { font-size:11px; }
+        .ticket-btn { font-size:12px; padding:10px; }
+    }
+
     .cat-all { background-color: #8B5CF6; }
     .cat-street { background-color: #3B82F6; }
     .cat-teachings { background-color: #10B981; }
     .cat-reflections { background-color: #EC4899; }
     .cat-moments { background-color: #F59E0B; }
-    </style>
+</style>
 </head>
 <body class="bg-white text-gray-900">
 
@@ -362,11 +367,10 @@
             <p class="text-gray-500 mt-3 max-w-xl mx-auto text-sm">Secure your spot at DFA Islamic Edu-Fair 2026. Early bird prices available for a limited time.</p>
         </div>
 
-        <div class="grid md:grid-cols-4 gap-5 items-start">
-            <!-- Individual -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 items-start">
             <div class="ticket-card">
                 <span class="ticket-badge">Early Bird</span>
-                <h3 class="text-lg font-bold mb-1">Individual — Regular</h3>
+                <h3 class="text-base md:text-lg font-bold mb-1">Individual - Regular</h3>
                 <div class="mb-1"><span class="ticket-price">₦3,500</span></div>
                 <div class="ticket-strike mb-5">Standard ₦5,000</div>
                 <div class="mb-6">
@@ -377,10 +381,9 @@
                 <a href="event1.html"><button class="ticket-btn">Register Now</button></a>
             </div>
 
-            <!-- Premium - featured -->
             <div class="ticket-card featured">
                 <span class="ticket-badge">Early Bird</span>
-                <h3 class="text-lg font-bold mb-1">Premium Access</h3>
+                <h3 class="text-base md:text-lg font-bold mb-1">Premium Access</h3>
                 <div class="mb-1"><span class="ticket-price">₦5,000</span></div>
                 <div class="ticket-strike mb-5">Standard ₦8,000</div>
                 <div class="mb-6">
@@ -391,10 +394,9 @@
                 <a href="event1.html"><button class="ticket-btn">Register Now</button></a>
             </div>
 
-            <!-- School -->
             <div class="ticket-card">
                 <span class="ticket-badge">Early Bird</span>
-                <h3 class="text-lg font-bold mb-1">School Package</h3>
+                <h3 class="text-base md:text-lg font-bold mb-1">School Package</h3>
                 <div class="mb-1"><span class="ticket-price">₦150,000</span></div>
                 <div class="ticket-strike mb-5">Standard ₦200,000</div>
                 <div class="mb-6">
@@ -405,10 +407,9 @@
                 <a href="event1.html"><button class="ticket-btn">Register Now</button></a>
             </div>
 
-            <!-- Family -->
             <div class="ticket-card">
                 <span class="ticket-badge">Early Bird</span>
-                <h3 class="text-lg font-bold mb-1">Family Package</h3>
+                <h3 class="text-base md:text-lg font-bold mb-1">Family Package</h3>
                 <div class="mb-1"><span class="ticket-price">₦15,000</span></div>
                 <div class="ticket-strike mb-5">Standard ₦20,000</div>
                 <div class="mb-6">
