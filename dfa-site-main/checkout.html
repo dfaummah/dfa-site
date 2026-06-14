@@ -26,19 +26,32 @@
         .ticket-summary { background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 16px; padding: 20px; color: #fff; margin-bottom: 24px; }
         .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; display: none; }
         .f-input.error { border-color: #EF4444; }
-
-        /* Attendee cards */
         .attendee-card {
-            background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 14px;
-            padding: 16px; margin-bottom: 12px;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
         }
         .attendee-card-title {
-            font-size: 11px; font-weight: 700; color: #8B5CF6; text-transform: uppercase;
-            letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #8B5CF6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .attendee-card-title i { font-size: 11px; }
-        .attendee-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 480px) { .attendee-fields { grid-template-columns: 1fr; } }
+        .attendee-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 480px) {
+            .attendee-fields { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -57,7 +70,6 @@
     </nav>
 
     <main class="max-w-2xl mx-auto py-12 px-6">
-        <!-- Step indicator -->
         <div class="flex items-center gap-2 mb-10 flex-wrap">
             <div class="step done"><div class="step-num"><i class="fa-solid fa-check" style="font-size:8px;"></i></div> Select Ticket</div>
             <div class="step-line hidden sm:block"></div>
@@ -68,22 +80,20 @@
             <div class="step idle"><div class="step-num">4</div> Confirmation</div>
         </div>
 
-        <!-- Ticket summary -->
         <div class="ticket-summary">
             <div class="flex justify-between items-start">
                 <div>
                     <div style="font-size:10px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Selected Ticket</div>
                     <div style="font-size:20px;font-weight:700;" id="summaryEvent">Loading...</div>
-                    <div style="font-size:13px;opacity:.8;margin-top:4px;" id="summaryTicket">—</div>
+                    <div style="font-size:13px;opacity:.8;margin-top:4px;" id="summaryTicket">-</div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-size:22px;font-weight:800;" id="summaryPrice">—</div>
+                    <div style="font-size:22px;font-weight:800;" id="summaryPrice">-</div>
                     <div style="font-size:11px;opacity:.7;" id="summaryQty">1 ticket</div>
                 </div>
             </div>
         </div>
 
-        <!-- Form -->
         <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center">
@@ -96,12 +106,12 @@
             </div>
 
             <div class="space-y-5">
-                <!-- Lead buyer fields -->
                 <div>
                     <label class="f-label">Full Name *</label>
                     <input type="text" class="f-input" id="f_name" placeholder="e.g. Amina Yusuf">
                     <div class="field-error" id="err_name">Please enter your full name</div>
                 </div>
+
                 <div>
                     <label class="f-label">Email Address *</label>
                     <input type="email" class="f-input" id="f_email" placeholder="amina@example.com">
@@ -111,39 +121,35 @@
                         Your QR code ticket will be sent here
                     </div>
                 </div>
+
                 <div>
                     <label class="f-label">WhatsApp Number *</label>
                     <input type="tel" class="f-input" id="f_phone" placeholder="+234 800 000 0000">
                     <div class="field-error" id="err_phone">Please enter your WhatsApp number</div>
                 </div>
 
-                <!-- Quantity (group only) -->
                 <div id="qtyWrapper">
                     <label class="f-label">Number of Tickets</label>
                     <select class="f-input" id="f_qty" onchange="updateAttendees()">
                         <option value="1">1 ticket</option>
                     </select>
                     <div id="groupTicketNote" style="font-size:11px;color:#8B5CF6;margin-top:4px;display:none;">
-                        <i class="fa-solid fa-users" style="margin-right:4px;"></i>Group ticket — up to 5 per order
+                        <i class="fa-solid fa-users" style="margin-right:4px;"></i> Group ticket - up to 5 per order
                     </div>
                 </div>
 
-                <!-- Additional attendee forms (shown when qty > 1) -->
                 <div id="attendeeForms"></div>
 
-                <!-- Available count notice -->
                 <div id="availNotice" style="display:none;font-size:11px;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;">
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>
                     <span id="availNoticeText"></span>
                 </div>
 
-                <!-- Total -->
                 <div style="background:#F5F3FF;border:1px solid #EDE9FE;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;">
                     <span style="font-size:13px;font-weight:600;color:#374151;">Total Amount</span>
                     <span style="font-size:20px;font-weight:800;color:#8B5CF6;" id="totalAmount">₦0</span>
                 </div>
 
-                <!-- Error message -->
                 <div id="orderError" style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px 14px;font-size:12px;color:#9F1239;display:none;">
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:6px;"></i>
                     <span id="orderErrorMsg">Something went wrong.</span>
@@ -166,18 +172,17 @@
 <script>
     const API = 'https://dfaummah-server.onrender.com/api/v1';
 
-    const params            = new URLSearchParams(window.location.search);
-    const eventId           = params.get('eventId');
-    const eventTitle        = decodeURIComponent(params.get('eventTitle') || '');
-    const tierId            = params.get('tierId');
-    const tierName          = decodeURIComponent(params.get('tier') || '');
-    const ticketType        = decodeURIComponent(params.get('ticketType') || '');
-    const tierPrice         = parseFloat(params.get('price') || '0');
-    const isGroupTicket     = params.get('isGroupTicket') === 'true';
-    const showAvailCount    = params.get('showAvailableCount') === 'true';
-    const availableLeft     = parseInt(params.get('available') || '999');
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('eventId');
+    const eventTitle = decodeURIComponent(params.get('eventTitle') || '');
+    const tierId = params.get('tierId');
+    const tierName = decodeURIComponent(params.get('tier') || '');
+    const ticketType = decodeURIComponent(params.get('ticketType') || '');
+    const tierPrice = parseFloat(params.get('price') || '0');
+    const isGroupTicket = params.get('isGroupTicket') === 'true';
+    const showAvailCount = params.get('showAvailableCount') === 'true';
+    const availableLeft = parseInt(params.get('available') || '999', 10);
 
-    // Validate required params
     if (!eventId || !tierName || !ticketType || !tierPrice) {
         document.querySelector('main').innerHTML = `
             <div style="text-align:center;padding:80px 20px;color:#EF4444;">
@@ -188,40 +193,44 @@
             </div>`;
     }
 
-    // Populate summary
-    document.getElementById('summaryEvent').textContent  = eventTitle || 'Event';
-    document.getElementById('summaryTicket').textContent = tierName   || 'Standard Ticket';
-    document.getElementById('summaryPrice').textContent  = '₦' + tierPrice.toLocaleString();
-    document.getElementById('totalAmount').textContent   = '₦' + tierPrice.toLocaleString();
+    document.getElementById('summaryEvent').textContent = eventTitle || 'Event';
+    document.getElementById('summaryTicket').textContent = tierName || 'Standard Ticket';
+    document.getElementById('summaryPrice').textContent = '₦' + tierPrice.toLocaleString();
+    document.getElementById('totalAmount').textContent = '₦' + tierPrice.toLocaleString();
 
-    // Build quantity dropdown
     const qtySelect = document.getElementById('f_qty');
-    const maxQty    = isGroupTicket ? Math.min(5, availableLeft) : 1;
+    const maxQty = isGroupTicket ? Math.min(5, availableLeft) : 1;
     qtySelect.innerHTML = '';
+
     for (let i = 1; i <= maxQty; i++) {
         const opt = document.createElement('option');
         opt.value = i;
-        opt.textContent = i + ' ticket' + (i > 1 ? 's' : '');
+        opt.textContent = isGroupTicket
+            ? i + ' attendee' + (i > 1 ? 's' : '')
+            : i + ' ticket' + (i > 1 ? 's' : '');
         qtySelect.appendChild(opt);
     }
+
     if (!isGroupTicket) {
-        // Single ticket — hide qty selector entirely
         document.getElementById('qtyWrapper').style.display = 'none';
     } else {
         document.getElementById('groupTicketNote').style.display = 'block';
     }
 
-    // Show available count if enabled
     if (showAvailCount && availableLeft < 999) {
-        document.getElementById('availNoticeText').textContent = `${availableLeft} ticket${availableLeft !== 1 ? 's' : ''} remaining for this tier`;
+        document.getElementById('availNoticeText').textContent =
+            `${availableLeft} ticket${availableLeft !== 1 ? 's' : ''} remaining for this tier`;
         document.getElementById('availNotice').style.display = 'block';
     }
 
-    // ── Build attendee forms for additional tickets ──────────────────────────
     function updateAttendees() {
-        const qty   = parseInt(qtySelect.value);
-        const total = tierPrice * qty;
-        document.getElementById('summaryQty').textContent  = qty + ' ticket' + (qty > 1 ? 's' : '');
+        const qty = parseInt(qtySelect.value, 10);
+        const total = isGroupTicket ? tierPrice : tierPrice * qty;
+
+        document.getElementById('summaryQty').textContent = isGroupTicket
+            ? qty + ' attendee' + (qty > 1 ? 's' : '')
+            : qty + ' ticket' + (qty > 1 ? 's' : '');
+
         document.getElementById('totalAmount').textContent = '₦' + total.toLocaleString();
         document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
 
@@ -254,10 +263,9 @@
         }
     }
 
-    // ── Validation ──────────────────────────────────────────────────────────
     function validate() {
         let ok = true;
-        const name  = document.getElementById('f_name').value.trim();
+        const name = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
 
@@ -279,7 +287,7 @@
             document.getElementById('err_email').style.display = 'none';
         }
 
-        if (!phone || phone.replace(/\D/g,'').length < 10) {
+        if (!phone || phone.replace(/\D/g, '').length < 10) {
             document.getElementById('f_phone').classList.add('error');
             document.getElementById('err_phone').style.display = 'block';
             ok = false;
@@ -288,43 +296,54 @@
             document.getElementById('err_phone').style.display = 'none';
         }
 
-        // Validate additional attendees
         document.querySelectorAll('.attendee-name').forEach(el => {
             if (!el.value.trim() || el.value.trim().length < 2) {
-                el.classList.add('error'); ok = false;
-            } else { el.classList.remove('error'); }
+                el.classList.add('error');
+                ok = false;
+            } else {
+                el.classList.remove('error');
+            }
         });
+
         document.querySelectorAll('.attendee-email').forEach(el => {
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) {
-                el.classList.add('error'); ok = false;
-            } else { el.classList.remove('error'); }
+                el.classList.add('error');
+                ok = false;
+            } else {
+                el.classList.remove('error');
+            }
         });
+
         document.querySelectorAll('.attendee-phone').forEach(el => {
-            if (!el.value.trim() || el.value.trim().replace(/\D/g,'').length < 10) {
-                el.classList.add('error'); ok = false;
-            } else { el.classList.remove('error'); }
+            if (!el.value.trim() || el.value.trim().replace(/\D/g, '').length < 10) {
+                el.classList.add('error');
+                ok = false;
+            } else {
+                el.classList.remove('error');
+            }
         });
 
         return ok;
     }
 
-    // ── Main checkout ────────────────────────────────────────────────────────
     async function proceedToPayment() {
         if (!validate()) return;
 
-        const name  = document.getElementById('f_name').value.trim();
+        const name = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
-        const qty   = isGroupTicket ? parseInt(qtySelect.value) : 1;
-        const total = tierPrice * qty;
+        const qty = isGroupTicket ? parseInt(qtySelect.value, 10) : 1;
+        const total = isGroupTicket ? tierPrice : tierPrice * qty;
 
-        // Collect additional attendees
-        const attendees = [];
+        const attendees = [
+            { name, email, whatsapp: phone }
+        ];
+
         for (let i = 2; i <= qty; i++) {
             attendees.push({
-                name:     document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
-                email:    document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
-                whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || '',
+                name: document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
+                email: document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
+                whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || ''
             });
         }
 
@@ -336,9 +355,11 @@
         try {
             const payload = {
                 eventId,
+                tierId,
                 buyerDetails: { name, email, whatsapp: phone },
-                ticketType: tierName,  // send the specific ticket name e.g. "Family Package"
-                quantity: qty,
+                ticketType: tierName,
+                quantity: isGroupTicket ? 1 : qty,
+                groupSize: isGroupTicket ? qty : 1,
                 attendees
             };
 
@@ -352,14 +373,27 @@
             if (!res.ok) throw new Error(result.message || 'Failed to create order');
 
             sessionStorage.setItem('dfa_order', JSON.stringify({
-                eventId, eventTitle, tierName, ticketType, tierPrice, qty, total: result.data.totalAmount, name, email, phone
+                eventId,
+                eventTitle,
+                tierId,
+                tierName,
+                ticketType,
+                tierPrice,
+                qty,
+                total: result.data?.totalAmount ?? total,
+                name,
+                email,
+                phone,
+                isGroupTicket,
+                attendees
             }));
-            sessionStorage.setItem('dfa_reference', result.data.paymentReference);
 
+            sessionStorage.setItem('dfa_reference', result.data.paymentReference);
             window.location.href = 'payment_gateway.html';
 
-        } catch(err) {
-            document.getElementById('orderErrorMsg').textContent = err.message || 'Failed to create order. Please try again.';
+        } catch (err) {
+            document.getElementById('orderErrorMsg').textContent =
+                err.message || 'Failed to create order. Please try again.';
             document.getElementById('orderError').style.display = 'block';
             btn.disabled = false;
             btn.innerHTML = 'Continue to Payment <i class="fa-solid fa-arrow-right"></i>';
@@ -369,6 +403,8 @@
     document.getElementById('f_phone').addEventListener('keypress', e => {
         if (e.key === 'Enter') proceedToPayment();
     });
+
+    updateAttendees();
 </script>
 </body>
 </html>
