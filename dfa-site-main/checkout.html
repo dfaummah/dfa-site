@@ -337,7 +337,7 @@
             const payload = {
                 eventId,
                 buyerDetails: { name, email, whatsapp: phone },
-                ticketType,
+                ticketType: tierName,  // send the specific ticket name e.g. "Family Package"
                 quantity: qty,
                 attendees
             };
