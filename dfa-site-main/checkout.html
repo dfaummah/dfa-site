@@ -26,6 +26,19 @@
         .ticket-summary { background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 16px; padding: 20px; color: #fff; margin-bottom: 24px; }
         .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; display: none; }
         .f-input.error { border-color: #EF4444; }
+
+        /* Attendee cards */
+        .attendee-card {
+            background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 14px;
+            padding: 16px; margin-bottom: 12px;
+        }
+        .attendee-card-title {
+            font-size: 11px; font-weight: 700; color: #8B5CF6; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+        }
+        .attendee-card-title i { font-size: 11px; }
+        .attendee-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 480px) { .attendee-fields { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -83,6 +96,7 @@
             </div>
 
             <div class="space-y-5">
+                <!-- Lead buyer fields -->
                 <div>
                     <label class="f-label">Full Name *</label>
                     <input type="text" class="f-input" id="f_name" placeholder="e.g. Amina Yusuf">
@@ -102,21 +116,25 @@
                     <input type="tel" class="f-input" id="f_phone" placeholder="+234 800 000 0000">
                     <div class="field-error" id="err_phone">Please enter your WhatsApp number</div>
                 </div>
-                <div>
-                    <label class="f-label">Quantity</label>
-                    <select class="f-input" id="f_qty" onchange="updateTotal()">
+
+                <!-- Quantity (group only) -->
+                <div id="qtyWrapper">
+                    <label class="f-label">Number of Tickets</label>
+                    <select class="f-input" id="f_qty" onchange="updateAttendees()">
                         <option value="1">1 ticket</option>
-                        <option value="2">2 tickets</option>
-                        <option value="3">3 tickets</option>
-                        <option value="4">4 tickets</option>
-                        <option value="5">5 tickets</option>
-                        <option value="10">10 tickets</option>
-                        <option value="15">15 tickets</option>
-                        <option value="20">20 tickets</option>
-                        <option value="25">25 tickets</option>
-                        <option value="30">30 tickets</option>
-                        <option value="50">50 tickets</option>
                     </select>
+                    <div id="groupTicketNote" style="font-size:11px;color:#8B5CF6;margin-top:4px;display:none;">
+                        <i class="fa-solid fa-users" style="margin-right:4px;"></i>Group ticket — up to 5 per order
+                    </div>
+                </div>
+
+                <!-- Additional attendee forms (shown when qty > 1) -->
+                <div id="attendeeForms"></div>
+
+                <!-- Available count notice -->
+                <div id="availNotice" style="display:none;font-size:11px;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;">
+                    <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>
+                    <span id="availNoticeText"></span>
                 </div>
 
                 <!-- Total -->
@@ -131,13 +149,11 @@
                     <span id="orderErrorMsg">Something went wrong.</span>
                 </div>
 
-                <!-- Info -->
                 <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400E;">
                     <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
                     Your information is secure. You'll be redirected to our bank transfer payment page.
                 </div>
 
-                <!-- Button -->
                 <button onclick="proceedToPayment()"
                     style="width:100%;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;margin-top:16px;"
                     id="continueBtn">
@@ -150,27 +166,26 @@
 <script>
     const API = 'https://dfaummah-server.onrender.com/api/v1';
 
-    // Read ticket data from URL params
-    const params       = new URLSearchParams(window.location.search);
-    const eventId      = params.get('eventId');
-    const eventTitle   = decodeURIComponent(params.get('eventTitle') || '');
-    const tierId       = params.get('tierId');
-    const tierName     = decodeURIComponent(params.get('tier') || '');
-    const ticketType   = decodeURIComponent(params.get('ticketType') || '');  // ✅ ADD: Get ticketType from URL
-    const tierPrice    = parseFloat(params.get('price') || '0');
+    const params            = new URLSearchParams(window.location.search);
+    const eventId           = params.get('eventId');
+    const eventTitle        = decodeURIComponent(params.get('eventTitle') || '');
+    const tierId            = params.get('tierId');
+    const tierName          = decodeURIComponent(params.get('tier') || '');
+    const ticketType        = decodeURIComponent(params.get('ticketType') || '');
+    const tierPrice         = parseFloat(params.get('price') || '0');
+    const isGroupTicket     = params.get('isGroupTicket') === 'true';
+    const showAvailCount    = params.get('showAvailableCount') === 'true';
+    const availableLeft     = parseInt(params.get('available') || '999');
 
-    console.log('📋 Checkout Params:', { eventId, tierName, ticketType, tierPrice });
-
-    // ✅ FIX: Validate that required params exist
+    // Validate required params
     if (!eventId || !tierName || !ticketType || !tierPrice) {
         document.querySelector('main').innerHTML = `
             <div style="text-align:center;padding:80px 20px;color:#EF4444;">
                 <i class="fa-solid fa-circle-exclamation" style="font-size:36px;margin-bottom:12px;display:block;"></i>
                 <p style="font-size:16px;font-weight:700;margin-bottom:8px;">Invalid Request</p>
                 <p style="font-size:14px;color:#9CA3AF;margin-bottom:20px;">Missing ticket information. Please select a ticket again.</p>
-                <a href="event.html" style="display:inline-block;background:#8B5CF6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">← Back to Events</a>
-            </div>
-        `;
+                <a href="event1.html" style="display:inline-block;background:#8B5CF6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">← Back to Events</a>
+            </div>`;
     }
 
     // Populate summary
@@ -179,26 +194,75 @@
     document.getElementById('summaryPrice').textContent  = '₦' + tierPrice.toLocaleString();
     document.getElementById('totalAmount').textContent   = '₦' + tierPrice.toLocaleString();
 
-    // ✅ FIX: Update total on quantity change
-    function updateTotal() {
-        const qty   = parseInt(document.getElementById('f_qty').value);
-        const total = tierPrice * qty;
-        document.getElementById('summaryQty').textContent   = qty + ' ticket' + (qty > 1 ? 's' : '');
-        document.getElementById('totalAmount').textContent  = '₦' + total.toLocaleString();
-        document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
+    // Build quantity dropdown
+    const qtySelect = document.getElementById('f_qty');
+    const maxQty    = isGroupTicket ? Math.min(5, availableLeft) : 1;
+    qtySelect.innerHTML = '';
+    for (let i = 1; i <= maxQty; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = i + ' ticket' + (i > 1 ? 's' : '');
+        qtySelect.appendChild(opt);
+    }
+    if (!isGroupTicket) {
+        // Single ticket — hide qty selector entirely
+        document.getElementById('qtyWrapper').style.display = 'none';
+    } else {
+        document.getElementById('groupTicketNote').style.display = 'block';
     }
 
-    // ✅ FIX: Improved validation
+    // Show available count if enabled
+    if (showAvailCount && availableLeft < 999) {
+        document.getElementById('availNoticeText').textContent = `${availableLeft} ticket${availableLeft !== 1 ? 's' : ''} remaining for this tier`;
+        document.getElementById('availNotice').style.display = 'block';
+    }
+
+    // ── Build attendee forms for additional tickets ──────────────────────────
+    function updateAttendees() {
+        const qty   = parseInt(qtySelect.value);
+        const total = tierPrice * qty;
+        document.getElementById('summaryQty').textContent  = qty + ' ticket' + (qty > 1 ? 's' : '');
+        document.getElementById('totalAmount').textContent = '₦' + total.toLocaleString();
+        document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
+
+        const formsDiv = document.getElementById('attendeeForms');
+        formsDiv.innerHTML = '';
+
+        if (qty <= 1) return;
+
+        for (let i = 2; i <= qty; i++) {
+            formsDiv.innerHTML += `
+            <div class="attendee-card">
+                <div class="attendee-card-title">
+                    <i class="fa-solid fa-user"></i> Attendee ${i} Details
+                </div>
+                <div class="attendee-fields">
+                    <div>
+                        <label class="f-label">Full Name *</label>
+                        <input type="text" class="f-input attendee-name" data-idx="${i}" placeholder="Full name">
+                    </div>
+                    <div>
+                        <label class="f-label">Email Address *</label>
+                        <input type="email" class="f-input attendee-email" data-idx="${i}" placeholder="email@example.com">
+                    </div>
+                    <div style="grid-column:1/-1;">
+                        <label class="f-label">WhatsApp Number *</label>
+                        <input type="tel" class="f-input attendee-phone" data-idx="${i}" placeholder="+234 800 000 0000">
+                    </div>
+                </div>
+            </div>`;
+        }
+    }
+
+    // ── Validation ──────────────────────────────────────────────────────────
     function validate() {
         let ok = true;
         const name  = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
 
-        // Validate name (at least 3 characters)
         if (!name || name.length < 3) {
             document.getElementById('f_name').classList.add('error');
-            document.getElementById('err_name').textContent = 'Please enter your full name (at least 3 characters)';
             document.getElementById('err_name').style.display = 'block';
             ok = false;
         } else {
@@ -206,11 +270,8 @@
             document.getElementById('err_name').style.display = 'none';
         }
 
-        // Validate email format
-        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        if (!emailOk) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             document.getElementById('f_email').classList.add('error');
-            document.getElementById('err_email').textContent = 'Please enter a valid email address';
             document.getElementById('err_email').style.display = 'block';
             ok = false;
         } else {
@@ -218,11 +279,8 @@
             document.getElementById('err_email').style.display = 'none';
         }
 
-        // Validate phone (at least 10 digits)
-        const phoneDigits = phone.replace(/\D/g, '');
-        if (!phone || phoneDigits.length < 10) {
+        if (!phone || phone.replace(/\D/g,'').length < 10) {
             document.getElementById('f_phone').classList.add('error');
-            document.getElementById('err_phone').textContent = 'Please enter a valid WhatsApp number';
             document.getElementById('err_phone').style.display = 'block';
             ok = false;
         } else {
@@ -230,18 +288,45 @@
             document.getElementById('err_phone').style.display = 'none';
         }
 
+        // Validate additional attendees
+        document.querySelectorAll('.attendee-name').forEach(el => {
+            if (!el.value.trim() || el.value.trim().length < 2) {
+                el.classList.add('error'); ok = false;
+            } else { el.classList.remove('error'); }
+        });
+        document.querySelectorAll('.attendee-email').forEach(el => {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) {
+                el.classList.add('error'); ok = false;
+            } else { el.classList.remove('error'); }
+        });
+        document.querySelectorAll('.attendee-phone').forEach(el => {
+            if (!el.value.trim() || el.value.trim().replace(/\D/g,'').length < 10) {
+                el.classList.add('error'); ok = false;
+            } else { el.classList.remove('error'); }
+        });
+
         return ok;
     }
 
-    // ✅ FIXED: Main checkout handler - sends ticketType (category)
+    // ── Main checkout ────────────────────────────────────────────────────────
     async function proceedToPayment() {
         if (!validate()) return;
 
         const name  = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
-        const qty   = parseInt(document.getElementById('f_qty').value);
+        const qty   = isGroupTicket ? parseInt(qtySelect.value) : 1;
         const total = tierPrice * qty;
+
+        // Collect additional attendees
+        const attendees = [];
+        for (let i = 2; i <= qty; i++) {
+            attendees.push({
+                name:     document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
+                email:    document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
+                whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || '',
+            });
+        }
 
         const btn = document.getElementById('continueBtn');
         btn.disabled = true;
@@ -249,62 +334,31 @@
         document.getElementById('orderError').style.display = 'none';
 
         try {
-            // ✅ CRITICAL FIX: Send ticketType (category like "VIP", "Standard") not tierName
             const payload = {
                 eventId,
-                buyerDetails: {
-                    name,
-                    email,
-                    whatsapp: phone
-                },
-                ticketType: ticketType,  // ✅ Send the CATEGORY (e.g., "VIP", "Standard", "Group Pass")
+                buyerDetails: { name, email, whatsapp: phone },
+                ticketType,
                 quantity: qty,
-                attendees: []
+                attendees
             };
-
-            console.log('📤 Sending checkout request:', payload);
 
             const res = await fetch(`${API}/orders/checkout`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             const result = await res.json();
+            if (!res.ok) throw new Error(result.message || 'Failed to create order');
 
-            console.log('📥 Response:', result);
-
-            if (!res.ok) {
-                throw new Error(result.message || 'Failed to create order');
-            }
-
-            const reference  = result.data.paymentReference;
-            const totalAmount = result.data.totalAmount;
-
-            console.log('✅ Order created:', reference);
-
-            // ── Save order info for payment page ──────────────────────────────
             sessionStorage.setItem('dfa_order', JSON.stringify({
-                eventId, 
-                eventTitle, 
-                tierName, 
-                ticketType,
-                tierPrice,
-                qty, 
-                total: totalAmount,
-                name, 
-                email, 
-                phone
+                eventId, eventTitle, tierName, ticketType, tierPrice, qty, total: result.data.totalAmount, name, email, phone
             }));
-            sessionStorage.setItem('dfa_reference', reference);
+            sessionStorage.setItem('dfa_reference', result.data.paymentReference);
 
-            // ── Go to payment page ────────────────────────────────────────────
             window.location.href = 'payment_gateway.html';
 
         } catch(err) {
-            console.error('❌ Checkout error:', err);
             document.getElementById('orderErrorMsg').textContent = err.message || 'Failed to create order. Please try again.';
             document.getElementById('orderError').style.display = 'block';
             btn.disabled = false;
@@ -312,11 +366,8 @@
         }
     }
 
-    // ✅ FIX: Add Enter key support for form submission
-    document.getElementById('f_phone').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            proceedToPayment();
-        }
+    document.getElementById('f_phone').addEventListener('keypress', e => {
+        if (e.key === 'Enter') proceedToPayment();
     });
 </script>
 </body>
