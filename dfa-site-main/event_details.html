@@ -52,23 +52,12 @@
             font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
             background: rgba(251,191,36,.15); color: #D97706; margin-bottom: 8px;
         }
+        .price-display { font-size: 16px; font-weight: 700; color: #8B5CF6; margin-bottom: 4px; }
+        .original-price { text-decoration: line-through; color: #9CA3AF; font-size: 13px; margin-right: 6px; }
+        .early-bird-price { color: #D97706; font-weight: 700; }
 
-        .price-display {
-            font-size: 16px; font-weight: 700; color: #8B5CF6; margin-bottom: 4px;
-        }
-
-        .original-price {
-            text-decoration: line-through; color: #9CA3AF; font-size: 13px; margin-right: 6px;
-        }
-
-        .early-bird-price {
-            color: #D97706; font-weight: 700;
-        }
-
-        /* ── Mobile menu ── */
         .mobile-menu {
-            display: none;
-            position: absolute; top: 100%; left: 0; right: 0;
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
             background: #fff; border-top: 1px solid #F3F4F6;
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
             flex-direction: column; padding: 12px 24px 20px; gap: 14px;
@@ -78,7 +67,6 @@
         .mobile-menu a.active { color: #8B5CF6; }
         #menu-toggle { display: none; }
 
-        /* ── Responsive layout ── */
         .event-body {
             max-width: 1200px; margin: 0 auto; padding: 60px 32px;
             display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start;
@@ -94,35 +82,28 @@
             nav.main-nav { padding: 14px 16px; }
             #menu-toggle { display: inline-flex; }
             .desktop-links { display: none; }
-
             .event-hero { height: auto !important; min-height: 320px; }
             .event-hero-inner { padding: 24px 20px 32px !important; }
-
-            .event-body {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                padding: 32px 20px;
-            }
-            .ticket-panel {
-                position: static;
-                top: auto;
-                padding: 20px;
-                border-radius: 18px;
-            }
+            .event-body { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
+            .ticket-panel { position: static; top: auto; padding: 20px; border-radius: 18px; }
             .info-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
             .info-cards > div { padding: 16px; }
-
             h1 { font-size: clamp(24px,8vw,36px) !important; }
         }
-
         @media (max-width: 420px) {
             .info-cards { grid-template-columns: 1fr; }
+        }
+
+        /* Group badge */
+        .group-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+            background: rgba(139,92,246,.1); color: #8B5CF6; margin-bottom: 8px;
         }
     </style>
 </head>
 <body class="bg-white text-gray-900">
 
-    <!-- NAVIGATION -->
     <nav class="main-nav flex items-center justify-between px-8 py-4 bg-white sticky top-0 z-50 shadow-sm relative">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
@@ -138,9 +119,7 @@
         </div>
         <div class="flex items-center gap-3">
             <a href="event1.html" class="hidden md:inline-block">
-                <button class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">
-                    All Events
-                </button>
+                <button class="bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">All Events</button>
             </a>
             <button id="menu-toggle" class="items-center justify-center w-10 h-10 rounded-lg border border-gray-200" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Toggle menu">
                 <i class="fa-solid fa-bars"></i>
@@ -152,25 +131,20 @@
             <a href="event1.html" class="active">Events</a>
             <a href="contact.html">Contact</a>
             <a href="event1.html">
-                <button class="bg-purple-600 text-white w-full py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition mt-1">
-                    All Events
-                </button>
+                <button class="bg-purple-600 text-white w-full py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition mt-1">All Events</button>
             </a>
         </div>
     </nav>
 
-    <!-- Content injected here -->
     <div id="event-details-container">
-        <!-- Loading state -->
         <div style="text-align:center;padding:80px 20px;color:#9CA3AF;">
             <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;margin-bottom:12px;display:block;"></i>
             Loading event...
         </div>
     </div>
 
-    <!-- FOOTER -->
     <style>
-        .dfa-footer { background: #0f0f0f; color: #e5e5e5; font-family: 'Segoe UI', sans-serif; padding: 3rem 0 1.5rem; }
+        .dfa-footer { background: #0f0f0f; color: #e5e5e5; padding: 3rem 0 1.5rem; }
         .dfa-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
         .dfa-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
         .dfa-footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
@@ -191,16 +165,7 @@
         .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
         .dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
         .dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
-        .dfa-footer-bottom-links a:hover { color: #9ca3af; }
-        @media (max-width: 700px) {
-            .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-            .dfa-footer-brand { grid-column: 1 / -1; }
-            .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
-        }
-        @media (max-width: 420px) {
-            .dfa-footer-grid { grid-template-columns: 1fr; }
-            .dfa-footer .container { padding: 0 1.25rem; }
-        }
+        @media (max-width: 700px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; } }
     </style>
 
     <footer class="dfa-footer">
@@ -221,38 +186,13 @@
                         <p class="dfa-footer-note">By joining, you agree to our terms.</p>
                     </div>
                 </div>
-                <div class="dfa-footer-col">
-                    <h4>Menu</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="media.html">Media</a></li>
-                        <li><a href="event1.html">Events</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="dfa-footer-col">
-                    <h4>Social</h4>
-                    <ul>
-                        <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
-                        <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
-                        <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
-                        <li><a href="https://www.tiktok.com/@dfa.tv">TikTok</a></li>
-                    </ul>
-                </div>
-                <div class="dfa-footer-col">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
-                        <li><a href="#">Lagos, Nigeria</a></li>
-                    </ul>
-                </div>
+                <div class="dfa-footer-col"><h4>Menu</h4><ul><li><a href="index.html">Home</a></li><li><a href="media.html">Media</a></li><li><a href="event1.html">Events</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+                <div class="dfa-footer-col"><h4>Social</h4><ul><li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li><li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li><li><a href="https://www.facebook.com/dfatv/">Facebook</a></li><li><a href="https://www.tiktok.com/@dfa.tv">TikTok</a></li></ul></div>
+                <div class="dfa-footer-col"><h4>Contact</h4><ul><li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li><li><a href="#">Lagos, Nigeria</a></li></ul></div>
             </div>
             <div class="dfa-footer-bottom">
                 <p>© 2026 DFA. All rights reserved.</p>
-                <div class="dfa-footer-bottom-links">
-                    <a href="#">Terms</a>
-                    <a href="#">Privacy</a>
-                </div>
+                <div class="dfa-footer-bottom-links"><a href="#">Terms</a><a href="#">Privacy</a></div>
             </div>
         </div>
     </footer>
@@ -262,8 +202,16 @@
     let currentEvent = null;
 
     // ── Go to checkout ────────────────────────────────────────────────────────
-    function selectTicket(tierId, tierName, ticketType, tierPrice) {
-        const url = `checkout.html?eventId=${currentEvent._id}&eventTitle=${encodeURIComponent(currentEvent.title)}&tierId=${tierId}&tier=${encodeURIComponent(tierName)}&ticketType=${encodeURIComponent(ticketType)}&price=${tierPrice}`;
+    function selectTicket(tierId, tierName, ticketType, tierPrice, isGroupTicket, showAvailableCount, available) {
+        const url = `checkout.html?eventId=${currentEvent._id}`
+            + `&eventTitle=${encodeURIComponent(currentEvent.title)}`
+            + `&tierId=${tierId}`
+            + `&tier=${encodeURIComponent(tierName)}`
+            + `&ticketType=${encodeURIComponent(ticketType)}`
+            + `&price=${tierPrice}`
+            + `&isGroupTicket=${isGroupTicket}`
+            + `&showAvailableCount=${showAvailableCount}`
+            + `&available=${available}`;
         window.location.href = url;
     }
 
@@ -288,36 +236,45 @@
             let ticketHTML = '';
             if (event.ticketTiers?.length > 0) {
                 event.ticketTiers.forEach(ticket => {
-                    const sold      = ticket.sold || 0;
-                    const left      = ticket.capacity - sold;
-                    const pct       = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
-                    const soldOut   = pct >= 100;
-                    const lowStock  = pct >= 80 && !soldOut;
+                    const sold             = ticket.sold || 0;
+                    const left             = ticket.capacity - sold;
+                    const pct              = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
+                    const soldOut          = pct >= 100;
+                    const lowStock         = pct >= 80 && !soldOut;
+                    const showCount        = ticket.showAvailableCount === true;
+                    const isGroup          = ticket.isGroupTicket === true;
 
+                    // Availability badge
                     let availHTML;
                     if (soldOut) {
                         availHTML = `<span class="avail-badge avail-sold"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Sold Out</span>`;
-                    } else if (lowStock) {
+                    } else if (showCount && lowStock) {
                         availHTML = `<span class="avail-badge avail-low"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Only ${left} left!</span>`;
-                    } else {
+                    } else if (showCount) {
                         availHTML = `<span class="avail-badge avail-ok"><i class="fa-solid fa-circle" style="font-size:6px;"></i> ${left} available</span>`;
+                    } else {
+                        availHTML = `<span class="avail-badge avail-ok"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Available</span>`;
                     }
 
-                    // Early bird pricing display
-                    let priceHTML = '';
+                    // Price display (early bird or normal)
+                    const displayPrice = ticket.enableEarlyBird && ticket.earlyBirdPrice ? ticket.earlyBirdPrice : ticket.price;
+                    let priceHTML;
                     if (ticket.enableEarlyBird && ticket.earlyBirdPrice) {
                         priceHTML = `
-                            <div class="early-bird-badge">
-                                <i class="fa-solid fa-bolt"></i> Early Bird Offer
-                            </div>
-                            <div class="price-display">
-                                <span class="original-price">₦${Number(ticket.price).toLocaleString()}</span>
-                                <span class="early-bird-price">₦${Number(ticket.earlyBirdPrice).toLocaleString()}</span>
-                            </div>
-                        `;
+                            <div>
+                                <div class="early-bird-badge"><i class="fa-solid fa-bolt"></i> Early Bird Offer</div>
+                                <div class="price-display">
+                                    <span class="original-price">₦${Number(ticket.price).toLocaleString()}</span>
+                                    <span class="early-bird-price">₦${Number(ticket.earlyBirdPrice).toLocaleString()}</span>
+                                </div>
+                            </div>`;
                     } else {
                         priceHTML = `<span style="color:#8B5CF6;font-weight:800;font-size:16px;">₦${Number(ticket.price).toLocaleString()}</span>`;
                     }
+
+                    const groupBadge = isGroup
+                        ? `<div class="group-badge"><i class="fa-solid fa-users"></i> Group ticket — up to 5 per order</div>`
+                        : '';
 
                     ticketHTML += `
                     <div class="ticket-card">
@@ -325,14 +282,17 @@
                             <span style="font-weight:700;font-size:15px;">${ticket.ticketName || ticket.name}</span>
                             ${priceHTML}
                         </div>
-                        <div style="margin-bottom:12px;">${availHTML}</div>
+                        <div style="margin-bottom:${isGroup ? '4px' : '12px'};">${availHTML}</div>
+                        ${groupBadge}
+                        <div style="margin-top:${isGroup ? '8px' : '0'};">
                         <button
                             class="select-btn"
                             ${soldOut ? 'disabled' : ''}
-                            onclick="selectTicket('${ticket._id}', '${ticket.ticketName || ticket.name}', '${ticket.ticketType}', ${ticket.enableEarlyBird && ticket.earlyBirdPrice ? ticket.earlyBirdPrice : ticket.price})"
+                            onclick="selectTicket('${ticket._id}', '${(ticket.ticketName || ticket.name).replace(/'/g,"\\'")}', '${ticket.ticketType}', ${displayPrice}, ${isGroup}, ${showCount}, ${left})"
                         >
                             ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> Select Ticket →'}
                         </button>
+                        </div>
                     </div>`;
                 });
             } else {
@@ -344,33 +304,22 @@
             });
 
             document.getElementById('event-details-container').innerHTML = `
-
-            <!-- Hero -->
             <section class="event-hero" style="position:relative;height:45vh;display:flex;align-items:flex-end;overflow:hidden;">
                 <div style="position:absolute;inset:0;z-index:0;">
                     <img src="${event.bannerImage || ''}" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4);">
                 </div>
                 <div class="event-hero-inner" style="max-width:1200px;margin:0 auto;padding:0 32px 48px;position:relative;z-index:1;color:#fff;width:100%;">
-                    <a href="event1.html" style="font-size:11px;font-weight:700;text-transform:uppercase;opacity:.8;text-decoration:none;color:#fff;display:inline-block;margin-bottom:16px;">
-                        ← Back to events
-                    </a>
-                    <span style="display:inline-block;background:#8B5CF6;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:12px;">
-                        ${event.status || 'Upcoming'}
-                    </span>
+                    <a href="event1.html" style="font-size:11px;font-weight:700;text-transform:uppercase;opacity:.8;text-decoration:none;color:#fff;display:inline-block;margin-bottom:16px;">← Back to events</a>
+                    <span style="display:inline-block;background:#8B5CF6;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:12px;">${event.status || 'Upcoming'}</span>
                     <h1 style="font-size:clamp(28px,5vw,52px);font-weight:800;margin:0 0 8px;">${event.title}</h1>
                     <p style="color:rgba(255,255,255,0.75);font-size:15px;margin:0;">${event.subTitle || ''}</p>
                 </div>
             </section>
 
-            <!-- Body -->
             <div class="event-body">
-
-                <!-- Left: About -->
                 <div>
                     <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">About This Event</h2>
                     <p style="color:#6B7280;line-height:1.8;margin-bottom:40px;font-size:15px;">${event.description || ''}</p>
-
-                    <!-- Info cards -->
                     <div class="info-cards">
                         <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
                             <i class="fa-regular fa-calendar" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
@@ -390,13 +339,11 @@
                     </div>
                 </div>
 
-                <!-- Right: Ticket selector (sticky on desktop) -->
                 <div class="ticket-panel">
                     <h3 style="font-size:17px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;">
                         <i class="fa-solid fa-ticket" style="color:#8B5CF6;"></i> Get Your Ticket
                     </h3>
                     ${ticketHTML}
-
                     <p style="font-size:11px;color:#9CA3AF;text-align:center;margin-top:16px;">
                         <i class="fa-solid fa-lock" style="font-size:10px;"></i>
                         Secure checkout • QR ticket sent by email
