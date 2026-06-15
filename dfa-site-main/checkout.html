@@ -9,402 +9,482 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
-        .purple-main { color: #8B5CF6; }
-        .step { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
-        .step.done .step-num   { background: #8B5CF6; color: #fff; }
-        .step.active .step-num { background: #8B5CF6; color: #fff; }
-        .step.idle .step-num   { background: #E5E7EB; color: #9CA3AF; }
-        .step.done  { color: #8B5CF6; opacity: .6; }
-        .step.active { color: #8B5CF6; }
-        .step.idle  { color: #9CA3AF; }
-        .step-line  { width: 32px; height: 1px; background: #E5E7EB; }
-        .f-input { width: 100%; border: 1.5px solid #E5E7EB; background: #F9FAFB; border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s; color: #111; }
-        .f-input:focus { border-color: #8B5CF6; background: #fff; }
-        .f-input::placeholder { color: #9CA3AF; }
-        .f-label { display: block; font-size: 10px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .ticket-summary { background: linear-gradient(135deg, #8B5CF6, #6D28D9); border-radius: 16px; padding: 20px; color: #fff; margin-bottom: 24px; }
-        .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; display: none; }
-        .f-input.error { border-color: #EF4444; }
-        .attendee-card {
-            background: #F9FAFB;
-            border: 1px solid #E5E7EB;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-        .attendee-card-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: #8B5CF6;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .attendee-fields {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        @media (max-width: 480px) {
-            .attendee-fields { grid-template-columns: 1fr; }
-        }
+        .step { display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px; }
+        .step-num { width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0; }
+        .step.done .step-num   { background:#8B5CF6;color:#fff; }
+        .step.active .step-num { background:#8B5CF6;color:#fff; }
+        .step.idle .step-num   { background:#E5E7EB;color:#9CA3AF; }
+        .step.done  { color:#8B5CF6;opacity:.6; }
+        .step.active { color:#8B5CF6; }
+        .step.idle  { color:#9CA3AF; }
+        .step-line  { width:32px;height:1px;background:#E5E7EB; }
+        .f-input { width:100%;border:1.5px solid #E5E7EB;background:#F9FAFB;border-radius:12px;padding:12px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .15s;color:#111; }
+        .f-input:focus { border-color:#8B5CF6;background:#fff; }
+        .f-input::placeholder { color:#9CA3AF; }
+        .f-input.error { border-color:#EF4444; }
+        .f-label { display:block;font-size:10px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px; }
+        .ticket-summary { background:linear-gradient(135deg,#8B5CF6,#6D28D9);border-radius:16px;padding:20px;color:#fff;margin-bottom:24px; }
+        .field-error { font-size:11px;color:#EF4444;margin-top:4px;display:none; }
+        .attendee-card { background:#F9FAFB;border:1px solid #E5E7EB;border-radius:14px;padding:16px;margin-bottom:12px; }
+        .attendee-card-title { font-size:11px;font-weight:700;color:#8B5CF6;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
+        .attendee-fields { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+        @media (max-width:480px) { .attendee-fields { grid-template-columns:1fr; } }
+
+        /* School pass popup */
+        .school-popup { position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(3px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px; }
+        .school-popup-box { background:#fff;border-radius:20px;padding:32px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.3); }
+        .school-popup-box h3 { font-size:18px;font-weight:700;color:#111;margin-bottom:10px; }
+        .school-popup-box p { font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:20px; }
+        .popup-btn { display:inline-block;background:#8B5CF6;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit; }
+        .popup-btn.outline { background:transparent;border:1.5px solid #E5E7EB;color:#374151;margin-right:8px; }
     </style>
 </head>
 <body>
-    <nav class="bg-white sticky top-0 z-50 shadow-sm">
-        <div class="flex items-center justify-between px-8 py-4">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                    <span class="text-white font-bold text-xs">DFA</span>
-                </div>
-                <span class="font-bold text-lg">DFA</span>
-            </div>
-            <a href="event_details.html" class="text-sm text-gray-500 hover:text-purple-600 flex items-center gap-1">
-                <i class="fa-solid fa-arrow-left text-xs"></i> Back to event
-            </a>
+<nav class="bg-white sticky top-0 z-50 shadow-sm">
+    <div class="flex items-center justify-between px-8 py-4">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-xs">DFA</span></div>
+            <span class="font-bold text-lg">DFA</span>
         </div>
-    </nav>
+        <a href="event_details.html" class="text-sm text-gray-500 hover:text-purple-600 flex items-center gap-1">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back to event
+        </a>
+    </div>
+</nav>
 
-    <main class="max-w-2xl mx-auto py-12 px-6">
-        <div class="flex items-center gap-2 mb-10 flex-wrap">
-            <div class="step done"><div class="step-num"><i class="fa-solid fa-check" style="font-size:8px;"></i></div> Select Ticket</div>
-            <div class="step-line hidden sm:block"></div>
-            <div class="step active"><div class="step-num">2</div> Your Details</div>
-            <div class="step-line hidden sm:block"></div>
-            <div class="step idle"><div class="step-num">3</div> Payment</div>
-            <div class="step-line hidden sm:block"></div>
-            <div class="step idle"><div class="step-num">4</div> Confirmation</div>
+<main class="max-w-2xl mx-auto py-12 px-6">
+    <!-- Steps -->
+    <div class="flex items-center gap-2 mb-10 flex-wrap">
+        <div class="step done"><div class="step-num"><i class="fa-solid fa-check" style="font-size:8px;"></i></div> Select Ticket</div>
+        <div class="step-line hidden sm:block"></div>
+        <div class="step active"><div class="step-num">2</div> Your Details</div>
+        <div class="step-line hidden sm:block"></div>
+        <div class="step idle"><div class="step-num">3</div> Payment</div>
+        <div class="step-line hidden sm:block"></div>
+        <div class="step idle"><div class="step-num">4</div> Confirmation</div>
+    </div>
+
+    <!-- Ticket summary -->
+    <div class="ticket-summary">
+        <div class="flex justify-between items-start">
+            <div>
+                <div style="font-size:10px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Selected Ticket</div>
+                <div style="font-size:20px;font-weight:700;" id="summaryEvent">Loading...</div>
+                <div style="font-size:13px;opacity:.8;margin-top:4px;" id="summaryTicket">—</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:22px;font-weight:800;" id="summaryPrice">—</div>
+                <div style="font-size:11px;opacity:.7;" id="summaryQty">—</div>
+            </div>
         </div>
+    </div>
 
-        <div class="ticket-summary">
-            <div class="flex justify-between items-start">
-                <div>
-                    <div style="font-size:10px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Selected Ticket</div>
-                    <div style="font-size:20px;font-weight:700;" id="summaryEvent">Loading...</div>
-                    <div style="font-size:13px;opacity:.8;margin-top:4px;" id="summaryTicket">-</div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:22px;font-weight:800;" id="summaryPrice">-</div>
-                    <div style="font-size:11px;opacity:.7;" id="summaryQty">1 ticket</div>
-                </div>
+    <!-- Form card -->
+    <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center">
+                <i class="fa-regular fa-user" style="color:#8B5CF6;font-size:14px;"></i>
+            </div>
+            <div>
+                <div style="font-size:16px;font-weight:700;" id="formTitle">Your Details</div>
+                <div style="font-size:12px;color:#9CA3AF;" id="formSubtitle">Your ticket will be sent to this email</div>
             </div>
         </div>
 
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center">
-                    <i class="fa-regular fa-user" style="color:#8B5CF6;font-size:14px;"></i>
+        <div class="space-y-5">
+
+            <!-- ── SCHOOL PASS: org fields ── -->
+            <div id="schoolFields" style="display:none;">
+                <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:12px;color:#1D4ED8;">
+                    <i class="fa-solid fa-school" style="margin-right:6px;"></i>
+                    <strong>School Pass</strong> — Covers a minimum of 50 students. Please enter your organisation details and number of students attending.
                 </div>
-                <div>
-                    <div style="font-size:16px;font-weight:700;">Your Details</div>
-                    <div style="font-size:12px;color:#9CA3AF;">Your ticket will be sent to this email</div>
+                <div style="margin-bottom:14px;">
+                    <label class="f-label">Organisation / School Name *</label>
+                    <input type="text" class="f-input" id="f_org" placeholder="e.g. Bright Future Academy">
+                    <div class="field-error" id="err_org">Please enter your organisation name</div>
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label class="f-label">Number of Students *</label>
+                    <input type="number" class="f-input" id="f_students" placeholder="e.g. 50" min="50" max="50" oninput="checkStudentCount(this)">
+                    <div class="field-error" id="err_students">Minimum 50 students required for a School Pass</div>
+                    <div style="font-size:11px;color:#6B7280;margin-top:4px;">Exactly 50 students per School Pass ticket</div>
                 </div>
             </div>
 
-            <div class="space-y-5">
-                <div>
+            <!-- ── ALL OTHER TYPES: buyer details ── -->
+            <div id="buyerFields">
+                <div style="margin-bottom:14px;">
                     <label class="f-label">Full Name *</label>
                     <input type="text" class="f-input" id="f_name" placeholder="e.g. Amina Yusuf">
                     <div class="field-error" id="err_name">Please enter your full name</div>
                 </div>
-
-                <div>
+                <div style="margin-bottom:14px;">
                     <label class="f-label">Email Address *</label>
                     <input type="email" class="f-input" id="f_email" placeholder="amina@example.com">
                     <div class="field-error" id="err_email">Please enter a valid email</div>
                     <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">
-                        <i class="fa-solid fa-circle-info" style="color:#8B5CF6;"></i>
-                        Your QR code ticket will be sent here
+                        <i class="fa-solid fa-circle-info" style="color:#8B5CF6;"></i> Your QR code ticket will be sent here
                     </div>
                 </div>
-
-                <div>
+                <div style="margin-bottom:14px;">
                     <label class="f-label">WhatsApp Number *</label>
                     <input type="tel" class="f-input" id="f_phone" placeholder="+234 800 000 0000">
                     <div class="field-error" id="err_phone">Please enter your WhatsApp number</div>
                 </div>
-
-                <div id="qtyWrapper">
-                    <label class="f-label">Number of Tickets</label>
-                    <select class="f-input" id="f_qty" onchange="updateAttendees()">
-                        <option value="1">1 ticket</option>
-                    </select>
-                    <div id="groupTicketNote" style="font-size:11px;color:#8B5CF6;margin-top:4px;display:none;">
-                        <i class="fa-solid fa-users" style="margin-right:4px;"></i> Group ticket - up to 5 per order
-                    </div>
-                </div>
-
-                <div id="attendeeForms"></div>
-
-                <div id="availNotice" style="display:none;font-size:11px;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;">
-                    <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>
-                    <span id="availNoticeText"></span>
-                </div>
-
-                <div style="background:#F5F3FF;border:1px solid #EDE9FE;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;">
-                    <span style="font-size:13px;font-weight:600;color:#374151;">Total Amount</span>
-                    <span style="font-size:20px;font-weight:800;color:#8B5CF6;" id="totalAmount">₦0</span>
-                </div>
-
-                <div id="orderError" style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px 14px;font-size:12px;color:#9F1239;display:none;">
-                    <i class="fa-solid fa-circle-exclamation" style="margin-right:6px;"></i>
-                    <span id="orderErrorMsg">Something went wrong.</span>
-                </div>
-
-                <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400E;">
-                    <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
-                    Your information is secure. You'll be redirected to our bank transfer payment page.
-                </div>
-
-                <button onclick="proceedToPayment()"
-                    style="width:100%;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;margin-top:16px;"
-                    id="continueBtn">
-                    Continue to Payment <i class="fa-solid fa-arrow-right"></i>
-                </button>
             </div>
+
+            <!-- ── MYSELF AND FRIENDS: qty selector ── -->
+            <div id="qtyWrapper" style="display:none;">
+                <label class="f-label">Number of Tickets (2–5)</label>
+                <select class="f-input" id="f_qty" onchange="updateFriendsAttendees()">
+                    <option value="2">2 people</option>
+                    <option value="3">3 people</option>
+                    <option value="4">4 people</option>
+                    <option value="5">5 people</option>
+                </select>
+                <div style="font-size:11px;color:#8B5CF6;margin-top:4px;">
+                    <i class="fa-solid fa-users" style="margin-right:4px;"></i>Price multiplies by number of tickets
+                </div>
+            </div>
+
+            <!-- ── ATTENDEE FORMS (friends + family) ── -->
+            <div id="attendeeForms"></div>
+
+            <!-- Available count notice -->
+            <div id="availNotice" style="display:none;font-size:11px;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>
+                <span id="availNoticeText"></span>
+            </div>
+
+            <!-- Total -->
+            <div style="background:#F5F3FF;border:1px solid #EDE9FE;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:13px;font-weight:600;color:#374151;">Total Amount</span>
+                <span style="font-size:20px;font-weight:800;color:#8B5CF6;" id="totalAmount">₦0</span>
+            </div>
+
+            <!-- Error -->
+            <div id="orderError" style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px 14px;font-size:12px;color:#9F1239;display:none;">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right:6px;"></i>
+                <span id="orderErrorMsg">Something went wrong.</span>
+            </div>
+
+            <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400E;">
+                <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
+                Your information is secure. You'll be redirected to our bank transfer payment page.
+            </div>
+
+            <button onclick="proceedToPayment()"
+                style="width:100%;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;"
+                id="continueBtn">
+                Continue to Payment <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
-    </main>
+    </div>
+</main>
+
+<!-- School pass popup (< 50 students) -->
+<div id="schoolPopup" class="school-popup" style="display:none;">
+    <div class="school-popup-box">
+        <div style="font-size:36px;margin-bottom:12px;">🏫</div>
+        <h3>School Pass requires 50 students</h3>
+        <p>Your school has fewer than 50 students. A School Pass is designed for groups of exactly 50. For smaller groups, we recommend purchasing <strong>Family Tickets</strong> instead — each Family Ticket covers 5 people at a fixed price.</p>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;">
+            <button class="popup-btn outline" onclick="document.getElementById('schoolPopup').style.display='none'">Go Back</button>
+            <button class="popup-btn" onclick="goToFamilyTickets()">View Family Tickets</button>
+        </div>
+    </div>
+</div>
 
 <script>
     const API = 'https://dfaummah-server.onrender.com/api/v1';
 
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('eventId');
-    const eventTitle = decodeURIComponent(params.get('eventTitle') || '');
-    const tierId = params.get('tierId');
-    const tierName = decodeURIComponent(params.get('tier') || '');
-    const ticketType = decodeURIComponent(params.get('ticketType') || '');
-    const tierPrice = parseFloat(params.get('price') || '0');
-    const isGroupTicket = params.get('isGroupTicket') === 'true';
-    const showAvailCount = params.get('showAvailableCount') === 'true';
-    const availableLeft = parseInt(params.get('available') || '999', 10);
+    const params          = new URLSearchParams(window.location.search);
+    const eventId         = params.get('eventId');
+    const eventTitle      = decodeURIComponent(params.get('eventTitle') || '');
+    const tierId          = params.get('tierId');
+    const tierName        = decodeURIComponent(params.get('tier') || '');
+    const ticketType      = decodeURIComponent(params.get('ticketType') || ''); // 'Standard','Myself and friends','Family','School pass'
+    const tierPrice       = parseFloat(params.get('price') || '0');
+    const showAvailCount  = params.get('showAvailableCount') === 'true';
+    const availableLeft   = parseInt(params.get('available') || '999', 10);
 
-    if (!eventId || !tierName || !ticketType || !tierPrice) {
-        document.querySelector('main').innerHTML = `
-            <div style="text-align:center;padding:80px 20px;color:#EF4444;">
-                <i class="fa-solid fa-circle-exclamation" style="font-size:36px;margin-bottom:12px;display:block;"></i>
-                <p style="font-size:16px;font-weight:700;margin-bottom:8px;">Invalid Request</p>
-                <p style="font-size:14px;color:#9CA3AF;margin-bottom:20px;">Missing ticket information. Please select a ticket again.</p>
-                <a href="event1.html" style="display:inline-block;background:#8B5CF6;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">← Back to Events</a>
-            </div>`;
-    }
-
-    document.getElementById('summaryEvent').textContent = eventTitle || 'Event';
-    document.getElementById('summaryTicket').textContent = tierName || 'Standard Ticket';
-    document.getElementById('summaryPrice').textContent = '₦' + tierPrice.toLocaleString();
-    document.getElementById('totalAmount').textContent = '₦' + tierPrice.toLocaleString();
-
-    const qtySelect = document.getElementById('f_qty');
-    const maxQty = isGroupTicket ? Math.min(5, availableLeft) : 1;
-    qtySelect.innerHTML = '';
-
-    for (let i = 1; i <= maxQty; i++) {
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.textContent = isGroupTicket
-            ? i + ' attendee' + (i > 1 ? 's' : '')
-            : i + ' ticket' + (i > 1 ? 's' : '');
-        qtySelect.appendChild(opt);
-    }
-
-    if (!isGroupTicket) {
-        document.getElementById('qtyWrapper').style.display = 'none';
-    } else {
-        document.getElementById('groupTicketNote').style.display = 'block';
-    }
+    // ── Populate summary ──────────────────────────────────────────────────────
+    document.getElementById('summaryEvent').textContent  = eventTitle || 'Event';
+    document.getElementById('summaryTicket').textContent = tierName || 'Ticket';
+    document.getElementById('summaryPrice').textContent  = '₦' + tierPrice.toLocaleString();
+    document.getElementById('totalAmount').textContent   = '₦' + tierPrice.toLocaleString();
 
     if (showAvailCount && availableLeft < 999) {
-        document.getElementById('availNoticeText').textContent =
-            `${availableLeft} ticket${availableLeft !== 1 ? 's' : ''} remaining for this tier`;
+        document.getElementById('availNoticeText').textContent = `${availableLeft} ticket${availableLeft !== 1 ? 's' : ''} remaining`;
         document.getElementById('availNotice').style.display = 'block';
     }
 
-    function updateAttendees() {
-        const qty = parseInt(qtySelect.value, 10);
-        const total = isGroupTicket ? tierPrice : tierPrice * qty;
+    // ── Configure UI per ticket type ─────────────────────────────────────────
+    function setupUI() {
+        const qtyEl   = document.getElementById('summaryQty');
+        const buyerEl = document.getElementById('buyerFields');
+        const schoolEl= document.getElementById('schoolFields');
+        const qtyWrap = document.getElementById('qtyWrapper');
 
-        document.getElementById('summaryQty').textContent = isGroupTicket
-            ? qty + ' attendee' + (qty > 1 ? 's' : '')
-            : qty + ' ticket' + (qty > 1 ? 's' : '');
+        if (ticketType === 'Standard') {
+            qtyEl.textContent = '1 ticket · 1 person';
+            document.getElementById('formSubtitle').textContent = 'Your ticket will be sent to this email';
 
-        document.getElementById('totalAmount').textContent = '₦' + total.toLocaleString();
-        document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
+        } else if (ticketType === 'Myself and friends') {
+            qtyEl.textContent = '2–5 tickets · price × qty';
+            document.getElementById('formSubtitle').textContent = 'Fill in your details, then add your friends';
+            qtyWrap.style.display = 'block';
+            updateFriendsAttendees(); // render friend forms for default qty=2
 
-        const formsDiv = document.getElementById('attendeeForms');
-        formsDiv.innerHTML = '';
+        } else if (ticketType === 'Family') {
+            qtyEl.textContent = '5 people · fixed price';
+            document.getElementById('formTitle').textContent    = 'Family Details';
+            document.getElementById('formSubtitle').textContent = 'Fill in your details, then add your 4 family members';
+            renderFamilyForms(); // always show 4 extra forms
 
-        if (qty <= 1) return;
-
-        for (let i = 2; i <= qty; i++) {
-            formsDiv.innerHTML += `
-            <div class="attendee-card">
-                <div class="attendee-card-title">
-                    <i class="fa-solid fa-user"></i> Attendee ${i} Details
-                </div>
-                <div class="attendee-fields">
-                    <div>
-                        <label class="f-label">Full Name *</label>
-                        <input type="text" class="f-input attendee-name" data-idx="${i}" placeholder="Full name">
-                    </div>
-                    <div>
-                        <label class="f-label">Email Address *</label>
-                        <input type="email" class="f-input attendee-email" data-idx="${i}" placeholder="email@example.com">
-                    </div>
-                    <div style="grid-column:1/-1;">
-                        <label class="f-label">WhatsApp Number *</label>
-                        <input type="tel" class="f-input attendee-phone" data-idx="${i}" placeholder="+234 800 000 0000">
-                    </div>
-                </div>
-            </div>`;
+        } else if (ticketType === 'School pass') {
+            qtyEl.textContent = '50 students · org only';
+            document.getElementById('formTitle').textContent    = 'Organisation Details';
+            document.getElementById('formSubtitle').textContent = 'We only need your school name and student count';
+            buyerEl.style.display  = 'none';
+            schoolEl.style.display = 'block';
         }
     }
 
+    // ── Myself and friends: qty + friend forms ───────────────────────────────
+    function updateFriendsAttendees() {
+        const qty   = parseInt(document.getElementById('f_qty').value, 10);
+        const total = tierPrice * qty;
+        document.getElementById('summaryQty').textContent  = `${qty} people · ₦${tierPrice.toLocaleString()} each`;
+        document.getElementById('summaryPrice').textContent = '₦' + total.toLocaleString();
+        document.getElementById('totalAmount').textContent  = '₦' + total.toLocaleString();
+
+        const div = document.getElementById('attendeeForms');
+        div.innerHTML = '';
+        for (let i = 2; i <= qty; i++) {
+            div.innerHTML += attendeeCard(i, 'Friend');
+        }
+    }
+
+    // ── Family: always 4 extra forms, price fixed ────────────────────────────
+    function renderFamilyForms() {
+        document.getElementById('summaryQty').textContent   = '5 people · fixed price';
+        document.getElementById('summaryPrice').textContent = '₦' + tierPrice.toLocaleString();
+        document.getElementById('totalAmount').textContent  = '₦' + tierPrice.toLocaleString();
+        const div = document.getElementById('attendeeForms');
+        div.innerHTML = '';
+        for (let i = 2; i <= 5; i++) {
+            div.innerHTML += attendeeCard(i, 'Family Member');
+        }
+    }
+
+    function attendeeCard(idx, label) {
+        return `
+        <div class="attendee-card">
+            <div class="attendee-card-title"><i class="fa-solid fa-user"></i> ${label} ${idx - 1} Details</div>
+            <div class="attendee-fields">
+                <div>
+                    <label class="f-label">Full Name *</label>
+                    <input type="text" class="f-input attendee-name" data-idx="${idx}" placeholder="Full name">
+                </div>
+                <div>
+                    <label class="f-label">Email Address *</label>
+                    <input type="email" class="f-input attendee-email" data-idx="${idx}" placeholder="email@example.com">
+                </div>
+                <div style="grid-column:1/-1;">
+                    <label class="f-label">WhatsApp Number *</label>
+                    <input type="tel" class="f-input attendee-phone" data-idx="${idx}" placeholder="+234 800 000 0000">
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ── School: check student count ──────────────────────────────────────────
+    function checkStudentCount(el) {
+        const val = parseInt(el.value, 10);
+        if (val && val < 50) {
+            document.getElementById('schoolPopup').style.display = 'flex';
+            el.value = '';
+        }
+    }
+
+    function goToFamilyTickets() {
+        document.getElementById('schoolPopup').style.display = 'none';
+        history.back();
+    }
+
+    // ── Validation ───────────────────────────────────────────────────────────
     function validate() {
         let ok = true;
-        const name = document.getElementById('f_name').value.trim();
+
+        if (ticketType === 'School pass') {
+            const org      = document.getElementById('f_org').value.trim();
+            const students = parseInt(document.getElementById('f_students').value, 10);
+            if (!org) {
+                document.getElementById('f_org').classList.add('error');
+                document.getElementById('err_org').style.display = 'block'; ok = false;
+            } else {
+                document.getElementById('f_org').classList.remove('error');
+                document.getElementById('err_org').style.display = 'none';
+            }
+            if (!students || students < 50) {
+                document.getElementById('f_students').classList.add('error');
+                document.getElementById('err_students').style.display = 'block'; ok = false;
+                if (students && students < 50) document.getElementById('schoolPopup').style.display = 'flex';
+            } else {
+                document.getElementById('f_students').classList.remove('error');
+                document.getElementById('err_students').style.display = 'none';
+            }
+            return ok;
+        }
+
+        // Buyer fields
+        const name  = document.getElementById('f_name').value.trim();
         const email = document.getElementById('f_email').value.trim();
         const phone = document.getElementById('f_phone').value.trim();
-
         if (!name || name.length < 3) {
             document.getElementById('f_name').classList.add('error');
-            document.getElementById('err_name').style.display = 'block';
-            ok = false;
-        } else {
-            document.getElementById('f_name').classList.remove('error');
-            document.getElementById('err_name').style.display = 'none';
-        }
-
+            document.getElementById('err_name').style.display = 'block'; ok = false;
+        } else { document.getElementById('f_name').classList.remove('error'); document.getElementById('err_name').style.display = 'none'; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             document.getElementById('f_email').classList.add('error');
-            document.getElementById('err_email').style.display = 'block';
-            ok = false;
-        } else {
-            document.getElementById('f_email').classList.remove('error');
-            document.getElementById('err_email').style.display = 'none';
-        }
-
-        if (!phone || phone.replace(/\D/g, '').length < 10) {
+            document.getElementById('err_email').style.display = 'block'; ok = false;
+        } else { document.getElementById('f_email').classList.remove('error'); document.getElementById('err_email').style.display = 'none'; }
+        if (!phone || phone.replace(/\D/g,'').length < 10) {
             document.getElementById('f_phone').classList.add('error');
-            document.getElementById('err_phone').style.display = 'block';
-            ok = false;
-        } else {
-            document.getElementById('f_phone').classList.remove('error');
-            document.getElementById('err_phone').style.display = 'none';
-        }
+            document.getElementById('err_phone').style.display = 'block'; ok = false;
+        } else { document.getElementById('f_phone').classList.remove('error'); document.getElementById('err_phone').style.display = 'none'; }
 
+        // Extra attendees
         document.querySelectorAll('.attendee-name').forEach(el => {
-            if (!el.value.trim() || el.value.trim().length < 2) {
-                el.classList.add('error');
-                ok = false;
-            } else {
-                el.classList.remove('error');
-            }
+            if (!el.value.trim() || el.value.trim().length < 2) { el.classList.add('error'); ok = false; } else el.classList.remove('error');
         });
-
         document.querySelectorAll('.attendee-email').forEach(el => {
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) {
-                el.classList.add('error');
-                ok = false;
-            } else {
-                el.classList.remove('error');
-            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) { el.classList.add('error'); ok = false; } else el.classList.remove('error');
         });
-
         document.querySelectorAll('.attendee-phone').forEach(el => {
-            if (!el.value.trim() || el.value.trim().replace(/\D/g, '').length < 10) {
-                el.classList.add('error');
-                ok = false;
-            } else {
-                el.classList.remove('error');
-            }
+            if (!el.value.trim() || el.value.trim().replace(/\D/g,'').length < 10) { el.classList.add('error'); ok = false; } else el.classList.remove('error');
         });
 
         return ok;
     }
 
+    // ── Proceed to payment ────────────────────────────────────────────────────
     async function proceedToPayment() {
         if (!validate()) return;
-
-        const name = document.getElementById('f_name').value.trim();
-        const email = document.getElementById('f_email').value.trim();
-        const phone = document.getElementById('f_phone').value.trim();
-        const qty = isGroupTicket ? parseInt(qtySelect.value, 10) : 1;
-        const total = isGroupTicket ? tierPrice : tierPrice * qty;
-
-        const attendees = [
-            { name, email, whatsapp: phone }
-        ];
-
-        for (let i = 2; i <= qty; i++) {
-            attendees.push({
-                name: document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
-                email: document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
-                whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || ''
-            });
-        }
 
         const btn = document.getElementById('continueBtn');
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating order...';
         document.getElementById('orderError').style.display = 'none';
 
-        try {
-            const payload = {
+        let payload, qty, total;
+
+        if (ticketType === 'School pass') {
+            const org      = document.getElementById('f_org').value.trim();
+            const students = parseInt(document.getElementById('f_students').value, 10);
+            qty   = 1;
+            total = tierPrice;
+            payload = {
                 eventId,
-                tierId,
-                buyerDetails: { name, email, whatsapp: phone },
-                ticketType: tierName,
-                quantity: isGroupTicket ? 1 : qty,
-                groupSize: isGroupTicket ? qty : 1,
-                attendees
+                buyerDetails: { name: org, email: `school@dfaummah.com`, whatsapp: 'N/A' },
+                ticketType:   tierName,
+                quantity:     1,
+                attendees:    [],
+                customData:   { organisationName: org, studentCount: students }
             };
 
+        } else if (ticketType === 'Family') {
+            const name  = document.getElementById('f_name').value.trim();
+            const email = document.getElementById('f_email').value.trim();
+            const phone = document.getElementById('f_phone').value.trim();
+            qty   = 1;
+            total = tierPrice;
+            const attendees = [{ name, email, whatsapp: phone }];
+            for (let i = 2; i <= 5; i++) {
+                attendees.push({
+                    name:     document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
+                    email:    document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
+                    whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || ''
+                });
+            }
+            payload = {
+                eventId,
+                buyerDetails: { name, email, whatsapp: phone },
+                ticketType:   tierName,
+                quantity:     1,
+                attendees,
+                customData:   { ticketCategory: 'Family' }
+            };
+
+        } else if (ticketType === 'Myself and friends') {
+            const name  = document.getElementById('f_name').value.trim();
+            const email = document.getElementById('f_email').value.trim();
+            const phone = document.getElementById('f_phone').value.trim();
+            qty   = parseInt(document.getElementById('f_qty').value, 10);
+            total = tierPrice * qty;
+            const attendees = [{ name, email, whatsapp: phone }];
+            for (let i = 2; i <= qty; i++) {
+                attendees.push({
+                    name:     document.querySelector(`.attendee-name[data-idx="${i}"]`)?.value.trim() || '',
+                    email:    document.querySelector(`.attendee-email[data-idx="${i}"]`)?.value.trim() || '',
+                    whatsapp: document.querySelector(`.attendee-phone[data-idx="${i}"]`)?.value.trim() || ''
+                });
+            }
+            payload = {
+                eventId,
+                buyerDetails: { name, email, whatsapp: phone },
+                ticketType:   tierName,
+                quantity:     qty,
+                attendees,
+                customData:   { ticketCategory: 'Myself and friends' }
+            };
+
+        } else {
+            // Standard
+            const name  = document.getElementById('f_name').value.trim();
+            const email = document.getElementById('f_email').value.trim();
+            const phone = document.getElementById('f_phone').value.trim();
+            qty   = 1;
+            total = tierPrice;
+            payload = {
+                eventId,
+                buyerDetails: { name, email, whatsapp: phone },
+                ticketType:   tierName,
+                quantity:     1,
+                attendees:    [],
+                customData:   { ticketCategory: 'Standard' }
+            };
+        }
+
+        try {
             const res = await fetch(`${API}/orders/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
             const result = await res.json();
             if (!res.ok) throw new Error(result.message || 'Failed to create order');
 
             sessionStorage.setItem('dfa_order', JSON.stringify({
-                eventId,
-                eventTitle,
-                tierId,
-                tierName,
-                ticketType,
-                tierPrice,
-                qty,
+                eventId, eventTitle, tierId, tierName, ticketType, tierPrice, qty,
                 total: result.data?.totalAmount ?? total,
-                name,
-                email,
-                phone,
-                isGroupTicket,
-                attendees
+                name: payload.buyerDetails.name, email: payload.buyerDetails.email, phone: payload.buyerDetails.whatsapp,
+                attendees: payload.attendees
             }));
-
             sessionStorage.setItem('dfa_reference', result.data.paymentReference);
             window.location.href = 'payment_gateway.html';
 
-        } catch (err) {
-            document.getElementById('orderErrorMsg').textContent =
-                err.message || 'Failed to create order. Please try again.';
+        } catch(err) {
+            document.getElementById('orderErrorMsg').textContent = err.message || 'Failed to create order. Please try again.';
             document.getElementById('orderError').style.display = 'block';
             btn.disabled = false;
             btn.innerHTML = 'Continue to Payment <i class="fa-solid fa-arrow-right"></i>';
         }
     }
 
-    document.getElementById('f_phone').addEventListener('keypress', e => {
-        if (e.key === 'Enter') proceedToPayment();
-    });
-
-    updateAttendees();
+    setupUI();
 </script>
 </body>
 </html>
