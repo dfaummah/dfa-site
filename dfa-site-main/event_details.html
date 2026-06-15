@@ -10,74 +10,33 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .purple-main { color: #8B5CF6; }
-        .bg-purple-main { background-color: #8B5CF6; }
-        .bg-purple-soft { background-color: #F5F3FF; }
-
-        .ticket-card {
-            border-bottom: 1px solid #F3F4F6;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-            transition: all .2s;
-        }
+        .ticket-card { border-bottom: 1px solid #F3F4F6; padding-bottom: 20px; margin-bottom: 20px; transition: all .2s; }
         .ticket-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-
         .select-btn {
             width: 100%; padding: 10px;
-            border: 1.5px solid #8B5CF6;
-            color: #8B5CF6; background: transparent;
+            border: 1.5px solid #8B5CF6; color: #8B5CF6; background: transparent;
             border-radius: 12px; font-size: 13px; font-weight: 700;
             cursor: pointer; font-family: inherit;
             transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .select-btn:hover {
-            background: #8B5CF6; color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(139,92,246,0.3);
-        }
-        .select-btn:disabled {
-            border-color: #D1D5DB; color: #9CA3AF; cursor: not-allowed;
-            transform: none; box-shadow: none;
-        }
-
-        .avail-badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
-        }
+        .select-btn:hover { background: #8B5CF6; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(139,92,246,0.3); }
+        .select-btn:disabled { border-color: #D1D5DB; color: #9CA3AF; cursor: not-allowed; transform: none; box-shadow: none; }
+        .avail-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
         .avail-ok   { background: rgba(52,211,153,.1);  color: #059669; }
         .avail-low  { background: rgba(251,191,36,.1);  color: #D97706; }
         .avail-sold { background: rgba(239,68,68,.1);   color: #DC2626; }
-
-        .early-bird-badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-            background: rgba(251,191,36,.15); color: #D97706; margin-bottom: 8px;
-        }
+        .early-bird-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(251,191,36,.15); color: #D97706; margin-bottom: 8px; }
         .price-display { font-size: 16px; font-weight: 700; color: #8B5CF6; margin-bottom: 4px; }
         .original-price { text-decoration: line-through; color: #9CA3AF; font-size: 13px; margin-right: 6px; }
         .early-bird-price { color: #D97706; font-weight: 700; }
-
-        .mobile-menu {
-            display: none; position: absolute; top: 100%; left: 0; right: 0;
-            background: #fff; border-top: 1px solid #F3F4F6;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-            flex-direction: column; padding: 12px 24px 20px; gap: 14px;
-        }
+        .type-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border-top: 1px solid #F3F4F6; box-shadow: 0 8px 24px rgba(0,0,0,0.06); flex-direction: column; padding: 12px 24px 20px; gap: 14px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-weight: 500; font-size: 15px; color: #111827; text-decoration: none; }
         .mobile-menu a.active { color: #8B5CF6; }
         #menu-toggle { display: none; }
-
-        .event-body {
-            max-width: 1200px; margin: 0 auto; padding: 60px 32px;
-            display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start;
-        }
-        .ticket-panel {
-            background: #fff; border: 1px solid #F3F4F6; border-radius: 24px;
-            padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            position: sticky; top: 90px;
-        }
-        .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-
+        .event-body { max-width: 1200px; margin: 0 auto; padding: 60px 32px; display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+        .ticket-panel { background: #fff; border: 1px solid #F3F4F6; border-radius: 24px; padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); position: sticky; top: 90px; }
         @media (max-width: 768px) {
             nav.main-nav { padding: 14px 16px; }
             #menu-toggle { display: inline-flex; }
@@ -86,35 +45,21 @@
             .event-hero-inner { padding: 24px 20px 32px !important; }
             .event-body { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
             .ticket-panel { position: static; top: auto; padding: 20px; border-radius: 18px; }
-            .info-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .info-cards > div { padding: 16px; }
             h1 { font-size: clamp(24px,8vw,36px) !important; }
-        }
-        @media (max-width: 420px) {
-            .info-cards { grid-template-columns: 1fr; }
-        }
-
-        /* Group badge */
-        .group-badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-            background: rgba(139,92,246,.1); color: #8B5CF6; margin-bottom: 8px;
         }
     </style>
 </head>
 <body class="bg-white text-gray-900">
 
     <nav class="main-nav flex items-center justify-between px-8 py-4 bg-white sticky top-0 z-50 shadow-sm relative">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <span class="text-white font-bold text-xs">DFA</span>
-            </div>
-            <span class="font-bold text-xl tracking-tight">DFA</span>
-        </div>
+        <a href="index.html" class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-9 w-auto object-contain">
+        </a>
         <div class="desktop-links hidden md:flex gap-8 font-medium text-sm">
             <a href="index.html" class="hover:text-purple-600 transition">Home</a>
             <a href="media.html" class="hover:text-purple-600 transition">Media</a>
-            <a href="event1.html" class="text-purple-600">Events</a>
+            <a href="event1.html" class="hover:text-purple-600 transition">Events</a>
+            <a href="sponsors.html" class="hover:text-purple-600 transition">Sponsors</a>
             <a href="contact.html" class="hover:text-purple-600 transition">Contact</a>
         </div>
         <div class="flex items-center gap-3">
@@ -129,6 +74,7 @@
             <a href="index.html">Home</a>
             <a href="media.html">Media</a>
             <a href="event1.html" class="active">Events</a>
+            <a href="sponsors.html">Sponsors</a>
             <a href="contact.html">Contact</a>
             <a href="event1.html">
                 <button class="bg-purple-600 text-white w-full py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition mt-1">All Events</button>
@@ -152,20 +98,21 @@
         .dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
         .dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
         .dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
-        .dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
+        .dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; max-width: 280px; }
         .dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; min-width: 0; }
         .dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
         .dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
         .dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
         .dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
         .dfa-footer-col ul li { margin-bottom: 0.6rem; }
-        .dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+        .dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; word-break: break-word; }
         .dfa-footer-col ul li a:hover { color: #fff; }
         .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
         .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
         .dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
         .dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
-        @media (max-width: 700px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; } }
+        @media (max-width: 700px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer-grid > div:last-child { grid-column: 1 / -1; } .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; } }
+        @media (max-width: 480px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer .container { padding: 0 1.5rem; } }
     </style>
 
     <footer class="dfa-footer">
@@ -176,7 +123,7 @@
                         <div class="dfa-footer-logo-dot">DFA</div>
                         <span class="dfa-footer-brand-name">DFA</span>
                     </div>
-                    <p>Faith. Culture. Real Conversations.</p>
+                    <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant.</p>
                     <div class="dfa-footer-newsletter">
                         <label>Join our newsletter</label>
                         <div class="dfa-newsletter-row">
@@ -187,8 +134,8 @@
                     </div>
                 </div>
                 <div class="dfa-footer-col"><h4>Menu</h4><ul><li><a href="index.html">Home</a></li><li><a href="media.html">Media</a></li><li><a href="event1.html">Events</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-                <div class="dfa-footer-col"><h4>Social</h4><ul><li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li><li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li><li><a href="https://www.facebook.com/dfatv/">Facebook</a></li><li><a href="https://www.tiktok.com/@dfa.tv">TikTok</a></li></ul></div>
-                <div class="dfa-footer-col"><h4>Contact</h4><ul><li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li><li><a href="#">Lagos, Nigeria</a></li></ul></div>
+                <div class="dfa-footer-col"><h4>Socials</h4><ul><li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li><li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li><li><a href="https://www.facebook.com/dfatv/">Facebook</a></li><li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li></ul></div>
+                <div class="dfa-footer-col"><h4>Contact</h4><ul><li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li><li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li><li><a href="#">Lagos, Nigeria</a></li></ul></div>
             </div>
             <div class="dfa-footer-bottom">
                 <p>© 2026 DFA. All rights reserved.</p>
@@ -201,15 +148,34 @@
     const API = 'https://dfaummah-server.onrender.com/api/v1';
     let currentEvent = null;
 
+    // ── Ticket type config ────────────────────────────────────────────────────
+    const TYPE_CONFIG = {
+        'Standard': {
+            badge: null, // no badge for standard
+            desc:  '1 person · 1 ticket'
+        },
+        'Myself and friends': {
+            badge: { icon: 'fa-users', text: 'Myself & Friends — 2 to 5 people', color: '#34D399', bg: 'rgba(52,211,153,.1)' },
+            desc:  'Price multiplies by number of tickets'
+        },
+        'Family': {
+            badge: { icon: 'fa-house-user', text: 'Family Ticket — 5 people, fixed price', color: '#FBBF24', bg: 'rgba(251,191,36,.1)' },
+            desc:  'One fixed price covers all 5 people'
+        },
+        'School pass': {
+            badge: { icon: 'fa-school', text: 'School Pass — minimum 50 students', color: '#60A5FA', bg: 'rgba(96,165,250,.1)' },
+            desc:  'Organisation ticket for 50 students'
+        }
+    };
+
     // ── Go to checkout ────────────────────────────────────────────────────────
-    function selectTicket(tierId, tierName, ticketType, tierPrice, isGroupTicket, showAvailableCount, available) {
+    function selectTicket(tierId, tierName, ticketType, tierPrice, showAvailableCount, available) {
         const url = `checkout.html?eventId=${currentEvent._id}`
             + `&eventTitle=${encodeURIComponent(currentEvent.title)}`
             + `&tierId=${tierId}`
             + `&tier=${encodeURIComponent(tierName)}`
             + `&ticketType=${encodeURIComponent(ticketType)}`
             + `&price=${tierPrice}`
-            + `&isGroupTicket=${isGroupTicket}`
             + `&showAvailableCount=${showAvailableCount}`
             + `&available=${available}`;
         window.location.href = url;
@@ -232,17 +198,18 @@
             currentEvent = result.data.event;
             const event  = currentEvent;
 
-            // Build ticket tiers HTML
+            // ── Build ticket tiers HTML ───────────────────────────────────────
             let ticketHTML = '';
             if (event.ticketTiers?.length > 0) {
                 event.ticketTiers.forEach(ticket => {
-                    const sold             = ticket.sold || 0;
-                    const left             = ticket.capacity - sold;
-                    const pct              = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
-                    const soldOut          = pct >= 100;
-                    const lowStock         = pct >= 80 && !soldOut;
-                    const showCount        = ticket.showAvailableCount === true;
-                    const isGroup          = ticket.isGroupTicket === true;
+                    const sold      = ticket.sold || 0;
+                    const left      = ticket.capacity - sold;
+                    const pct       = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
+                    const soldOut   = pct >= 100;
+                    const lowStock  = pct >= 80 && !soldOut;
+                    const showCount = ticket.showAvailableCount === true;
+                    const tType     = ticket.ticketType || 'Standard';
+                    const config    = TYPE_CONFIG[tType] || TYPE_CONFIG['Standard'];
 
                     // Availability badge
                     let availHTML;
@@ -256,7 +223,14 @@
                         availHTML = `<span class="avail-badge avail-ok"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Available</span>`;
                     }
 
-                    // Price display (early bird or normal)
+                    // Type badge (Myself & Friends / Family / School Pass)
+                    const typeBadgeHTML = config.badge
+                        ? `<div class="type-badge" style="background:${config.badge.bg};color:${config.badge.color};margin-bottom:6px;">
+                               <i class="fa-solid ${config.badge.icon}"></i> ${config.badge.text}
+                           </div>`
+                        : '';
+
+                    // Price display
                     const displayPrice = ticket.enableEarlyBird && ticket.earlyBirdPrice ? ticket.earlyBirdPrice : ticket.price;
                     let priceHTML;
                     if (ticket.enableEarlyBird && ticket.earlyBirdPrice) {
@@ -272,27 +246,29 @@
                         priceHTML = `<span style="color:#8B5CF6;font-weight:800;font-size:16px;">₦${Number(ticket.price).toLocaleString()}</span>`;
                     }
 
-                    const groupBadge = isGroup
-                        ? `<div class="group-badge"><i class="fa-solid fa-users"></i> Group ticket — up to 5 per order</div>`
+                    // Type description note
+                    const descNote = config.desc
+                        ? `<div style="font-size:11px;color:#6B7280;margin-bottom:10px;">${config.desc}</div>`
                         : '';
+
+                    const safeName = (ticket.ticketName || ticket.name || '').replace(/'/g, "\\'");
 
                     ticketHTML += `
                     <div class="ticket-card">
-                        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
                             <span style="font-weight:700;font-size:15px;">${ticket.ticketName || ticket.name}</span>
                             ${priceHTML}
                         </div>
-                        <div style="margin-bottom:${isGroup ? '4px' : '12px'};">${availHTML}</div>
-                        ${groupBadge}
-                        <div style="margin-top:${isGroup ? '8px' : '0'};">
+                        <div style="margin-bottom:6px;">${availHTML}</div>
+                        ${typeBadgeHTML}
+                        ${descNote}
                         <button
                             class="select-btn"
                             ${soldOut ? 'disabled' : ''}
-                            onclick="selectTicket('${ticket._id}', '${(ticket.ticketName || ticket.name).replace(/'/g,"\\'")}', '${ticket.ticketType}', ${displayPrice}, ${isGroup}, ${showCount}, ${left})"
+                            onclick="selectTicket('${ticket._id}', '${safeName}', '${tType}', ${displayPrice}, ${showCount}, ${left})"
                         >
                             ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> Select Ticket →'}
                         </button>
-                        </div>
                     </div>`;
                 });
             } else {
@@ -308,8 +284,10 @@
                 <div style="position:absolute;inset:0;z-index:0;">
                     <img src="${event.bannerImage || ''}" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.4);">
                 </div>
+                <a href="event1.html" class="absolute top-6 left-6 md:left-8 z-10 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-white/80 hover:text-white transition bg-black/30 hover:bg-black/50 px-4 py-2.5 rounded-full backdrop-blur-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back to events
+                </a>
                 <div class="event-hero-inner" style="max-width:1200px;margin:0 auto;padding:0 32px 48px;position:relative;z-index:1;color:#fff;width:100%;">
-                    <a href="event1.html" style="font-size:11px;font-weight:700;text-transform:uppercase;opacity:.8;text-decoration:none;color:#fff;display:inline-block;margin-bottom:16px;">← Back to events</a>
                     <span style="display:inline-block;background:#8B5CF6;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:12px;">${event.status || 'Upcoming'}</span>
                     <h1 style="font-size:clamp(28px,5vw,52px);font-weight:800;margin:0 0 8px;">${event.title}</h1>
                     <p style="color:rgba(255,255,255,0.75);font-size:15px;margin:0;">${event.subTitle || ''}</p>
@@ -320,18 +298,18 @@
                 <div>
                     <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">About This Event</h2>
                     <p style="color:#6B7280;line-height:1.8;margin-bottom:40px;font-size:15px;">${event.description || ''}</p>
-                    <div class="info-cards">
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5">
+                        <div class="p-5" style="background:#F5F3FF;border-radius:16px;">
                             <i class="fa-regular fa-calendar" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
                             <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Date</p>
                             <p style="font-weight:700;font-size:14px;">${formattedDate}</p>
                         </div>
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
+                        <div class="p-5" style="background:#F5F3FF;border-radius:16px;">
                             <i class="fa-regular fa-clock" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
                             <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Time</p>
                             <p style="font-weight:700;font-size:14px;">${event.time}</p>
                         </div>
-                        <div style="background:#F5F3FF;border-radius:16px;padding:20px;">
+                        <div class="col-span-2 md:col-span-1 p-5" style="background:#F5F3FF;border-radius:16px;">
                             <i class="fa-solid fa-location-dot" style="color:#8B5CF6;font-size:18px;margin-bottom:10px;display:block;"></i>
                             <p style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:4px;">Location</p>
                             <p style="font-weight:700;font-size:14px;">${event.location}</p>
@@ -359,6 +337,13 @@
     }
 
     loadEventDetails();
+
+    const mobMenu = document.getElementById('mobile-menu');
+    if (mobMenu) {
+        mobMenu.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', () => mobMenu.classList.remove('open'));
+        });
+    }
 </script>
 </body>
 </html>
