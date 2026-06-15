@@ -61,7 +61,7 @@
 <nav class="bg-white sticky top-0 z-50 shadow-sm">
     <div class="flex items-center justify-between px-8 py-4">
         <!-- Logo — replace src with your image -->
-        <div class="flex items-center gap-2">
+        <a href="index.html" class="flex items-center gap-2">
             <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png"
                  alt="DFA Logo" class="h-9 w-auto object-contain"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -69,14 +69,14 @@
             <div style="display:none;width:34px;height:34px;background:#8B5CF6;border-radius:8px;align-items:center;justify-content:center;">
                 <span style="color:#fff;font-weight:800;font-size:11px;">DFA</span>
             </div>
-            <span class="font-bold text-xl tracking-tight">DFA</span>
-        </div>
+        </a>
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex gap-8 font-medium text-sm ml-auto mr-8">
             <a href="index.html" class="hover:text-purple-600 transition">Home</a>
             <a href="media.html" class="hover:text-purple-600 transition">Media</a>
             <a href="event1.html" class="text-purple-600 font-semibold">Events</a>
+            <a href="sponsors.html" class="hover:text-purple-600 transition">Sponsors</a>
             <a href="contact.html" class="hover:text-purple-600 transition">Contact</a>
         </div>
 
@@ -99,6 +99,7 @@
         <a href="index.html" class="block font-medium hover:text-purple-600">Home</a>
         <a href="media.html" class="block font-medium hover:text-purple-600">Media</a>
         <a href="event1.html" class="block font-medium text-purple-600">Events</a>
+        <a href="sponsors.html" class="block font-medium hover:text-purple-600">Sponsors</a>
         <a href="contact.html" class="block font-medium hover:text-purple-600">Contact</a>
         <button onclick="document.getElementById('events-section').scrollIntoView({behavior:'smooth'})"
             class="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold">
@@ -108,8 +109,14 @@
 </nav>
 
 <script>
+    const mobileMenu = document.getElementById('mobile-menu');
     document.getElementById('menu-btn').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
+        mobileMenu.classList.toggle('hidden');
+    });
+    mobileMenu.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
     });
 </script>
 
@@ -164,14 +171,14 @@
 .dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
 .dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
-.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
-.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; }
+.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; max-width: 280px; }
+.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; min-width: 0; }
 .dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
 .dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
 .dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
 .dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
 .dfa-footer-col ul li { margin-bottom: 0.6rem; }
-.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; word-break: break-word; }
 .dfa-footer-col ul li a:hover { color: #fff; }
 .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
 .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
@@ -181,7 +188,14 @@
 @media (max-width: 700px) {
     .dfa-footer-grid { grid-template-columns: 1fr 1fr; }
     .dfa-footer-brand { grid-column: 1 / -1; }
+    .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
     .dfa-footer-bottom { flex-direction: column; gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem; }
+    .dfa-footer-brand { grid-column: 1 / -1; }
+    .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
+    .dfa-footer .container { padding: 0 1.5rem; }
 }
 </style>
 
@@ -191,9 +205,10 @@
             <div class="dfa-footer-brand">
                 <div class="dfa-footer-logo">
                     <div class="dfa-footer-logo-dot">DFA</div>
-                    <span class="dfa-footer-brand-name">DFA</span>
+                    <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
                 </div>
-                <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant.</p>
+                <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                    conversations — raw, real, and relevant.</p>
                 <div class="dfa-footer-newsletter">
                     <label>Join our newsletter</label>
                     <div class="dfa-newsletter-row">
@@ -213,24 +228,25 @@
                 </ul>
             </div>
             <div class="dfa-footer-col">
-                <h4>Social</h4>
-                <ul>
+                <h4 id="footer-col1-heading">Socials</h4>
+                <ul id="footer-col1-links">
                     <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
                     <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
                     <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
-                    <li><a href="https://www.tiktok.com/@dfa.tv">TikTok</a></li>
+                    <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
                 </ul>
             </div>
             <div class="dfa-footer-col">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+                <h4 id="footer-col2-heading">Contact</h4>
+                <ul id="footer-col2-links">
+                    <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                    <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
                     <li><a href="#">Lagos, Nigeria</a></li>
                 </ul>
             </div>
         </div>
         <div class="dfa-footer-bottom">
-            <p>© 2026 DFA. All rights reserved.</p>
+            <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
             <div class="dfa-footer-bottom-links">
                 <a href="#">Terms</a>
                 <a href="#">Privacy</a>
