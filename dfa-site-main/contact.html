@@ -170,46 +170,190 @@
         .btn-contact:hover { background: #000; transform: translateY(-1px); }
 
         /* ── FOOTER ── */
-        footer { background: #0a0a0a; color: #fff; padding: 3.5rem 0 0; }
-        .footer-grid {
+        .dfa-footer {
+            background: #0f0f0f;
+            color: #e5e5e5;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .dfa-footer .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .dfa-footer-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid #1f1f1f;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
-        @media(min-width:640px){
-            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+
+        .dfa-footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
         }
-        .footer-brand p { font-size: .83rem; color: #6b7280; line-height: 1.65; margin: .75rem 0 1.25rem; max-width: 240px; }
-        .footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: .5rem; }
-        .footer-logo-dot { width: 28px; height: 28px; background: var(--purple); border-radius: 50%; }
-        .footer-logo span { font-weight: 700; font-size: 1.1rem; }
-        .footer-col h4 { font-weight: 700; font-size: .85rem; margin: 0 0 1rem; color: #e5e7eb; }
-        .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .6rem; }
-        .footer-col ul li a { color: #6b7280; text-decoration: none; font-size: .82rem; transition: color .2s; }
-        .footer-col ul li a:hover { color: #fff; }
-        .newsletter-input { display: flex; gap: .5rem; margin-bottom: .5rem; }
-        .newsletter-input input {
-            flex: 1; background: #1a1a1a; border: 1px solid #333; color: #fff;
-            padding: 9px 14px; border-radius: 10px; font-size: .82rem; font-family: inherit;
-            outline: none; min-width: 0;
+
+        .dfa-footer-logo-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #fff;
         }
-        .newsletter-input input:focus { border-color: var(--purple); }
-        .newsletter-input input::placeholder { color: #555; }
-        .newsletter-input button {
-            background: var(--yellow); color: #111; border: none; padding: 9px 14px;
-            border-radius: 10px; font-weight: 700; font-size: .75rem; text-transform: uppercase;
-            cursor: pointer; white-space: nowrap; flex-shrink: 0;
+
+        .dfa-footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
         }
-        .footer-note { font-size: .7rem; color: #4b5563; }
-        .footer-bottom {
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-            gap: .75rem; padding: 1.25rem 0; font-size: .75rem; color: #4b5563;
+
+        .dfa-footer-brand p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
-        .footer-bottom a { color: #4b5563; text-decoration: none; transition: color .2s; }
-        .footer-bottom a:hover { color: #fff; }
-        .footer-bottom-links { display: flex; gap: 1.5rem; }
+
+        .dfa-footer-newsletter label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .dfa-newsletter-row {
+            display: flex;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 280px;
+        }
+
+        .dfa-newsletter-row input {
+            background: #1a1a1a;
+            border: none;
+            outline: none;
+            padding: 0.5rem 0.75rem;
+            color: #e5e5e5;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dfa-newsletter-row button {
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dfa-footer-note {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .dfa-footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .dfa-footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dfa-footer-col ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .dfa-footer-col ul li a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            word-break: break-word;
+        }
+
+        .dfa-footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .dfa-footer-bottom {
+            border-top: 1px solid #1f1f1f;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dfa-footer-bottom p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .dfa-footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dfa-footer-bottom-links a {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .dfa-footer-bottom-links a:hover {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 700px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 2rem;
+            }
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+            .dfa-footer .container {
+                padding: 0 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -218,16 +362,19 @@
 <nav>
     <div class="nav-inner">
         <div class="nav-logo">
-            <img 
-                src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" 
-                alt="DFA Logo" 
-                style="height: 40px; width: auto; object-fit: contain;"
-            />
+            <a href="index.html">
+                <img 
+                    src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" 
+                    alt="DFA Logo" 
+                    style="height: 40px; width: auto; object-fit: contain;"
+                />
+            </a>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="media.html">Media</a>
             <a href="event1.html">Events</a>
+            <a href="sponsors.html">Sponsors</a>
             <a href="contact.html" class="active">Contact</a>
         </div>
         <div class="nav-ticket">
@@ -240,14 +387,21 @@
     <div class="mobile-nav" id="mobile-menu">
         <a href="index.html">Home</a>
         <a href="media.html">Media</a>
-        <a href="event.html">Events</a>
+        <a href="event1.html">Events</a>
+        <a href="sponsors.html">Sponsors</a>
         <a href="contact.html" class="active">Contact</a>
         <a href="event1.html"><button class="mob-btn">Get Tickets →</button></a>
     </div>
 </nav>
 <script>
+    const mobileMenu = document.getElementById('mobile-menu');
     document.getElementById('menu-btn').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
     });
 </script>
 
@@ -335,8 +489,9 @@
                     </div>
                     <div class="info-card-body">
                         <p class="info-card-title">Contact Info</p>
-                        <p class="info-card-desc" style="margin:0;">
-                            hello@dfa.media<br>
+                        <p class="info-card-desc" style="margin:0; font-size:13px; line-height:1.65;">
+                            <a href="mailto:dfatvofficial@gmail.com" class="hover:text-purple-600 transition">dfatvofficial@gmail.com</a><br>
+                            <a href="mailto:dfamediatech@gmail.com" class="hover:text-purple-600 transition">dfamediatech@gmail.com</a><br>
                             Lagos, Nigeria
                         </p>
                     </div>
@@ -412,54 +567,55 @@
     <button class="btn-contact" onclick="document.querySelector('.form-title').scrollIntoView({behavior:'smooth'})">Contact us</button>
 </div>
 
-<!-- FOOTER -->
-<footer>
+<footer class="dfa-footer">
     <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="footer-logo">
-                    <div class="footer-logo-dot"></div>
-                    <span>DFA</span>
+        <div class="dfa-footer-grid">
+            <div class="dfa-footer-brand">
+                <div class="dfa-footer-logo">
+                    <div class="dfa-footer-logo-dot">DFA</div>
+                    <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
                 </div>
-                <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant. Join a growing community of young Muslims navigating life with purpose.</p>
-                <div class="form-group" style="max-width:260px; margin:0;">
-                    <label style="color:#9ca3af; font-size:.75rem;">Join our newsletter</label>
-                    <div class="newsletter-input">
+                <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                    conversations — raw, real, and relevant.</p>
+                <div class="dfa-footer-newsletter">
+                    <label>Join our newsletter</label>
+                    <div class="dfa-newsletter-row">
                         <input type="email" placeholder="Your email">
                         <button>Subscribe</button>
                     </div>
-                    <p class="footer-note">By joining, you agree to our terms.</p>
+                    <p class="dfa-footer-note">By joining, you agree to our terms.</p>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="dfa-footer-col">
                 <h4>Menu</h4>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="media.html">Media</a></li>
-                    <li><a href="event.html">Events</a></li>
+                    <li><a href="event1.html">Events</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
-                <h4>YouTube</h4>
-                <ul>
-          <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
-          <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
-          <li><a href="https://www.facebook.com/dfatv/">facebook</a></li>
-          <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
-        </ul>
+            <div class="dfa-footer-col">
+                <h4 id="footer-col1-heading">Socials</h4>
+                <ul id="footer-col1-links">
+                    <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                    <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                    <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                </ul>
             </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
+            <div class="dfa-footer-col">
+                <h4 id="footer-col2-heading">Contact</h4>
+                <ul id="footer-col2-links">
+                    <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                    <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
                     <li><a href="#">Lagos, Nigeria</a></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 DFA. All rights reserved.</p>
-            <div class="footer-bottom-links">
+        <div class="dfa-footer-bottom">
+            <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+            <div class="dfa-footer-bottom-links">
                 <a href="#">Terms</a>
                 <a href="#">Privacy</a>
             </div>
