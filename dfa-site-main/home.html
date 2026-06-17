@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .purple-main { color: #8B5CF6; }
+        .bg-purple-main { background-color: #8B5CF6; }
+        .bg-purple-dark { background-color: #6D28D9; }
+
+        .dfa-footer {
+            background: #0f0f0f;
+            color: #e5e5e5;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .dfa-footer .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .dfa-footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .dfa-footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .dfa-footer-logo-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .dfa-footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .dfa-footer-brand p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .dfa-footer-newsletter label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .dfa-newsletter-row {
+            display: flex;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 280px;
+        }
+
+        .dfa-newsletter-row input {
+            background: #1a1a1a;
+            border: none;
+            outline: none;
+            padding: 0.5rem 0.75rem;
+            color: #e5e5e5;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dfa-newsletter-row button {
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dfa-footer-note {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .dfa-footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .dfa-footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dfa-footer-col ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .dfa-footer-col ul li a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            word-break: break-word;
+        }
+
+        .dfa-footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .dfa-footer-bottom {
+            border-top: 1px solid #1f1f1f;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dfa-footer-bottom p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .dfa-footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dfa-footer-bottom-links a {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .dfa-footer-bottom-links a:hover {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 700px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr !important;
+            }
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <nav class="flex items-center justify-between px-8 py-4 bg-white sticky top-0 z-50 shadow-sm">
+        <a href="index.html" class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-9 w-auto object-contain">
+        </a>
+        <div class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="home.html" class="purple-main">Home</a>
+            <a href="media.html" class="hover:purple-main transition">Media</a>
+            <a href="event.html" class="hover:purple-main transition">Events</a>
+            <a href="#" class="hover:purple-main transition">Contact</a>
+        </div>
+        <button class="bg-purple-main text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">
+            Get Tickets →
+        </button>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative h-[85vh] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="image/DAF TV-12.jpg" alt="Hero" class="w-full h-full object-cover brightness-50">
+        </div>
+        <div class="container mx-auto px-8 relative z-10 text-white">
+            <h1 class="text-6xl font-bold leading-tight mb-4">Faith.<br>Culture.<br>Real Conversations.</h1>
+            <p class="max-w-lg text-gray-200 mb-8">We bring Deen into everyday conversations—raw, real, and relevant.</p>
+            <div class="flex gap-4">
+                <button class="bg-yellow-400 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition">Watch Content</button>
+                <button class="border border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-black transition">Explore Event</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MOVEMENT STATS -->
+    <section class="py-24 container mx-auto px-8">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">Our Movement</span>
+                <h2 class="text-4xl font-bold mt-4 mb-6 leading-tight">DFA is more than content,<br>it's a <span class="italic purple-main underline">movement.</span></h2>
+                <p class="text-gray-600 mb-10 text-lg">We engage people where they are, ask the real questions, and bring truth that transforms lives Through conversations, street interviews, teachings, and events, DFA addresses real-life issues from an Islamic perspective, helping young people navigate life, identity, purpose, and faith with honesty and depth</p>
+                <div class="grid grid-cols-3 gap-4">
+                    <div><p class="text-3xl font-bold purple-main">260k+</p><p class="text-sm text-gray-500">Views across platforms</p></div>
+                    <div><p class="text-3xl font-bold purple-main">1K+</p><p class="text-sm text-gray-500">Videos published</p></div>
+                    <div><p class="text-3xl font-bold purple-main">800+</p><p class="text-sm text-gray-500">Community members</p></div>
+                </div>
+            </div>
+            <div class="relative">
+                <img src="image/DAF TV-2.jpg" class="rounded-3xl shadow-2xl" alt="Community">
+                <div class="absolute -bottom-6 -left-6 bg-yellow-400 p-8 rounded-2xl hidden md:block shadow-lg">
+                    <p class="font-bold text-xl text-black">Join our<br>community today</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENT GRID (What We Do) -->
+   <section class="bg-gray-50 py-24"> 
+    <div class="container mx-auto px-8 text-center mb-16">
+        <span class="purple-main font-bold uppercase tracking-widest text-xs">What we do</span>
+        <h2 class="text-4xl font-bold mt-4">Content That Connects</h2>
+    </div>
+
+    <div class="container mx-auto px-8 grid md:grid-cols-2 gap-8">
+
+        <!-- Card 1 -->
+        <div class="bg-white p-12 rounded-[2rem] border border-gray-100 hover:shadow-xl transition">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-video purple-main text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Media Content</h3>
+            <p class="text-gray-600 leading-relaxed">
+                Powerful video content that meets people where they are. From deep conversations to quick reflections  made for the feed, felt in the heart.
+            </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white p-12 rounded-[2rem] border border-gray-100 hover:shadow-xl transition">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-microphone purple-main text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Street Conversations</h3>
+            <p class="text-gray-600 leading-relaxed">
+                We take the mic to the streets and ask the questions everyone's thinking. Raw, unfiltered, and always respectful. No scripts, just real talk.
+            </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white p-12 rounded-[2rem] border border-gray-100 hover:shadow-xl transition">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-podcast purple-main text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Events & Gatherings</h3>
+            <p class="text-gray-600 leading-relaxed">
+                From intimate circles to large-scale conferences  our events create spaces where faith, culture, and community collide in the best way.
+            </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white p-12 rounded-[2rem] border border-gray-100 hover:shadow-xl transition">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <i class="fa-solid fa-film purple-main text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Faith-Based Discussions</h3>
+            <p class="text-gray-600 leading-relaxed">
+                In-depth conversations about the things that matter. Identity, purpose, relationships, mental health — all through the lens of Deen.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+    
+
+    <!-- OUR LATEST CONNECTIONS (NEW SECTION) -->
+    <section class="py-24 container mx-auto px-8">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">Stay Updated</span>
+                <h2 class="text-4xl font-bold mt-2">Our Latest Connections</h2>
+            </div>
+            <a href="media.html" class="text-sm font-bold purple-main hover:underline">View all media →</a>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-4">
+                    <img src="image/DAF TV-7.jpg" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <span class="absolute top-3 left-3 bg-purple-main text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Street Interviews</span>
+                </div>
+                <h4 class="font-bold group-hover:purple-main transition">Does God Really Exist? — Street Answers</h4>
+                <p class="text-xs text-gray-400 mt-2">12 Oct 2025 • 15:20</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-4">
+                    <img src="image/DAF TV-1.jpg" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <span class="absolute top-3 left-3 bg-purple-main text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Reflections</span>
+                </div>
+                <h4 class="font-bold group-hover:purple-main transition">Finding Purpose After Losing Everything</h4>
+                <p class="text-xs text-gray-400 mt-2">08 Oct 2025 • 10:45</p>
+            </div>
+            <!-- Repeat for 3 & 4 as per Screenshot 2026-04-21 101952.png -->
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-4">
+                    <img src="image/DAF TV-2.jpg" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <span class="absolute top-3 left-3 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Mental Health</span>
+                </div>
+                <h4 class="font-bold group-hover:purple-main transition">What Islam Actually Says About Mental Health</h4>
+                <p class="text-xs text-gray-400 mt-2">01 Oct 2025 • 12:00</p>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-4">
+                    <img src="image/DAF TV-5.jpg" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Events</span>
+                </div>
+                <h4 class="font-bold group-hover:purple-main transition">The Encounter 2025 — Full Highlights</h4>
+                <p class="text-xs text-gray-400 mt-2">25 Sep 2025 • 45:10</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- UPCOMING EVENTS (NEW SECTION) -->
+    <section class="py-24 bg-gray-50">
+        <div class="container mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="purple-main font-bold uppercase tracking-widest text-xs">Get Involved</span>
+                <h2 class="text-4xl font-bold mt-2">Upcoming Events</h2>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Event 1 -->
+                <div class="bg-white p-6 rounded-3xl flex flex-col md:flex-row gap-8 items-center border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80" class="w-full md:w-64 h-40 object-cover rounded-2xl">
+                    <div class="flex-1">
+                        <div class="flex gap-2 mb-2">
+                            <span class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded uppercase">Premium</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">The Encounter</h3>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center gap-4">
+                            <span><i class="fa-regular fa-calendar mr-2"></i>May 17, 2026</span>
+                            <span><i class="fa-solid fa-location-dot mr-2"></i>The Grand Hall, Lagos</span>
+                        </p>
+                        <a href="event-details.html" class="purple-main font-bold text-sm hover:underline">See Details →</a>
+                    </div>
+                </div>
+                <!-- Event 2 -->
+                <div class="bg-white p-6 rounded-3xl flex flex-col md:flex-row gap-8 items-center border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1519491050282-cf00c82424b4?auto=format&fit=crop&q=80" class="w-full md:w-64 h-40 object-cover rounded-2xl">
+                    <div class="flex-1">
+                        <div class="flex gap-2 mb-2">
+                            <span class="bg-purple-100 purple-main text-[10px] font-bold px-2 py-1 rounded uppercase">Free Event</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Ramadan Reflections Live</h3>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center gap-4">
+                            <span><i class="fa-regular fa-calendar mr-2"></i>March 12, 2026</span>
+                            <span><i class="fa-solid fa-location-dot mr-2"></i>Online / Zoom</span>
+                        </p>
+                        <a href="#" class="purple-main font-bold text-sm hover:underline">See Details →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="events.html" class="purple-main font-bold hover:underline">View all events →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="container mx-auto px-8 py-16">
+        <div class="bg-purple-dark rounded-[3rem] p-16 text-center text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-4xl font-bold mb-6">There is more than a brand.<br>It's a movement.</h2>
+                <div class="flex justify-center gap-4">
+                    <button class="bg-yellow-400 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition">Follow us</button>
+                    <button class="border border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-black transition">Attend an Event</button>
+                </div>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-purple-main rounded-full opacity-50"></div>
+        </div>
+    </section>
+
+    <footer class="dfa-footer">
+        <div class="container">
+            <div class="dfa-footer-grid">
+                <div class="dfa-footer-brand">
+                    <div class="dfa-footer-logo">
+                        <div class="dfa-footer-logo-dot">DFA</div>
+                        <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
+                    </div>
+                    <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                        conversations — raw, real, and relevant.</p>
+                    <div class="dfa-footer-newsletter">
+                        <label>Join our newsletter</label>
+                        <div class="dfa-newsletter-row">
+                            <input type="email" placeholder="Your email">
+                            <button>Subscribe</button>
+                        </div>
+                        <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+                    </div>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Media</a></li>
+                        <li><a href="event1.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col1-heading">Socials</h4>
+                    <ul id="footer-col1-links">
+                        <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                        <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                        <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col2-heading">Contact</h4>
+                    <ul id="footer-col2-links">
+                        <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                        <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
+                        <li><a href="#">Lagos, Nigeria</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfa-footer-bottom">
+                <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+                <div class="dfa-footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -10,33 +10,73 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .purple-main { color: #8B5CF6; }
-        .ticket-card { border-bottom: 1px solid #F3F4F6; padding-bottom: 20px; margin-bottom: 20px; transition: all .2s; }
+        .bg-purple-main { background-color: #8B5CF6; }
+        .bg-purple-soft { background-color: #F5F3FF; }
+
+        .ticket-card {
+            border-bottom: 1px solid #F3F4F6;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            transition: all .2s;
+        }
         .ticket-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
         .select-btn {
             width: 100%; padding: 10px;
-            border: 1.5px solid #8B5CF6; color: #8B5CF6; background: transparent;
+            border: 1.5px solid #8B5CF6;
+            color: #8B5CF6; background: transparent;
             border-radius: 12px; font-size: 13px; font-weight: 700;
             cursor: pointer; font-family: inherit;
             transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .select-btn:hover { background: #8B5CF6; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(139,92,246,0.3); }
-        .select-btn:disabled { border-color: #D1D5DB; color: #9CA3AF; cursor: not-allowed; transform: none; box-shadow: none; }
-        .avail-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+        .select-btn:hover {
+            background: #8B5CF6; color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(139,92,246,0.3);
+        }
+        .select-btn:disabled {
+            border-color: #D1D5DB; color: #9CA3AF; cursor: not-allowed;
+            transform: none; box-shadow: none;
+        }
+
+        .avail-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+        }
         .avail-ok   { background: rgba(52,211,153,.1);  color: #059669; }
         .avail-low  { background: rgba(251,191,36,.1);  color: #D97706; }
         .avail-sold { background: rgba(239,68,68,.1);   color: #DC2626; }
-        .early-bird-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(251,191,36,.15); color: #D97706; margin-bottom: 8px; }
+
+        .early-bird-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+            background: rgba(251,191,36,.15); color: #D97706; margin-bottom: 8px;
+        }
         .price-display { font-size: 16px; font-weight: 700; color: #8B5CF6; margin-bottom: 4px; }
         .original-price { text-decoration: line-through; color: #9CA3AF; font-size: 13px; margin-right: 6px; }
         .early-bird-price { color: #D97706; font-weight: 700; }
-        .type-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
-        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border-top: 1px solid #F3F4F6; box-shadow: 0 8px 24px rgba(0,0,0,0.06); flex-direction: column; padding: 12px 24px 20px; gap: 14px; }
+
+        .mobile-menu {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: #fff; border-top: 1px solid #F3F4F6;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            flex-direction: column; padding: 12px 24px 20px; gap: 14px;
+        }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-weight: 500; font-size: 15px; color: #111827; text-decoration: none; }
         .mobile-menu a.active { color: #8B5CF6; }
         #menu-toggle { display: none; }
-        .event-body { max-width: 1200px; margin: 0 auto; padding: 60px 32px; display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
-        .ticket-panel { background: #fff; border: 1px solid #F3F4F6; border-radius: 24px; padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); position: sticky; top: 90px; }
+
+        .event-body {
+            max-width: 1200px; margin: 0 auto; padding: 60px 32px;
+            display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start;
+        }
+        .ticket-panel {
+            background: #fff; border: 1px solid #F3F4F6; border-radius: 24px;
+            padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            position: sticky; top: 90px;
+        }
+
         @media (max-width: 768px) {
             nav.main-nav { padding: 14px 16px; }
             #menu-toggle { display: inline-flex; }
@@ -46,6 +86,13 @@
             .event-body { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
             .ticket-panel { position: static; top: auto; padding: 20px; border-radius: 18px; }
             h1 { font-size: clamp(24px,8vw,36px) !important; }
+        }
+
+        /* Group badge */
+        .group-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+            background: rgba(139,92,246,.1); color: #8B5CF6; margin-bottom: 8px;
         }
     </style>
 </head>
@@ -111,8 +158,18 @@
         .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
         .dfa-footer-bottom-links { display: flex; gap: 1.5rem; }
         .dfa-footer-bottom-links a { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
-        @media (max-width: 700px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer-grid > div:last-child { grid-column: 1 / -1; } .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; } }
-        @media (max-width: 480px) { .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; } .dfa-footer-brand { grid-column: 1 / -1; } .dfa-footer .container { padding: 0 1.5rem; } }
+        @media (max-width: 700px) {
+            .dfa-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .dfa-footer-brand { grid-column: 1 / -1; }
+            .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
+            .dfa-footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem; }
+            .dfa-footer-brand { grid-column: 1 / -1; }
+            .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
+            .dfa-footer .container { padding: 0 1.5rem; }
+        }
     </style>
 
     <footer class="dfa-footer">
@@ -121,9 +178,10 @@
                 <div class="dfa-footer-brand">
                     <div class="dfa-footer-logo">
                         <div class="dfa-footer-logo-dot">DFA</div>
-                        <span class="dfa-footer-brand-name">DFA</span>
+                        <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
                     </div>
-                    <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant.</p>
+                    <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                        conversations — raw, real, and relevant.</p>
                     <div class="dfa-footer-newsletter">
                         <label>Join our newsletter</label>
                         <div class="dfa-newsletter-row">
@@ -133,13 +191,39 @@
                         <p class="dfa-footer-note">By joining, you agree to our terms.</p>
                     </div>
                 </div>
-                <div class="dfa-footer-col"><h4>Menu</h4><ul><li><a href="index.html">Home</a></li><li><a href="media.html">Media</a></li><li><a href="event1.html">Events</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-                <div class="dfa-footer-col"><h4>Socials</h4><ul><li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li><li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li><li><a href="https://www.facebook.com/dfatv/">Facebook</a></li><li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li></ul></div>
-                <div class="dfa-footer-col"><h4>Contact</h4><ul><li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li><li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li><li><a href="#">Lagos, Nigeria</a></li></ul></div>
+                <div class="dfa-footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Media</a></li>
+                        <li><a href="event1.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col1-heading">Socials</h4>
+                    <ul id="footer-col1-links">
+                        <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                        <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                        <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col2-heading">Contact</h4>
+                    <ul id="footer-col2-links">
+                        <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                        <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
+                        <li><a href="#">Lagos, Nigeria</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="dfa-footer-bottom">
-                <p>© 2026 DFA. All rights reserved.</p>
-                <div class="dfa-footer-bottom-links"><a href="#">Terms</a><a href="#">Privacy</a></div>
+                <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+                <div class="dfa-footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -148,34 +232,15 @@
     const API = 'https://dfaummah-server.onrender.com/api/v1';
     let currentEvent = null;
 
-    // ── Ticket type config ────────────────────────────────────────────────────
-    const TYPE_CONFIG = {
-        'Standard': {
-            badge: null, // no badge for standard
-            desc:  '1 person · 1 ticket'
-        },
-        'Myself and friends': {
-            badge: { icon: 'fa-users', text: 'Myself & Friends — 2 to 5 people', color: '#34D399', bg: 'rgba(52,211,153,.1)' },
-            desc:  'Price multiplies by number of tickets'
-        },
-        'Family': {
-            badge: { icon: 'fa-house-user', text: 'Family Ticket — 5 people, fixed price', color: '#FBBF24', bg: 'rgba(251,191,36,.1)' },
-            desc:  'One fixed price covers all 5 people'
-        },
-        'School pass': {
-            badge: { icon: 'fa-school', text: 'School Pass — minimum 50 students', color: '#60A5FA', bg: 'rgba(96,165,250,.1)' },
-            desc:  'Organisation ticket for 50 students'
-        }
-    };
-
     // ── Go to checkout ────────────────────────────────────────────────────────
-    function selectTicket(tierId, tierName, ticketType, tierPrice, showAvailableCount, available) {
+    function selectTicket(tierId, tierName, ticketType, tierPrice, isGroupTicket, showAvailableCount, available) {
         const url = `checkout.html?eventId=${currentEvent._id}`
             + `&eventTitle=${encodeURIComponent(currentEvent.title)}`
             + `&tierId=${tierId}`
             + `&tier=${encodeURIComponent(tierName)}`
             + `&ticketType=${encodeURIComponent(ticketType)}`
             + `&price=${tierPrice}`
+            + `&isGroupTicket=${isGroupTicket}`
             + `&showAvailableCount=${showAvailableCount}`
             + `&available=${available}`;
         window.location.href = url;
@@ -198,18 +263,17 @@
             currentEvent = result.data.event;
             const event  = currentEvent;
 
-            // ── Build ticket tiers HTML ───────────────────────────────────────
+            // Build ticket tiers HTML
             let ticketHTML = '';
             if (event.ticketTiers?.length > 0) {
                 event.ticketTiers.forEach(ticket => {
-                    const sold      = ticket.sold || 0;
-                    const left      = ticket.capacity - sold;
-                    const pct       = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
-                    const soldOut   = pct >= 100;
-                    const lowStock  = pct >= 80 && !soldOut;
-                    const showCount = ticket.showAvailableCount === true;
-                    const tType     = ticket.ticketType || 'Standard';
-                    const config    = TYPE_CONFIG[tType] || TYPE_CONFIG['Standard'];
+                    const sold             = ticket.sold || 0;
+                    const left             = ticket.capacity - sold;
+                    const pct              = ticket.capacity > 0 ? (sold / ticket.capacity) * 100 : 0;
+                    const soldOut          = pct >= 100;
+                    const lowStock         = pct >= 80 && !soldOut;
+                    const showCount        = ticket.showAvailableCount === true;
+                    const isGroup          = ticket.isGroupTicket === true;
 
                     // Availability badge
                     let availHTML;
@@ -223,14 +287,7 @@
                         availHTML = `<span class="avail-badge avail-ok"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Available</span>`;
                     }
 
-                    // Type badge (Myself & Friends / Family / School Pass)
-                    const typeBadgeHTML = config.badge
-                        ? `<div class="type-badge" style="background:${config.badge.bg};color:${config.badge.color};margin-bottom:6px;">
-                               <i class="fa-solid ${config.badge.icon}"></i> ${config.badge.text}
-                           </div>`
-                        : '';
-
-                    // Price display
+                    // Price display (early bird or normal)
                     const displayPrice = ticket.enableEarlyBird && ticket.earlyBirdPrice ? ticket.earlyBirdPrice : ticket.price;
                     let priceHTML;
                     if (ticket.enableEarlyBird && ticket.earlyBirdPrice) {
@@ -246,29 +303,27 @@
                         priceHTML = `<span style="color:#8B5CF6;font-weight:800;font-size:16px;">₦${Number(ticket.price).toLocaleString()}</span>`;
                     }
 
-                    // Type description note
-                    const descNote = config.desc
-                        ? `<div style="font-size:11px;color:#6B7280;margin-bottom:10px;">${config.desc}</div>`
+                    const groupBadge = isGroup
+                        ? `<div class="group-badge"><i class="fa-solid fa-users"></i> Group ticket — up to 5 per order</div>`
                         : '';
-
-                    const safeName = (ticket.ticketName || ticket.name || '').replace(/'/g, "\\'");
 
                     ticketHTML += `
                     <div class="ticket-card">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
                             <span style="font-weight:700;font-size:15px;">${ticket.ticketName || ticket.name}</span>
                             ${priceHTML}
                         </div>
-                        <div style="margin-bottom:6px;">${availHTML}</div>
-                        ${typeBadgeHTML}
-                        ${descNote}
+                        <div style="margin-bottom:${isGroup ? '4px' : '12px'};">${availHTML}</div>
+                        ${groupBadge}
+                        <div style="margin-top:${isGroup ? '8px' : '0'};">
                         <button
                             class="select-btn"
                             ${soldOut ? 'disabled' : ''}
-                            onclick="selectTicket('${ticket._id}', '${safeName}', '${tType}', ${displayPrice}, ${showCount}, ${left})"
+                            onclick="selectTicket('${ticket._id}', '${(ticket.ticketName || ticket.name).replace(/'/g,"\\'")}', '${ticket.ticketType}', ${displayPrice}, ${isGroup}, ${showCount}, ${left})"
                         >
                             ${soldOut ? 'Sold Out' : '<i class="fa-solid fa-ticket"></i> Select Ticket →'}
                         </button>
+                        </div>
                     </div>`;
                 });
             } else {
@@ -338,10 +393,13 @@
 
     loadEventDetails();
 
+    // Close mobile menu when nav link is clicked
     const mobMenu = document.getElementById('mobile-menu');
     if (mobMenu) {
         mobMenu.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('click', () => mobMenu.classList.remove('open'));
+            el.addEventListener('click', () => {
+                mobMenu.classList.remove('open');
+            });
         });
     }
 </script>

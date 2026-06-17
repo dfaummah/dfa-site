@@ -18,13 +18,12 @@
 <body class="text-gray-900">
 
     <!-- NAVIGATION -->
-    <nav class="flex items-center justify-between px-12 py-6 bg-white">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-purple-main rounded-full flex items-center justify-center text-white font-bold text-xs">DFA</div>
-            <span class="font-bold text-xl tracking-tight">DFA</span>
-        </div>
+    <nav class="flex items-center justify-between px-6 sm:px-12 py-4 bg-white">
+        <a href="index.html" class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-9 w-auto object-contain">
+        </a>
         <div class="hidden md:flex gap-8 font-medium text-xs text-gray-600">
-            <a href="index1.html">Home</a>
+            <a href="index.html">Home</a>
             <a href="media.html">Media</a>
             <a href="event1.html">Events</a>
             <a href="contact.html">Contact</a>
@@ -118,14 +117,14 @@
 .dfa-footer-brand-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .dfa-footer-brand p { font-size: 0.875rem; color: #9ca3af; line-height: 1.7; margin-bottom: 1.5rem; }
 .dfa-footer-newsletter label { font-size: 0.75rem; color: #9ca3af; display: block; margin-bottom: 0.5rem; }
-.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; }
-.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; }
+.dfa-newsletter-row { display: flex; border: 1px solid #2d2d2d; border-radius: 8px; overflow: hidden; max-width: 280px; }
+.dfa-newsletter-row input { background: #1a1a1a; border: none; outline: none; padding: 0.5rem 0.75rem; color: #e5e5e5; font-size: 0.85rem; flex: 1; min-width: 0; }
 .dfa-newsletter-row button { background: #7c3aed; border: none; color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
 .dfa-footer-note { font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; }
 .dfa-footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
 .dfa-footer-col ul { list-style: none; padding: 0; margin: 0; }
 .dfa-footer-col ul li { margin-bottom: 0.6rem; }
-.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; }
+.dfa-footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.875rem; word-break: break-word; }
 .dfa-footer-col ul li a:hover { color: #fff; }
 .dfa-footer-bottom { border-top: 1px solid #1f1f1f; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
 .dfa-footer-bottom p { font-size: 0.8rem; color: #6b7280; }
@@ -135,63 +134,72 @@
 @media (max-width: 700px) {
   .dfa-footer-grid { grid-template-columns: 1fr 1fr; }
   .dfa-footer-brand { grid-column: 1 / -1; }
+  .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
   .dfa-footer-bottom { flex-direction: column; gap: 1rem; }
+}
+@media (max-width: 480px) {
+  .dfa-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem; }
+  .dfa-footer-brand { grid-column: 1 / -1; }
+  .dfa-footer-grid > div:last-child { grid-column: 1 / -1; }
+  .dfa-footer .container { padding: 0 1.5rem; }
 }
 </style>
 
 <!-- FOOTER HTML — paste just before </body> -->
 <footer class="dfa-footer">
-  <div class="container">
-    <div class="dfa-footer-grid">
-      <div class="dfa-footer-brand">
-        <div class="dfa-footer-logo">
-          <div class="dfa-footer-logo-dot">DFA</div>
-          <span class="dfa-footer-brand-name">DFA</span>
+    <div class="container">
+        <div class="dfa-footer-grid">
+            <div class="dfa-footer-brand">
+                <div class="dfa-footer-logo">
+                    <div class="dfa-footer-logo-dot">DFA</div>
+                    <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
+                </div>
+                <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                    conversations — raw, real, and relevant.</p>
+                <div class="dfa-footer-newsletter">
+                    <label>Join our newsletter</label>
+                    <div class="dfa-newsletter-row">
+                        <input type="email" placeholder="Your email">
+                        <button>Subscribe</button>
+                    </div>
+                    <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+                </div>
+            </div>
+            <div class="dfa-footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="media.html">Media</a></li>
+                    <li><a href="event1.html">Events</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="dfa-footer-col">
+                <h4 id="footer-col1-heading">Socials</h4>
+                <ul id="footer-col1-links">
+                    <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                    <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                    <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                </ul>
+            </div>
+            <div class="dfa-footer-col">
+                <h4 id="footer-col2-heading">Contact</h4>
+                <ul id="footer-col2-links">
+                    <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                    <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
+                    <li><a href="#">Lagos, Nigeria</a></li>
+                </ul>
+            </div>
         </div>
-        <p>Faith. Culture. Real Conversations. We bring Deen into everyday conversations — raw, real, and relevant. Join a growing community of young Muslims navigating life with purpose.</p>
-        <div class="dfa-footer-newsletter">
-          <label>Join our newsletter</label>
-          <div class="dfa-newsletter-row">
-            <input type="email" placeholder="Your email">
-            <button>Subscribe</button>
-          </div>
-          <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+        <div class="dfa-footer-bottom">
+            <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+            <div class="dfa-footer-bottom-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
         </div>
-      </div>
-      <div class="dfa-footer-col">
-        <h4>Menu</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="media.html">Media</a></li>
-          <li><a href="event.html">Events</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="dfa-footer-col">
-        <h4>YouTube</h4>
-        <ul>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">TikTok</a></li>
-          <li><a href="#">Twitter/X</a></li>
-        </ul>
-      </div>
-      <div class="dfa-footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:hello@dfa.media">hello@dfa.media</a></li>
-          <li><a href="#">Lagos, Nigeria</a></li>
-        </ul>
-      </div>
     </div>
-    <div class="dfa-footer-bottom">
-      <p>© 2026 DFA. All rights reserved.</p>
-      <div class="dfa-footer-bottom-links">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-      </div>
-    </div>
-  </div>
 </footer>
 
 </body>
