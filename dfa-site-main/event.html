@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA | Our Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .purple-main { color: #8B5CF6; }
+        .bg-purple-main { background-color: #8B5CF6; }
+        .border-purple-main { border-color: #8B5CF6; }
+
+        .dfa-footer {
+            background: #0f0f0f;
+            color: #e5e5e5;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .dfa-footer .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .dfa-footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .dfa-footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .dfa-footer-logo-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .dfa-footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .dfa-footer-brand p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .dfa-footer-newsletter label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .dfa-newsletter-row {
+            display: flex;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 280px;
+        }
+
+        .dfa-newsletter-row input {
+            background: #1a1a1a;
+            border: none;
+            outline: none;
+            padding: 0.5rem 0.75rem;
+            color: #e5e5e5;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dfa-newsletter-row button {
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dfa-footer-note {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .dfa-footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .dfa-footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dfa-footer-col ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .dfa-footer-col ul li a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            word-break: break-word;
+        }
+
+        .dfa-footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .dfa-footer-bottom {
+            border-top: 1px solid #1f1f1f;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dfa-footer-bottom p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .dfa-footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dfa-footer-bottom-links a {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .dfa-footer-bottom-links a:hover {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 700px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dfa-footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dfa-footer-grid {
+                grid-template-columns: 1fr 1fr !important;
+            }
+            .dfa-footer-brand {
+                grid-column: 1 / -1;
+            }
+            .dfa-footer-grid > div:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <nav class="flex items-center justify-between px-8 py-4 bg-white sticky top-0 z-50 shadow-sm">
+        <a href="index.html" class="flex items-center gap-2">
+            <img src="image/WhatsApp Image 2026-04-12 at 4.44.02 PM (1) 1.png" alt="DFA Logo" class="h-9 w-auto object-contain">
+        </a>
+        <div class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="home.html" class="hover:purple-main transition">Home</a>
+            <a href="media.html" class="hover:purple-main transition">Media</a>
+            <a href="event.html" class="purple-main">Events</a>
+            <a href="#" class="hover:purple-main transition">Contact</a>
+        </div>
+        <button class="bg-purple-main text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition">
+            Get Tickets →
+        </button>
+    </nav>
+
+    <!-- EVENTS HERO -->
+    <section class="relative h-[50vh] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="image/DAF TV-2.jpg" alt="Events Header" class="w-full h-full object-cover brightness-50">
+        </div>
+        <div class="container mx-auto px-8 relative z-10 text-white">
+            <h1 class="text-5xl font-bold mb-4">Our Events</h1>
+            <p class="max-w-xl text-gray-200">Gatherings that move you. Conversations that stay with you. Community that holds you</p>
+        </div>
+    </section>
+
+    <!-- FILTER TABS -->
+    <div class="flex justify-center gap-4 py-12">
+        <button class="bg-purple-main text-white px-8 py-2 rounded-full text-sm font-semibold">Upcoming</button>
+        <button class="bg-white text-gray-500 border border-gray-200 px-8 py-2 rounded-full text-sm font-semibold hover:border-purple-main transition">Ongoing</button>
+        <button class="bg-white text-gray-500 border border-gray-200 px-8 py-2 rounded-full text-sm font-semibold hover:border-purple-main transition">Past</button>
+    </div>
+
+    <!-- EVENTS LIST -->
+    <section class="pb-24 container mx-auto px-4 md:px-24 space-y-8">
+        
+        <!-- Event Card 1 -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 flex flex-col md:flex-row gap-8 hover:shadow-lg transition">
+            <div class="w-full md:w-1/3 relative">
+                <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80" class="w-full h-64 object-cover rounded-3xl">
+                <span class="absolute top-4 left-4 bg-yellow-400 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase">Premium</span>
+            </div>
+            <div class="w-full md:w-2/3 flex flex-col justify-center">
+                <span class="purple-main font-bold uppercase tracking-widest text-[10px]">A Night of Real Conversation</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4">The Encounter</h2>
+                <div class="flex flex-wrap gap-6 text-sm text-gray-500 mb-6">
+                    <span class="flex items-center gap-2"><i class="fa-regular fa-calendar purple-main"></i> May 17, 2026</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot purple-main"></i> The Grand Hall, Lagos</span>
+                </div>
+                <p class="text-gray-600 mb-6 line-clamp-2">This is more than an event; it's a moment of connection, reflection, and growth. Join us as we explore faith in the modern world through the lenses of art, culture, and deep conversation.</p>
+                <a href="event-details.html" class="purple-main font-bold text-sm flex items-center gap-2 hover:underline">See Details <i class="fa-solid fa-arrow-right text-xs"></i></a>
+            </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 flex flex-col md:flex-row gap-8 hover:shadow-lg transition">
+            <div class="w-full md:w-1/3 relative">
+                <img src="https://images.unsplash.com/photo-1519491050282-cf00c82424b4?auto=format&fit=crop&q=80" class="w-full h-64 object-cover rounded-3xl">
+                <span class="absolute top-4 left-4 bg-purple-main text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Free Event</span>
+            </div>
+            <div class="w-full md:w-2/3 flex flex-col justify-center">
+                <span class="purple-main font-bold uppercase tracking-widest text-[10px]">Spiritual Check-in & Updates</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4">Ramadan Reflections Live</h2>
+                <div class="flex flex-wrap gap-6 text-sm text-gray-500 mb-6">
+                    <span class="flex items-center gap-2"><i class="fa-regular fa-calendar purple-main"></i> March 12, 2026</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot purple-main"></i> Online / Zoom Meet</span>
+                </div>
+                <p class="text-gray-600 mb-6 line-clamp-2">Get ready for Ramadan with our community. We'll be discussing practical tips for a productive month and sharing reflections on how to make this your best Ramadan yet.</p>
+                <a href="#" class="purple-main font-bold text-sm flex items-center gap-2 hover:underline">See Details <i class="fa-solid fa-arrow-right text-xs"></i></a>
+            </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-6 flex flex-col md:flex-row gap-8 hover:shadow-lg transition">
+            <div class="w-full md:w-1/3 relative">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80" class="w-full h-64 object-cover rounded-3xl">
+                <span class="absolute top-4 left-4 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">General</span>
+            </div>
+            <div class="w-full md:w-2/3 flex flex-col justify-center">
+                <span class="purple-main font-bold uppercase tracking-widest text-[10px]">Annual Gathering — Southern Region</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4">DFA Annual Conference</h2>
+                <div class="flex flex-wrap gap-6 text-sm text-gray-500 mb-6">
+                    <span class="flex items-center gap-2"><i class="fa-regular fa-calendar purple-main"></i> February 2026</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot purple-main"></i> Landmark Center, Lagos</span>
+                </div>
+                <p class="text-gray-600 mb-6 line-clamp-2">The flagship gathering of young Muslims from all walks of life. A full day of workshops, keynote speakers, and networking designed to empower and inspire.</p>
+                <a href="#" class="purple-main font-bold text-sm flex items-center gap-2 hover:underline">See Details <i class="fa-solid fa-arrow-right text-xs"></i></a>
+            </div>
+        </div>
+
+        <div class="text-center pt-8">
+            <a href="#" class="purple-main font-bold hover:underline">Show more events <i class="fa-solid fa-chevron-down ml-1 text-xs"></i></a>
+        </div>
+    </section>
+
+    <footer class="dfa-footer">
+        <div class="container">
+            <div class="dfa-footer-grid">
+                <div class="dfa-footer-brand">
+                    <div class="dfa-footer-logo">
+                        <div class="dfa-footer-logo-dot">DFA</div>
+                        <span class="dfa-footer-brand-name" id="footer-brand-name">DFA</span>
+                    </div>
+                    <p id="footer-description">Faith. Culture. Real Conversations. We bring Deen into everyday
+                        conversations — raw, real, and relevant.</p>
+                    <div class="dfa-footer-newsletter">
+                        <label>Join our newsletter</label>
+                        <div class="dfa-newsletter-row">
+                            <input type="email" placeholder="Your email">
+                            <button>Subscribe</button>
+                        </div>
+                        <p class="dfa-footer-note">By joining, you agree to our terms.</p>
+                    </div>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Media</a></li>
+                        <li><a href="event1.html">Events</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col1-heading">Socials</h4>
+                    <ul id="footer-col1-links">
+                        <li><a href="https://www.youtube.com/@Officialdfatv">YouTube</a></li>
+                        <li><a href="https://www.instagram.com/dfa.tv/">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/dfatv/">Facebook</a></li>
+                        <li><a href="https://www.tiktok.com/@dfa.tv?_r=1&_t=ZN-95XDHFwxN4Q">TikTok</a></li>
+                    </ul>
+                </div>
+                <div class="dfa-footer-col">
+                    <h4 id="footer-col2-heading">Contact</h4>
+                    <ul id="footer-col2-links">
+                        <li><a href="mailto:dfatvofficial@gmail.com">dfatvofficial@gmail.com</a></li>
+                        <li><a href="mailto:dfamediatech@gmail.com">dfamediatech@gmail.com</a></li>
+                        <li><a href="#">Lagos, Nigeria</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfa-footer-bottom">
+                <p id="footer-copyright">© 2026 DFA. All rights reserved.</p>
+                <div class="dfa-footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
