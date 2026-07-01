@@ -260,6 +260,64 @@
 
                 <div id="attendeeForms"></div>
 
+                <!-- VENDOR TICKET SECTION -->
+                <div id="vendorSection" style="display:none; margin-top:20px; border-top: 1px solid #E5E7EB; padding-top:20px;">
+                    <div style="font-size:14px;font-weight:700;margin-bottom:12px;color:#8B5CF6;">Vendor Information</div>
+                    
+                    <div style="margin-bottom:16px;">
+                        <label class="f-label">Vendor Type *</label>
+                        <div style="display:flex; gap: 12px; flex-wrap:wrap;">
+                            <label style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+                                <input type="radio" name="vendorType" value="Exhibition Vendor" onchange="toggleVendorFields()"> Exhibition Vendor
+                            </label>
+                            <label style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+                                <input type="radio" name="vendorType" value="General Vendor" onchange="toggleVendorFields()"> General Vendor
+                            </label>
+                        </div>
+                        <div class="field-error" id="err_vendorType">Please select a vendor type</div>
+                    </div>
+
+                    <div id="vendorFieldsContainer" style="display:none;">
+                        <div style="margin-bottom:16px;">
+                            <label class="f-label">Business Name *</label>
+                            <input type="text" class="f-input" id="v_businessName" placeholder="e.g. Tech World Ltd">
+                            <div class="field-error" id="err_vBusinessName">Business Name is required</div>
+                        </div>
+
+                        <!-- Exhibition Only -->
+                        <div id="exhibitionFields" style="display:none;">
+                            <div style="margin-bottom:16px;">
+                                <label class="f-label">Exhibition Item *</label>
+                                <input type="text" class="f-input" id="v_exhibitionItem" placeholder="e.g. AI Robot">
+                                <div class="field-error" id="err_vExhibitionItem">Exhibition Item is required</div>
+                            </div>
+                            <div style="margin-bottom:16px;">
+                                <label class="f-label">Price of Item (₦) *</label>
+                                <input type="number" class="f-input" id="v_price" placeholder="e.g. 250000">
+                                <div class="field-error" id="err_vPrice">Price is required</div>
+                            </div>
+                        </div>
+
+                        <!-- General Only -->
+                        <div id="generalFields" style="display:none;">
+                            <div style="margin-bottom:16px;">
+                                <label class="f-label">Product List *</label>
+                                <input type="text" class="f-input" id="v_productList" placeholder="e.g. Books, traditional clothing">
+                                <div class="field-error" id="err_vProductList">Product List is required</div>
+                            </div>
+                        </div>
+
+                        <!-- T&C for both -->
+                        <div style="margin-top:20px; background:#F5F3FF; padding:12px; border-radius:12px; border:1px solid #EDE9FE;">
+                            <label style="display:flex; align-items:start; gap:8px; font-size:12px; cursor:pointer; color:#374151;">
+                                <input type="checkbox" id="v_agreedToTerms" onchange="togglePaymentButton()" style="margin-top:2px; width:16px; height:16px; accent-color:#8B5CF6;">
+                                <span>I agree to the Terms & Conditions and understand the vendor policies.</span>
+                            </label>
+                            <div class="field-error" id="err_vTerms">You must accept the Terms & Conditions before checkout.</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="availNotice"
                     style="display:none;font-size:11px;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;">
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>
@@ -306,6 +364,49 @@
         const isGroupTicket = params.get('isGroupTicket') === 'true';
         const showAvailCount = params.get('showAvailableCount') === 'true';
         const availableLeft = parseInt(params.get('available') || '999', 10);
+
+        const isVendorTicket = tierName.toLowerCase().includes('vendor') || ticketType.toLowerCase().includes('vendor');
+
+        if (isVendorTicket) {
+            document.getElementById('vendorSection').style.display = 'block';
+            document.getElementById('continueBtn').disabled = true;
+            document.getElementById('continueBtn').style.opacity = '0.5';
+            document.getElementById('continueBtn').style.cursor = 'not-allowed';
+        }
+
+        function toggleVendorFields() {
+            const vendorType = document.querySelector('input[name="vendorType"]:checked');
+            if (vendorType) {
+                document.getElementById('vendorFieldsContainer').style.display = 'block';
+                document.getElementById('err_vendorType').style.display = 'none';
+                
+                if (vendorType.value === 'Exhibition Vendor') {
+                    document.getElementById('exhibitionFields').style.display = 'block';
+                    document.getElementById('generalFields').style.display = 'none';
+                } else {
+                    document.getElementById('exhibitionFields').style.display = 'none';
+                    document.getElementById('generalFields').style.display = 'block';
+                }
+                togglePaymentButton();
+            }
+        }
+
+        function togglePaymentButton() {
+            const agreed = document.getElementById('v_agreedToTerms').checked;
+            const btn = document.getElementById('continueBtn');
+            if (isVendorTicket) {
+                if (agreed) {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    document.getElementById('err_vTerms').style.display = 'none';
+                } else {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                }
+            }
+        }
 
         if (!eventId || !tierName || !ticketType || !tierPrice) {
             document.querySelector('main').innerHTML = `
@@ -447,6 +548,63 @@
                 }
             });
 
+            if (isVendorTicket) {
+                const vendorType = document.querySelector('input[name="vendorType"]:checked');
+                if (!vendorType) {
+                    document.getElementById('err_vendorType').style.display = 'block';
+                    ok = false;
+                } else {
+                    const bName = document.getElementById('v_businessName');
+                    if (!bName.value.trim()) {
+                        bName.classList.add('error');
+                        document.getElementById('err_vBusinessName').style.display = 'block';
+                        ok = false;
+                    } else {
+                        bName.classList.remove('error');
+                        document.getElementById('err_vBusinessName').style.display = 'none';
+                    }
+
+                    if (vendorType.value === 'Exhibition Vendor') {
+                        const eItem = document.getElementById('v_exhibitionItem');
+                        const ePrice = document.getElementById('v_price');
+                        
+                        if (!eItem.value.trim()) {
+                            eItem.classList.add('error');
+                            document.getElementById('err_vExhibitionItem').style.display = 'block';
+                            ok = false;
+                        } else {
+                            eItem.classList.remove('error');
+                            document.getElementById('err_vExhibitionItem').style.display = 'none';
+                        }
+                        
+                        if (!ePrice.value.trim() || isNaN(ePrice.value)) {
+                            ePrice.classList.add('error');
+                            document.getElementById('err_vPrice').style.display = 'block';
+                            ok = false;
+                        } else {
+                            ePrice.classList.remove('error');
+                            document.getElementById('err_vPrice').style.display = 'none';
+                        }
+                    } else {
+                        const pList = document.getElementById('v_productList');
+                        if (!pList.value.trim()) {
+                            pList.classList.add('error');
+                            document.getElementById('err_vProductList').style.display = 'block';
+                            ok = false;
+                        } else {
+                            pList.classList.remove('error');
+                            document.getElementById('err_vProductList').style.display = 'none';
+                        }
+                    }
+
+                    const agreed = document.getElementById('v_agreedToTerms').checked;
+                    if (!agreed) {
+                        document.getElementById('err_vTerms').style.display = 'block';
+                        ok = false;
+                    }
+                }
+            }
+
             return ok;
         }
 
@@ -486,6 +644,27 @@
                     groupSize: isGroupTicket ? qty : 1,
                     attendees
                 };
+
+                if (isVendorTicket) {
+                    const vendorType = document.querySelector('input[name="vendorType"]:checked').value;
+                    const businessName = document.getElementById('v_businessName').value.trim();
+                    const agreedToTerms = document.getElementById('v_agreedToTerms').checked;
+                    
+                    const vendorDetails = {
+                        vendorType,
+                        businessName,
+                        agreedToTerms
+                    };
+
+                    if (vendorType === 'Exhibition Vendor') {
+                        vendorDetails.exhibitionItem = document.getElementById('v_exhibitionItem').value.trim();
+                        vendorDetails.price = Number(document.getElementById('v_price').value.trim());
+                    } else {
+                        vendorDetails.productList = document.getElementById('v_productList').value.trim();
+                    }
+                    
+                    payload.vendorDetails = vendorDetails;
+                }
 
                 const res = await fetch(`${API}/orders/checkout`, {
                     method: 'POST',
